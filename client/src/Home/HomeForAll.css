@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+.joinusas {
+  font-family: "Montserrat", sans-serif;
+}
+.image2 {
+  position: relative;
+  text-align: center;
+}
+.centered {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.centeredButtons{
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.features{
+    text-align: center;
+    
+}
+.col{
+    margin-top: 22%;
+    margin-bottom: 22%;
+}
+.features-row{
+    padding: 5% 0;
+    margin-left: 23%;
+    margin-right: 23%;
+    width: 50%;
+    text-align: left;
+}
+.underOneRoof{
+    width: 25%;
+    float: left;
+    margin-right: 30px;
+  }
+  .fees{
+    width: 25%;
+    float: right;
+    margin-left: 30px;
+  }
+  .materials{
+    width: 25%;
+    float: left;
+    margin-right: 30px;
+  }

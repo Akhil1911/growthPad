@@ -42,7 +42,7 @@ const tuitionSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
-    subcribed:{
+    subscribed:{
         type:Boolean,
         default:false,
     },

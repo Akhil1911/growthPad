@@ -83,7 +83,7 @@ export const loginController = async (req, res) => {
     }
     let userExist = await tuitionModel.findOne({ email });
     if (!userExist) {
-      return res.status(404).send({
+      return res.status(200).send({
         success: false,
         message: "Please Register Before Login",
       });
@@ -205,9 +205,9 @@ export const studentLoginController = async (req, res) => {
     }
     let studentExist = await studentModel.findOne({ email, student_id });
     if (!studentExist) {
-      return res.status(404).send({
+      return res.status(200).send({
         success: false,
-        meassage: "Please Register before login",
+        message: "Please Register before login",
       });
     }
     if (studentExist.confirm) {
@@ -215,7 +215,7 @@ export const studentLoginController = async (req, res) => {
       if (!match) {
         return res.status(200).send({
           success: false,
-          meassage: "Invalid email or password",
+          message: "Invalid email or password",
         });
       }
       const token = JWT.sign(
@@ -243,7 +243,7 @@ export const studentLoginController = async (req, res) => {
     else{
         return res.status(200).send({
           success: false,
-          meassage: "Confirmation pending by tuition class",})
+          message: "Confirmation pending by tuition class",})
     }
     
    
@@ -256,3 +256,23 @@ export const studentLoginController = async (req, res) => {
     });
   }
 };
+
+// test controller
+export const testController = (req,res) => {
+    try {
+      res.send("Protected Routes");
+    } catch (error) {
+      console.log(error);
+      res.send({error})
+    }
+}
+
+//studentTestController
+export const studentTestController = (req, res) => {
+  try {
+    res.send("Welcome Confirmed Student :->")
+  } catch (error) {
+    console.log(error);
+    res.send({error})
+  }
+}

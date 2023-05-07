@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* Subscription Plans */
+.active-class {
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 1s;
+  /* font-size: larger; */
+  text-align: center;
+  border-radius: 10px;
+}
+
+.non-acitve-class {
+  opacity: 30%; 
+  transition-property: opacity;
+  transition-duration: 1s;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+}
+/* Subscription Plans Ends */
