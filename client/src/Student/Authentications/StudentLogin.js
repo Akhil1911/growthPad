@@ -101,7 +101,7 @@ const StudentLogin = () => {
                 if (response.data.success) {
                   resetForm();
                   showToast("SUCCESS", `${response.data.message}`);
-                  // navigate("/studentlogin");
+                  navigate("/studenthome");
                 } else {
                   showToast("ERROR", `${response.data.message}`);
                 }

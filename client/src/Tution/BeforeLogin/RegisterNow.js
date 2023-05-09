@@ -1,11 +1,11 @@
-import { Button, Typography } from '@mui/material'
+import { Button, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom';
 // const bgImg = "./images/teacherHome.jpg"
 const RegisterNow = () => {
     return (
       <>
-        <div
+        <Stack
           className="image2"
           style={{
             position: "relative",
@@ -60,7 +60,7 @@ const RegisterNow = () => {
               </Link>
             </Typography>
           </div>
-        </div>
+        </Stack>
         {/* <div style={{
                 backgroundImage:`url(${".images/teacherHome.jpg"})`,
             }}>

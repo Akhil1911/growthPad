@@ -2,17 +2,26 @@ import React from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import "./HomeForAll.css";
 import { Link } from "react-router-dom";
+import ReactPlayer from "react-player";
 
 const HomeForAll = () => {
   return (
     <>
       <div className="image2">
-        <img
+        {/* <img
           src="../images/bgHome.jpg"
           alt=""
           srcSet=""
           style={{ width: "100%" }}
-        />
+        /> */}
+        <video
+          autoPlay
+          muted
+          loop
+          style={{ opacity: "60%", height: "100%", width: "100%" }}
+        >
+          <source src="../images/joinus.mp4" type="video/mp4" />
+        </video>
         <div className="centered">
           <Typography
             fontFamily={"Montserrat, sans-serif"}

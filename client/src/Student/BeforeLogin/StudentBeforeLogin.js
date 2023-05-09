@@ -26,7 +26,7 @@ const StudentBeforeLogin = () => {
     ];
   return (
     <>
-      <StudentBeforeAppbar />
+      <StudentBeforeAppbar  />
       <StudentRegister />
       <h1 style={{ color: "#254061", textAlign: "center" }}>Login To Access</h1>
       <Features ary={featureAry} />

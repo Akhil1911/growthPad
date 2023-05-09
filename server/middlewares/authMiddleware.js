@@ -24,7 +24,7 @@ export const requireSignIn = (req,res,next) => {
 export const isTutionSubscribed =async (req, res, next) => {
     try {
         const tuition = await tuitionModel.findById(req.tuition._id)
-        if (tuition.subscribed === false) {
+        if (tuition.subscribed === false || !tuition.subscribed) {
             return res.status(401).send({
                 success:false,
                 message: "You are not subscribed to this tuition"
@@ -46,7 +46,7 @@ export const isTutionSubscribed =async (req, res, next) => {
 export const isStudentConfirmed = async (req, res, next) => {
   try {
     const students = await studentModel.findById(req.students._id);
-    if (!(students.confirm)) {
+    if (students.confirm === false || !students.confirm) {
       return res.status(200).send({
         success: false,
         message: "You are not confirmed",

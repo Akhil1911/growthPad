@@ -68,7 +68,7 @@ const Signup = () => {
 
   return (
     <>
-      <BeforeAppbar />
+      <BeforeAppbar position="fixed" />
 
       <Stack
         direction={{
@@ -84,7 +84,7 @@ const Signup = () => {
           xs: "center",
         }}
         spacing={2}
-        marginTop={"4%"}
+        marginTop={"8%"}
       >
         <Box
           sx={{

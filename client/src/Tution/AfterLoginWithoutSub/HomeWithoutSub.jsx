@@ -7,7 +7,7 @@ import Footer from "./Footer";
 const HomeWithoutSub = () => {
   const featuresData = [
     {
-      image: "./images/ManageFees.png",
+      image: "../images/ManageFees.png",
       title: "Fees Management",
       btnName: "Take Subscription",
     },

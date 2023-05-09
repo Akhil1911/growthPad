@@ -133,6 +133,7 @@ export const stdRegisterController = async (req, res) => {
       address,
       phone_number,
       standard,
+      age,
       tuition_class_name,
       tuition_id,
       tuition_db_id,
@@ -142,6 +143,7 @@ export const stdRegisterController = async (req, res) => {
       !email &&
       !password &&
       !address &&
+      !age &&
       !phone_number &&
       !tuition_class_name &&
       !tuition_id &&
@@ -172,6 +174,7 @@ export const stdRegisterController = async (req, res) => {
       address,
       phone_number,
       standard,
+      age,
       tuition_class_name,
       tuition_id,
       student_id,
@@ -222,31 +225,29 @@ export const studentLoginController = async (req, res) => {
         { _id: studentExist._id },
         process.env.JSONWEBTOKENKEY
       );
-       return res.status(200).send({
-         success: true,
-         message: "Login Successfull",
-         user: {
-           name: studentExist.name,
-           email: studentExist.email,
-           phone_number: studentExist.phone_number,
-           student_id: studentExist.student_id,
-           standard: studentExist.standard,
-           tuition_class_name: studentExist.tuition_class_name,
-           address: studentExist.address,
-           tuition_id: studentExist.tuition_id,
-           _id: studentExist._id,
-           confirm: studentExist.confirm,
-         },
-         token,
-       });
+      return res.status(200).send({
+        success: true,
+        message: "Login Successfull",
+        user: {
+          name: studentExist.name,
+          email: studentExist.email,
+          phone_number: studentExist.phone_number,
+          student_id: studentExist.student_id,
+          standard: studentExist.standard,
+          tuition_class_name: studentExist.tuition_class_name,
+          address: studentExist.address,
+          tuition_id: studentExist.tuition_id,
+          _id: studentExist._id,
+          confirm: studentExist.confirm,
+        },
+        token,
+      });
+    } else {
+      return res.status(200).send({
+        success: false,
+        message: "Confirmation pending by tuition class",
+      });
     }
-    else{
-        return res.status(200).send({
-          success: false,
-          message: "Confirmation pending by tuition class",})
-    }
-    
-   
   } catch (err) {
     console.log(err);
     res.status(500).send({
@@ -258,21 +259,81 @@ export const studentLoginController = async (req, res) => {
 };
 
 // test controller
-export const testController = (req,res) => {
-    try {
-      res.send("Protected Routes");
-    } catch (error) {
-      console.log(error);
-      res.send({error})
-    }
-}
+export const testController = (req, res) => {
+  try {
+    res.send("Protected Routes");
+  } catch (error) {
+    console.log(error);
+    res.send({ error });
+  }
+};
 
 //studentTestController
 export const studentTestController = (req, res) => {
   try {
-    res.send("Welcome Confirmed Student :->")
+    res.send("Welcome Confirmed Student :->");
   } catch (error) {
     console.log(error);
-    res.send({error})
+    res.send({ error });
+  }
+};
+
+// get all Student list
+export const getStudentController = async(req, res) => {
+  try {
+    const students = await studentModel.find({})
+    res.status(200).send({
+      success: true,
+      message: "Successfully Getted",
+      students
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message:"Error in getting students lists"
+    })
+  }
+}
+
+// put || confirm student
+export const confirmStudentController = async (req, res) => {
+  try {
+    const { confirm } = req.body;
+    const { id } = req.params;
+    const student = await studentModel.findByIdAndUpdate(
+      id,
+      { confirm },
+      { new: true }
+    );
+    res.status(200).send({
+      success: true,
+      message: " Confirmed Successfully",
+      student,
+    });
+  } catch (error) {
+     console.log(error);
+     res.status(500).send({
+       success: false,
+       message: "Error While Confirming Student",
+     });
+  }
+}
+
+//delete || discrad student
+export const removeStudentController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const student = await studentModel.findByIdAndDelete(id)
+    res.status(200).send({
+      success: true,
+      message: " Deleted Successfully",
+    });
+  } catch (error) {
+     console.log(error);
+     res.status(500).send({
+       success: false,
+       message: "Error While Confirming Student",
+     });
   }
 }

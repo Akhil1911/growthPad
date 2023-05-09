@@ -12,14 +12,14 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HomeIcon from "@mui/icons-material/Home";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "../../Tools/showToast";
-import StudentBeforeAppbar from "../BeforeLogin/StudentBeforeAppbar"
+import StudentBeforeAppbar from "../BeforeLogin/StudentBeforeAppbar";
 import axios from "axios";
 import "../../Home/HomeForAll.css";
 
 const StudentSignup = () => {
-
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -41,8 +41,9 @@ const StudentSignup = () => {
     phone_number: "",
     tuition_class_name: "",
     tuition_id: "",
-    tuition_db_id:"",
+    tuition_db_id: "",
     standard: "",
+    age: "",
   };
 
   const validationSchema = Yup.object({
@@ -63,15 +64,21 @@ const StudentSignup = () => {
       .integer("No Decimal Value Allowed")
       .typeError("Only Numbers Can Be Entered"),
     tuition_class_name: Yup.string().required("Tution Name is required"),
-    tuition_id:Yup.string().required("TutionID is required"),
-    tuition_db_id:Yup.string().required("DB-ID is required"),
-    standard: Yup.string()
+    tuition_id: Yup.string().required("TutionID is required"),
+    tuition_db_id: Yup.string().required("DB-ID is required"),
+    standard: Yup.number()
       .required("Standard is required")
+      .max(12, "Max 12 Standard Is Allowed")
+      .min(1, "Invalid Standard"),
+    age: Yup.number()
+      .required("Standard is required")
+      .max(20, "Invalid Age Entered")
+      .min(5, "Invalid Age Entered"),
   });
 
   return (
     <>
-      <StudentBeforeAppbar />
+      <StudentBeforeAppbar position={"fixed"} />
       <Stack
         direction={{
           lg: "row",
@@ -86,7 +93,7 @@ const StudentSignup = () => {
           xs: "center",
         }}
         spacing={2}
-        marginTop={"4%"}
+        marginTop={"8%"}
       >
         <Box
           sx={{
@@ -123,6 +130,7 @@ const StudentSignup = () => {
                 tuition_id,
                 tuition_db_id,
                 standard,
+                age,
               } = values;
               try {
                 const response = await axios.post(
@@ -137,6 +145,7 @@ const StudentSignup = () => {
                     tuition_id,
                     tuition_db_id,
                     standard,
+                    age,
                   }
                 );
                 if (response.data.success) {
@@ -238,6 +247,21 @@ const StudentSignup = () => {
                     />
                   </Box>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                    <InsertEmoticonIcon
+                      color="darkColor"
+                      sx={{ mr: 1, my: 0.5 }}
+                    />
+                    <Field
+                      as={TextField}
+                      color="darkColor"
+                      label="Enter Your Age"
+                      variant="standard"
+                      fullWidth
+                      name="age"
+                      helperText={<ErrorMessage name="age" />}
+                    />
+                  </Box>
+                  <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <MenuBookIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                     <Field
                       as={TextField}
@@ -326,7 +350,10 @@ const StudentSignup = () => {
                   >
                     <h4 style={{ color: "#254061" }} className="joinusas">
                       Already Registered?{" "}
-                      <Link to="/studentlogin" style={{ textDecoration: "none" }}>
+                      <Link
+                        to="/studentlogin"
+                        style={{ textDecoration: "none" }}
+                      >
                         <Button color="darkColor" variant="text">
                           Login Here
                         </Button>

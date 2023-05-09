@@ -10,9 +10,10 @@ import BeforeAppbar from "../BeforeLogin/BeforeAppbar";
 import { showToast } from "../../Tools/showToast";
 import axios from "axios";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import { useDispatch } from "react-redux";
+import { storeTuition } from "../../Store/thunk";
+
 import "../../Home/HomeForAll.css";
-
-
 
 const Login = () => {
   const [values, setValues] = React.useState({
@@ -26,6 +27,7 @@ const Login = () => {
     });
   };
 
+  const dispatch = useDispatch();
   const initialValues = {
     email: "",
     password: "",
@@ -56,8 +58,15 @@ const Login = () => {
           sm: "center",
           xs: "center",
         }}
+        alignItems={{
+          lg: "space-around",
+          md: "space-around",
+          sm: "center",
+          xs: "center",
+        }}
         spacing={2}
         marginTop={"4%"}
+        // sx={{display:"block"}}
       >
         <Box
           sx={{
@@ -67,6 +76,12 @@ const Login = () => {
               sm: "50%",
               xs: "100%",
             },
+            // justifyContent: {
+            //   lg: "space-around",
+            //   md: "space-around",
+            //   sm: "center",
+            //   xs: "center",
+            // },
           }}
         >
           <img
@@ -95,11 +110,17 @@ const Login = () => {
                 );
                 if (response.data.success) {
                   resetForm();
-                  showToast("SUCCESS", `${response.data.message}`);
+                  dispatch(storeTuition(response.data));
+                  // localStorage.setItem('auth',JSON.stringify(response.data))
+                  // console.log(response);
                   if (response.data.user.subscribed) {
+                    // console.log("tHomep");
                     navigate("/tHome");
+                    showToast("SUCCESS", `${response.data.message}`);
                   } else {
+                    // console.log("tHomeWithoutSub");
                     navigate("/tHomeWithoutSub");
+                    showToast("SUCCESS", `${response.data.message}`);
                   }
                 } else {
                   showToast("ERROR", `${response.data.message}`);

@@ -7,26 +7,27 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const BeforeAppbar = () => {
+const BeforeAppbar = ({ position="static" }) => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ bgcolor: "#254061" }}>
+        <AppBar position={position} sx={{ bgcolor: "#254061" }}>
           <Toolbar>
             <Typography
               variant="h6"
               component="div"
               sx={{ flexGrow: 1, fontStyle: "bold" }}
             >
-              <Link
-                to={"/"}
-                style={{ textDecoration: "none", color: "white" }}
-              >
+              <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
                 ASK
               </Link>
               <Link
                 to={"/tBeforeHome"}
-                style={{ textDecoration: "none", color: "white",marginLeft:"2rem" }}
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  marginLeft: "2rem",
+                }}
               >
                 Home
               </Link>

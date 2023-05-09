@@ -7,11 +7,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const StudentBeforeAppbar = () => {
+const StudentBeforeAppbar = ({position="static"}) => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ bgcolor: "#254061" }}>
+        <AppBar position={position}  sx={{ bgcolor: "#254061" }}>
           <Toolbar>
             <Typography
               variant="h6"
