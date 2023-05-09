@@ -81,6 +81,7 @@ const Features = ({ ary }) => {
                 height: "3px",
                 borderRadius: "10px",
                 opacity: "20%",
+                margin:"auto"
               }}
             ></hr>
           </div>

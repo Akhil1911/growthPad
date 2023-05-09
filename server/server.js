@@ -4,17 +4,18 @@ import connectionDB from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import tuitionRoutes from './routes/tuitionRoutes.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 const app = express()
 //confid dotenv
 dotenv.config()
 const port = process.env.PORT || 1911
-
 //connect DB
 connectionDB();
 
 //middleware
 app.use(express.json())
 app.use(cors());
+app.use(cookieParser())
 //using Routes
 app.use("/api/v1/auth",authRoutes)
 app.use("/api/v1/tuition", tuitionRoutes);
@@ -25,6 +26,7 @@ app.listen(port,()=>{
 })
 
 //home page demo
-app.get("/",(req,res)=>{
-    res.send("<h1>Hello World</h1>")
+app.get('/getToken',(req,res)=>{
+    console.log(req.cookies("token"));
+    return req.cookies.token
 })

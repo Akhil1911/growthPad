@@ -9,11 +9,11 @@ export const TuitionSlice = createSlice({
     token: "",
   },
   reducers: {
-    clearTuition: (state) => {
-      // console.log("Inside Clear");
-          state.tuition = null;
-          state.token = "";
-    },
+    // clearTuition: (state) => {
+    //   // console.log("Inside Clear");
+    //       state.tuition = null;
+    //       state.token = "";
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -27,5 +27,5 @@ export const TuitionSlice = createSlice({
   },
 });
 
-export const {clearTuition} = TuitionSlice.actions
+// export const {clearTuition} = TuitionSlice.actions
 export default TuitionSlice.reducer;

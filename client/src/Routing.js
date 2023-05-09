@@ -11,6 +11,7 @@ import HomeWithoutSub from "./Tution/AfterLoginWithoutSub/HomeWithoutSub";
 import StudentBeforeLogin from "./Student/BeforeLogin/StudentBeforeLogin";
 import AfterHome from "./Tution/AfterLoginWithSubscription/AfterHome";
 import StudentAfterHome from "./Student/AfterLogin/StudentAfterHome";
+import TuitionProfile from "./Tution/TuitionProfile";
 const Routing = () => {
   return (
     <>
@@ -22,6 +23,7 @@ const Routing = () => {
           <Route exact path="/tBeforeHome" element={<BeforeLogin />} />
           <Route exact path="tHome" element={<AfterHome />} />
           <Route exact path="tHomeWithoutSub" element={<HomeWithoutSub />} />
+          <Route exact path="/tuition/profile" element={<TuitionProfile/>} />
           {/* ///////////////////////////////////////// */}
           <Route exact path="/studentlogin" element={<StudentLogin />} />
           <Route exact path="/studentregister" element={<StudentSignup />} />

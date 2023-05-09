@@ -7,7 +7,9 @@ import {
 import JWT from "jsonwebtoken";
 import tuitionModel from "../models/tuitionModel.js";
 import studentModel from "../models/studentModel.js";
+
 //Tuition register controlleer
+
 export const registerController = async (req, res) => {
   try {
     const {
@@ -83,7 +85,7 @@ export const loginController = async (req, res) => {
     }
     let userExist = await tuitionModel.findOne({ email });
     if (!userExist) {
-      return res.status(200).send({
+      return res.status(404).send({
         success: false,
         message: "Please Register Before Login",
       });
@@ -96,22 +98,30 @@ export const loginController = async (req, res) => {
       });
     }
     const token = JWT.sign({ _id: userExist._id }, process.env.JSONWEBTOKENKEY);
-    return res.status(200).send({
-      success: true,
-      message: "Login Successfull",
-      user: {
-        name: userExist.name,
-        email: userExist.email,
-        phone_number: userExist.phone_number,
-        tuition_id: userExist.tuition_id,
-        tuition_class_name: userExist.tuition_class_name,
-        address: userExist.address,
-        tuition_address: userExist.tuition_address,
-        _id: userExist._id,
-        subscribed: userExist.subscribed,
-      },
-      token,
-    });
+    const addToken = await tuitionModel.findByIdAndUpdate(userExist._id,{token},{new:true})
+    res.cookie("token",token,{
+      httpOnly:true,
+      expires:new Date(Date.now() + 2589200000)
+    })
+    return res
+      .status(200)
+      .send({
+        success: true,
+        message: "Login Successfull",
+        user: {
+          name: userExist.name,
+          email: userExist.email,
+          phone_number: userExist.phone_number,
+          tuition_id: userExist.tuition_id,
+          tuition_class_name: userExist.tuition_class_name,
+          address: userExist.address,
+          tuition_address: userExist.tuition_address,
+          _id: userExist._id,
+          subscribed: userExist.subscribed,
+        },
+        token,
+      })
+      
   } catch (err) {
     console.log(err);
     res.status(500).send({
@@ -133,7 +143,6 @@ export const stdRegisterController = async (req, res) => {
       address,
       phone_number,
       standard,
-      age,
       tuition_class_name,
       tuition_id,
       tuition_db_id,
@@ -143,7 +152,6 @@ export const stdRegisterController = async (req, res) => {
       !email &&
       !password &&
       !address &&
-      !age &&
       !phone_number &&
       !tuition_class_name &&
       !tuition_id &&
@@ -174,7 +182,6 @@ export const stdRegisterController = async (req, res) => {
       address,
       phone_number,
       standard,
-      age,
       tuition_class_name,
       tuition_id,
       student_id,
@@ -208,9 +215,9 @@ export const studentLoginController = async (req, res) => {
     }
     let studentExist = await studentModel.findOne({ email, student_id });
     if (!studentExist) {
-      return res.status(200).send({
+      return res.status(404).send({
         success: false,
-        message: "Please Register before login",
+        meassage: "Please Register before login",
       });
     }
     if (studentExist.confirm) {
@@ -218,36 +225,38 @@ export const studentLoginController = async (req, res) => {
       if (!match) {
         return res.status(200).send({
           success: false,
-          message: "Invalid email or password",
+          meassage: "Invalid email or password",
         });
       }
       const token = JWT.sign(
         { _id: studentExist._id },
         process.env.JSONWEBTOKENKEY
       );
-      return res.status(200).send({
-        success: true,
-        message: "Login Successfull",
-        user: {
-          name: studentExist.name,
-          email: studentExist.email,
-          phone_number: studentExist.phone_number,
-          student_id: studentExist.student_id,
-          standard: studentExist.standard,
-          tuition_class_name: studentExist.tuition_class_name,
-          address: studentExist.address,
-          tuition_id: studentExist.tuition_id,
-          _id: studentExist._id,
-          confirm: studentExist.confirm,
-        },
-        token,
-      });
-    } else {
-      return res.status(200).send({
-        success: false,
-        message: "Confirmation pending by tuition class",
-      });
+       return res.status(200).send({
+         success: true,
+         message: "Login Successfull",
+         user: {
+           name: studentExist.name,
+           email: studentExist.email,
+           phone_number: studentExist.phone_number,
+           student_id: studentExist.student_id,
+           standard: studentExist.standard,
+           tuition_class_name: studentExist.tuition_class_name,
+           address: studentExist.address,
+           tuition_id: studentExist.tuition_id,
+           _id: studentExist._id,
+           confirm: studentExist.confirm,
+         },
+         token,
+       });
     }
+    else{
+        return res.status(200).send({
+          success: false,
+          meassage: "Confirmation pending by tuition class",})
+    }
+    
+   
   } catch (err) {
     console.log(err);
     res.status(500).send({
@@ -296,7 +305,7 @@ export const getStudentController = async(req, res) => {
   }
 }
 
-// put || confirm student
+// put  confirm student
 export const confirmStudentController = async (req, res) => {
   try {
     const { confirm } = req.body;
@@ -320,7 +329,7 @@ export const confirmStudentController = async (req, res) => {
   }
 }
 
-//delete || discrad student
+//delete  discrad student
 export const removeStudentController = async (req, res) => {
   try {
     const { id } = req.params;

@@ -12,9 +12,9 @@ import axios from "axios";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useDispatch } from "react-redux";
 import { storeTuition } from "../../Store/thunk";
-
+import Cookies from "universal-cookie"
 import "../../Home/HomeForAll.css";
-
+const cookie = new Cookies()
 const Login = () => {
   const [values, setValues] = React.useState({
     showPassword: false,
@@ -111,6 +111,13 @@ const Login = () => {
                 if (response.data.success) {
                   resetForm();
                   dispatch(storeTuition(response.data));
+                  cookie.set("token",response.data.token
+                  // ,{
+                  //   path:"/",
+                  //   httpOnly:true,
+                  //   expires:(new Date(new Date().getTime()+5000000))
+                  // }
+                  )
                   // localStorage.setItem('auth',JSON.stringify(response.data))
                   // console.log(response);
                   if (response.data.user.subscribed) {

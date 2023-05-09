@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HomeAppBar from "./HomeAppBar";
 import HomeCarousel from "./HomeCarousel/FeaturesCarousel";
 import SubscriptionPlans from "./SubscriptionPlans";
 import Footer from "./Footer";
+import CheckLogin from "../CheckLogin.js";
 
 const HomeWithoutSub = () => {
+  
+  useEffect(() => {
+     <CheckLogin/>
+  }, [])
+  
   const featuresData = [
     {
       image: "../images/ManageFees.png",

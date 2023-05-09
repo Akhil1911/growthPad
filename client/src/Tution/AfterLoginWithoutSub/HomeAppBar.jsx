@@ -11,8 +11,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Cookies from "universal-cookie"
+import  {useNavigate}  from "react-router-dom";
 const HomeAppBar = () => {
-
+const cookies = new Cookies()
+  const navigate = new useNavigate()
+  useEffect(() => {
+      if(!(cookies.get("token"))){
+        navigate("/login")
+      }
+  }, [])
 
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -56,7 +64,7 @@ const HomeAppBar = () => {
                 textDecoration: "none",
               }}
             >
-              ASK
+              GrowthPad
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -150,10 +158,15 @@ const HomeAppBar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={handleCloseUserMenu}>
+                <MenuItem onClick={()=>{
+                  navigate("/tuition/profile")
+                }}>
                   <Typography textAlign="center">My Profile</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
+                <MenuItem onClick={()=>{
+                  cookies.remove("token")
+                  navigate("/login")
+                }}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>

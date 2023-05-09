@@ -8,7 +8,8 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import { Avatar, Menu, MenuItem, Tooltip } from "@mui/material";
-
+import Cookies from "universal-cookie"
+import {useNavigate} from "react-router-dom"
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -29,8 +30,8 @@ export default function SidebarWithAppbar() {
   };
 
   const [open, setOpen] = React.useState(false);
-
-
+  const cookies = new Cookies()
+  const navigate = useNavigate()
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -49,7 +50,7 @@ export default function SidebarWithAppbar() {
                 marginLeft: "2rem",
               }}
             >
-              Home
+              GrowthPad
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
@@ -80,7 +81,8 @@ export default function SidebarWithAppbar() {
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">View Subscription</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={()=>{ cookies.remove("token")
+                  navigate("/login")}}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>
