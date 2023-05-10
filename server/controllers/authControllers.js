@@ -216,7 +216,7 @@ export const studentLoginController = async (req, res) => {
     }
     let studentExist = await studentModel.findOne({ email, student_id });
     if (!studentExist) {
-      return res.status(404).send({
+      return res.status(200).send({
         success: false,
         meassage: "Please Register before login",
       });
