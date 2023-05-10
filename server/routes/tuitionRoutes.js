@@ -1,6 +1,6 @@
 import express from "express";
 import { confirmStudentController, getStudentController, getTuitionDetailController, removeStudentController, updateTuitionProfileController } from "../controllers/authControllers.js";
-import {requireSignIn} from "../middlewares/authMiddleware.js"
+import {isTutionSubscribed, requireSignIn} from "../middlewares/authMiddleware.js"
 
 
 const router = express.Router();

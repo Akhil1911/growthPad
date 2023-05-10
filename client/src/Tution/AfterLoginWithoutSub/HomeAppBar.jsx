@@ -169,6 +169,7 @@ const HomeAppBar = () => {
                 <MenuItem
                   onClick={() => {
                     cookies.remove("token");
+                    localStorage.removeItem('token')
                     navigate("/login");
                   }}
                 >

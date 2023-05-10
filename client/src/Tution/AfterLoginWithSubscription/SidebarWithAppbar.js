@@ -99,6 +99,7 @@ export default function SidebarWithAppbar() {
               <MenuItem
                 onClick={() => {
                   cookies.remove("token");
+                  localStorage.removeItem('token')
                   navigate("/login");
                 }}
               >
@@ -112,6 +113,3 @@ export default function SidebarWithAppbar() {
   );
 }
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-//   .eyJfaWQiOiI2NDU2NmI0MzI2NTkyMTNjYjY1ZmIwOTAiLCJpYXQiOjE2ODM3MDYwMzR9
-//   .u92e4rhrM5lymZPaJlrhsqgDGTDhWpckm_iiWS7JqLw;

@@ -8,31 +8,53 @@ import { useNavigate } from "react-router-dom";
 import { clearTuition } from "../../Store/tuition";
 import "./Styles.css"
 import { Box, Stack, Typography,Grid } from "@mui/material";
+import { useSelector } from "react-redux";
+
 
 const AfterHome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const cookies = new Cookies();
+  const tuiProfile = useSelector((state)=>state.tuition.tuition)
   const getSettingState = async () => {
     // console.log("Inside setting state");
+    let token
+    if(cookies.get("token")){
+      token = cookies.get("token")
+    }
+    else{
+      let temptoken = localStorage.getItem('token')
+      token = temptoken.replace(/['"]+/g, "");
+      cookies.set("token",token)
+    }
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
-        "token"
-      )}`
+      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get("token")}`
     );
-    // console.log(response.data);
+    console.log(response.data);
     if (response.data) {
-      dispatch(storeTuition(response.data));
+      if(response.data.user.subscribed){
+        dispatch(storeTuition(response.data));
+      }else{
+        navigate(-1)
+      }
     }
   };
 
   useEffect(() => {
-    if (!cookies.get("token")) {
-      // navigate("/login");
-    } else {
-      getSettingState();
+    getSettingState()
+    if(tuiProfile){
+      if(tuiProfile.subscribed){
+        if (!cookies.get("token") && !localStorage.getItem("token")) {
+          navigate("/login");
+        } else {
+          getSettingState();
+        }
+      }
+      else{
+        navigate(-1)
+      }
     }
+    
     return () => {
       dispatch(clearTuition());
     };

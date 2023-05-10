@@ -120,7 +120,7 @@ const Login = () => {
                     //   expires:(new Date(new Date().getTime()+5000000))
                     // }
                   );
-                  // localStorage.setItem('auth',JSON.stringify(response.data))
+                  localStorage.setItem('token',JSON.stringify(response.data.token))
                   // console.log(response);
                   if (response.data.user.subscribed) {
                     // console.log("tHomep");
