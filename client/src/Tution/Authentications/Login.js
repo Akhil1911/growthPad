@@ -35,14 +35,19 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token') && !cookie.get('token')) {
+    if (
+      (localStorage.getItem("token") && !cookie.get("token")) ||
+      (!localStorage.getItem("token") && cookie.get("token")) ||
+      (localStorage.getItem("token") && cookie.get("token"))
+    ) {
       let temptoken = localStorage.getItem("token");
       let token = temptoken.replace(/['"]+/g, "");
       cookie.set("token", token);
-      if (localStorage.getItem('token') && cookie.get('token')) {
-        navigate("/tuition/home")
+      if (localStorage.getItem("token") && cookie.get("token")) {
+        navigate("/tuition/home");
       }
-    }
+    } 
+    
   },[])
 
   const validationSchema = Yup.object({
