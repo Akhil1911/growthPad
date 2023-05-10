@@ -59,6 +59,7 @@ const StudentSignup = () => {
       .required("Address is required")
       .max(100, "Address is too long, enter valid address"),
     phone_number: Yup.number("Must be a number")
+      .max(9999999999, "Invalid Number")
       .required("Phone number is required")
       .integer("No Decimal Value Allowed")
       .typeError("Only Numbers Can Be Entered"),
