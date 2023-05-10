@@ -20,14 +20,18 @@ const Routing = () => {
           <Route exact path="/" element={<HomeForAll />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Signup />} />
-          <Route exact path="/tBeforeHome" element={<BeforeLogin />} />
-          <Route exact path="tHome" element={<AfterHome />} />
-          <Route exact path="tHomeWithoutSub" element={<HomeWithoutSub />} />
-          <Route exact path="/tuition/profile" element={<TuitionProfile/>} />
+          <Route exact path="/home" element={<BeforeLogin />} />
+          <Route
+            exact
+            path="/tuition/subscribed/home"
+            element={<AfterHome />}
+          />
+          <Route exact path="/tuition/home" element={<HomeWithoutSub />} />
+          <Route exact path="/tuition/profile" element={<TuitionProfile />} />
           {/* ///////////////////////////////////////// */}
           <Route exact path="/studentlogin" element={<StudentLogin />} />
           <Route exact path="/studentregister" element={<StudentSignup />} />
-          <Route exact path="/sBeforeHome" element={<StudentBeforeLogin />} />
+          <Route exact path="/student/home" element={<StudentBeforeLogin />} />
           <Route exact path="/studenthome" element={<StudentAfterHome />} />
           <Route exact path="*" element={<Error404 />} />
         </Routes>

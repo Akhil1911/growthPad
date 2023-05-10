@@ -1,7 +1,7 @@
 import React from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Stack } from "@mui/material";
+import { TextField, Button, Box, Stack, Typography } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
@@ -128,9 +128,14 @@ const StudentLogin = () => {
                       variant="standard"
                       fullWidth
                       name="email"
-                      helperText={<ErrorMessage name="email" />}
                     />
                   </Box>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
+                    <ErrorMessage name="email" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     {values.showPassword ? (
                       <VisibilityOff
@@ -155,9 +160,14 @@ const StudentLogin = () => {
                       variant="standard"
                       fullWidth
                       name="password"
-                      helperText={<ErrorMessage name="password" />}
                     />
                   </Box>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
+                    <ErrorMessage name="password" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <VpnKeyIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                     <Field
@@ -167,9 +177,14 @@ const StudentLogin = () => {
                       variant="standard"
                       fullWidth
                       name="student_id"
-                      helperText={<ErrorMessage name="student_id" />}
                     />
                   </Box>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
+                    <ErrorMessage name="student_id" />
+                  </Typography>
                   <Stack
                     direction={{
                       lg: "row",

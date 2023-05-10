@@ -1,7 +1,7 @@
 import React from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Stack } from "@mui/material";
+import { TextField, Button, Box, Stack, Typography } from "@mui/material";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -62,7 +62,7 @@ const Signup = () => {
       .typeError("Only Numbers Can Be Entered"),
     tuition_class_name: Yup.string().required("Tution Name is required"),
     tuition_address: Yup.string()
-      .required("Address is required")
+      .required("Tution Address is required")
       .max(100, "Address is too long, enter valid address"),
   });
 
@@ -163,9 +163,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="name"
-                      helperText={<ErrorMessage name="name" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                    <ErrorMessage name="name" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <EmailIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                     <Field
@@ -175,9 +177,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="email"
-                      helperText={<ErrorMessage name="email" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                    <ErrorMessage name="email" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     {values.showPassword ? (
                       <VisibilityOff
@@ -202,9 +206,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="password"
-                      helperText={<ErrorMessage name="password" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                    <ErrorMessage name="password" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <HomeIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                     <Field
@@ -216,9 +222,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="address"
-                      helperText={<ErrorMessage name="address" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                    <ErrorMessage name="address" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <PhoneIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                     <Field
@@ -228,9 +236,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="phone_number"
-                      helperText={<ErrorMessage name="phone_number" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                    <ErrorMessage name="phone_number" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <MenuBookIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                     <Field
@@ -240,9 +250,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="tuition_class_name"
-                      helperText={<ErrorMessage name="tuition_class_name" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                    <ErrorMessage name="tuition_class_name" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     <AutoStoriesIcon
                       color="darkColor"
@@ -257,9 +269,11 @@ const Signup = () => {
                       variant="standard"
                       fullWidth
                       name="tuition_address"
-                      helperText={<ErrorMessage name="tuition_address" />}
                     />
                   </Box>
+                  <Typography color={"red"} sx={{ textAlign: "center",fontFamily:"Montserrat" }}>
+                    <ErrorMessage name="tuition_address" />
+                  </Typography>
                   <Stack
                     direction={{
                       lg: "row",

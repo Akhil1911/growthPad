@@ -1,7 +1,7 @@
 import React from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Stack } from "@mui/material";
+import { TextField, Button, Box, Stack, Typography } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
@@ -111,22 +111,24 @@ const Login = () => {
                 if (response.data.success) {
                   resetForm();
                   dispatch(storeTuition(response.data));
-                  cookie.set("token",response.data.token
-                  // ,{
-                  //   path:"/",
-                  //   httpOnly:true,
-                  //   expires:(new Date(new Date().getTime()+5000000))
-                  // }
-                  )
+                  cookie.set(
+                    "token",
+                    response.data.token
+                    // ,{
+                    //   path:"/",
+                    //   httpOnly:true,
+                    //   expires:(new Date(new Date().getTime()+5000000))
+                    // }
+                  );
                   // localStorage.setItem('auth',JSON.stringify(response.data))
                   // console.log(response);
                   if (response.data.user.subscribed) {
                     // console.log("tHomep");
-                    navigate("/tHome");
+                    navigate("/tuition/subscribed/home");
                     showToast("SUCCESS", `${response.data.message}`);
                   } else {
                     // console.log("tHomeWithoutSub");
-                    navigate("/tHomeWithoutSub");
+                    navigate("/tuition/home");
                     showToast("SUCCESS", `${response.data.message}`);
                   }
                 } else {
@@ -155,9 +157,14 @@ const Login = () => {
                       variant="standard"
                       fullWidth
                       name="email"
-                      helperText={<ErrorMessage name="email" />}
                     />
                   </Box>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
+                    <ErrorMessage name="email" />
+                  </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     {values.showPassword ? (
                       <VisibilityOff
@@ -182,9 +189,14 @@ const Login = () => {
                       variant="standard"
                       fullWidth
                       name="password"
-                      helperText={<ErrorMessage name="password" />}
                     />
                   </Box>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
+                    <ErrorMessage name="password" />
+                  </Typography>
                   <Stack
                     direction={{
                       lg: "row",

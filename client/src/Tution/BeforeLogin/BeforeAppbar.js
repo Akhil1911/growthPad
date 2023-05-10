@@ -6,8 +6,7 @@ import Button from "@mui/material/Button";
 import React from "react";
 import { Link } from "react-router-dom";
 
-
-const BeforeAppbar = ({ position="static" }) => {
+const BeforeAppbar = ({ position = "static" }) => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -22,7 +21,7 @@ const BeforeAppbar = ({ position="static" }) => {
                 ASK
               </Link>
               <Link
-                to={"/tBeforeHome"}
+                to={"/home"}
                 style={{
                   textDecoration: "none",
                   color: "white",

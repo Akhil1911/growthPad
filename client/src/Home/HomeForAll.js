@@ -56,7 +56,7 @@ const HomeForAll = () => {
           >
             <Grid item>
               <Link
-                to={"/tBeforeHome"}
+                to={"/home"}
                 style={{ textDecoration: "none", color: "white" }}
               >
                 <Button
@@ -76,7 +76,7 @@ const HomeForAll = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link to={"/sBeforeHome"} style={{ textDecoration: "none" }}>
+              <Link to={"/student/home"} style={{ textDecoration: "none" }}>
                 <Button
                   sx={{
                     fontSize: {

@@ -46,7 +46,7 @@ export default function SidebarWithAppbar() {
             sx={{ flexGrow: 1, fontStyle: "bold" }}
           >
             <Link
-              to={"/tHome"}
+              to={"/tuition/subscribed/home"}
               style={{
                 textDecoration: "none",
                 color: "white",
@@ -78,16 +78,22 @@ export default function SidebarWithAppbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={()=>{navigate("/tuition/profile")}}>
+              <MenuItem
+                onClick={() => {
+                  navigate("/tuition/profile");
+                }}
+              >
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">View Subscription</Typography>
               </MenuItem>
-              <MenuItem onClick={() => {
-                cookies.remove("token")
-                navigate("/login")
-              }}>
+              <MenuItem
+                onClick={() => {
+                  cookies.remove("token");
+                  navigate("/login");
+                }}
+              >
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>
