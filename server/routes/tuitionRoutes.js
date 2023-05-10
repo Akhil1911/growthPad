@@ -21,5 +21,5 @@ router.delete(
 );
 
 //update || tuition profile
-router.put("/update-profile/:email",updateTuitionProfileController)
+router.put("/update-profile",updateTuitionProfileController)
 export default router;

@@ -350,9 +350,9 @@ export const removeStudentController = async (req, res) => {
 export const authTuitionController = async (req, res) => {
   try {
     const { token } = req.params;
-    // console.log(token);
-
-    const tuition = await tuitionModel.findOne({ token: token });
+    console.log(token);
+    const id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+    const tuition = await tuitionModel.findOne({ _id:id });
     res.status(200).send({
       user: {
         name: tuition.name,
@@ -379,15 +379,16 @@ export const updateTuitionProfileController = async (req, res) => {
   try {
     const {
       name,
+      email,
       address,
       phone_number,
       tuition_class_name,
       tuition_address,
     } = req.body;
-    const { email } = req.params;
     console.log(email);
+    // const tuition = await tuitionModel.findOne({email})
     const tuition = await tuitionModel.findOneAndUpdate(
-      email , 
+      {email} , 
       {
         name,
         address,
@@ -408,6 +409,7 @@ export const updateTuitionProfileController = async (req, res) => {
         phone_number: tuition.phone_number,
         tuition_class_name: tuition.tuition_class_name,
         tuition_address: tuition.tuition_address,
+        subscribed:tuition.subscribed
       },
     });
   } catch (error) {

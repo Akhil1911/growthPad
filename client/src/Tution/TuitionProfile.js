@@ -49,7 +49,6 @@ const TuitionProfile = () => {
 
   //checkbox || updating or not
   const [confUpdate, setConfUpdate] = useState(true)
-
   const tuiProfile = useSelector((state) => state.tuition.tuition);
   // console.log(tuiProfile);
   const initialValues = tuiProfile
@@ -101,7 +100,7 @@ const TuitionProfile = () => {
   return (
     <>
      
-      {<HomeAppBar/>}
+      {(tuiProfile?tuiProfile.subscribed?<SidebarWithAppbar/>:<HomeAppBar/>:null)}
 
       <Stack
         direction={{
@@ -153,6 +152,7 @@ const TuitionProfile = () => {
               onSubmit={async (values, { resetForm }) => {
                 const {
                   name,
+                  email,
                   phone_number,
                   address,
                   tuition_class_name,
@@ -163,16 +163,17 @@ const TuitionProfile = () => {
                 } else {
                    try {
                      console.log(tuiProfile);
-                    //  const subscribed = tuiProfile.subscribed
+                    
                      const response = await axios.put(
-                       `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile/${tuiProfile.email}`,
+                       `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile`,
                        {
                          name,
+                         email,
                          address,
                          phone_number,
                          tuition_class_name,
                          tuition_address,
-                        //  subscribed
+                        
                        }
                      );
                      if (response.data.success) {
