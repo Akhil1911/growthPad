@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import { Carousel_settings } from "./FeaturesCarouselFunc";
 import "./Features-Carousel.css";
 import { Stack, Button,Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const HomeCarousel = ({ featuresData }) => { //Home
   return (
@@ -52,12 +53,14 @@ const HomeCarousel = ({ featuresData }) => { //Home
 
                   <Stack direction={"column"} alignItems={"center"} spacing={4}>
                     <h3>{val.title}</h3>
-                    <Button
-                      sx={{ borderColor: "#254061", color: "#254061" }}
-                      variant="outlined"
-                    >
-                      {val.btnName}
-                    </Button>
+                    {/* <Link to="/tuition/subscribed/home"> */}
+                      <Button
+                        sx={{ borderColor: "#254061", color: "#254061" }}
+                        variant="outlined"
+                      >
+                        {val.btnName}
+                      </Button>
+                    {/* </Link> */}
                   </Stack>
                 </Stack>
               </div>

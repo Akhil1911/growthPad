@@ -103,10 +103,10 @@ export const loginController = async (req, res) => {
       { token },
       { new: true }
     );
-    res.cookie("token", token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 2589200000),
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   expires: new Date(Date.now() + 2589200000),
+    // });
     return res.status(200).send({
       success: true,
       message: "Login Successfull",

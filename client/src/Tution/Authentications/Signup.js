@@ -83,6 +83,12 @@ const Signup = () => {
           sm: "center",
           xs: "center",
         }}
+        alignItems={{
+          lg: "space-around",
+          md: "space-around",
+          sm: "center",
+          xs: "center",
+        }}
         spacing={2}
         marginTop={"8%"}
       >
@@ -165,7 +171,10 @@ const Signup = () => {
                       name="name"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="name" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -179,7 +188,10 @@ const Signup = () => {
                       name="email"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="email" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -208,7 +220,10 @@ const Signup = () => {
                       name="password"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="password" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -224,7 +239,10 @@ const Signup = () => {
                       name="address"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="address" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -238,7 +256,10 @@ const Signup = () => {
                       name="phone_number"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="phone_number" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -252,7 +273,10 @@ const Signup = () => {
                       name="tuition_class_name"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center" ,fontFamily:"Montserrat"}}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="tuition_class_name" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -271,7 +295,10 @@ const Signup = () => {
                       name="tuition_address"
                     />
                   </Box>
-                  <Typography color={"red"} sx={{ textAlign: "center",fontFamily:"Montserrat" }}>
+                  <Typography
+                    color={"red"}
+                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
+                  >
                     <ErrorMessage name="tuition_address" />
                   </Typography>
                   <Stack

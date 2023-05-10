@@ -102,7 +102,7 @@ const StudentLogin = () => {
                 if (response.data.success) {
                   dispatch(storeStudent(response.data))
                   resetForm();
-                  cookies.set("token",response.data.token)
+                  cookies.set("stutoken",response.data.token)
                   showToast("SUCCESS", `${response.data.message}`);
                   navigate("/studenthome");
                 } else {

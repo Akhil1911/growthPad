@@ -98,8 +98,8 @@ export default function SidebarWithAppbar() {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  cookies.remove("token");
-                  localStorage.removeItem('token')
+                  cookies.remove("subtoken");
+                  localStorage.removeItem('subtoken')
                   navigate("/login");
                 }}
               >

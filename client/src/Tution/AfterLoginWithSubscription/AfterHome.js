@@ -19,18 +19,20 @@ const AfterHome = () => {
   const getSettingState = async () => {
     // console.log("Inside setting state");
     let token
-    if(cookies.get("token")){
-      token = cookies.get("token")
+    if(cookies.get("subtoken")){
+      token = cookies.get("subtoken");
+      // let temptoken = localStorage.getItem("subtoken");
+      // token = temptoken.replace(/['"]+/g, "");
     }
     else{
-      let temptoken = localStorage.getItem('token')
+      let temptoken = localStorage.getItem('subtoken')
       token = temptoken.replace(/['"]+/g, "");
-      cookies.set("token",token)
+      cookies.set("subtoken",token)
     }
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get("token")}`
+      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get("subtoken")}`
     );
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data) {
       if(response.data.user.subscribed){
         dispatch(storeTuition(response.data));
@@ -44,7 +46,7 @@ const AfterHome = () => {
     getSettingState()
     if(tuiProfile){
       if(tuiProfile.subscribed){
-        if (!cookies.get("token") && !localStorage.getItem("token")) {
+        if (!cookies.get("subtoken") && !localStorage.getItem("subtoken")) {
           navigate("/login");
         } else {
           getSettingState();
@@ -68,8 +70,9 @@ const AfterHome = () => {
 
   const getTuitoinDetails = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-tuition-detail/${cookies.get("token")}`
+      `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-tuition-detail/${cookies.get("subtoken")}`
     );
+    console.log(response.data);
     if (response.data.success) {
       setTutDetails(response.data.tuition)
     }
@@ -108,7 +111,7 @@ const AfterHome = () => {
           fontFamily={"Comfortaa, cursive"}
           color={"#254061"}
         >
-          Welcome {tutDetails.name}
+          Welcome {tutDetails?.name}
         </Typography>
       </Stack>
       <hr

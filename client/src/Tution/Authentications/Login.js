@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
@@ -12,9 +12,9 @@ import axios from "axios";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useDispatch } from "react-redux";
 import { storeTuition } from "../../Store/thunk";
-import Cookies from "universal-cookie"
+import Cookies from "universal-cookie";
 import "../../Home/HomeForAll.css";
-const cookie = new Cookies()
+const cookie = new Cookies();
 const Login = () => {
   const [values, setValues] = React.useState({
     showPassword: false,
@@ -28,10 +28,22 @@ const Login = () => {
   };
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('token') && !cookie.get('token')) {
+      let temptoken = localStorage.getItem("token");
+      let token = temptoken.replace(/['"]+/g, "");
+      cookie.set("token", token);
+      if (localStorage.getItem('token') && cookie.get('token')) {
+        navigate("/tuition/home")
+      }
+    }
+  },[])
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -40,7 +52,6 @@ const Login = () => {
     password: Yup.string().required("Password is required"),
   });
 
-  const navigate = useNavigate();
   return (
     <>
       <BeforeAppbar />
@@ -111,16 +122,25 @@ const Login = () => {
                 if (response.data.success) {
                   resetForm();
                   dispatch(storeTuition(response.data));
-                  cookie.set(
-                    "token",
-                    response.data.token
-                    // ,{
-                    //   path:"/",
-                    //   httpOnly:true,
-                    //   expires:(new Date(new Date().getTime()+5000000))
-                    // }
-                  );
-                  localStorage.setItem('token',JSON.stringify(response.data.token))
+                  {
+                    response.data.user.subscribed ? (
+                      <>
+                        {cookie.set("subtoken", response.data.token)}
+                        {localStorage.setItem(
+                          "subtoken",
+                          JSON.stringify(response.data.token)
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {cookie.set("token", response.data.token)}
+                        {localStorage.setItem(
+                          "token",
+                          JSON.stringify(response.data.token)
+                        )}
+                      </>
+                    );
+                  }
                   // console.log(response);
                   if (response.data.user.subscribed) {
                     // console.log("tHomep");

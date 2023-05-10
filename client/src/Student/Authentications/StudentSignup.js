@@ -91,6 +91,12 @@ const StudentSignup = () => {
           sm: "center",
           xs: "center",
         }}
+        alignItems={{
+          lg: "space-around",
+          md: "space-around",
+          sm: "center",
+          xs: "center",
+        }}
         spacing={2}
         marginTop={"8%"}
       >
