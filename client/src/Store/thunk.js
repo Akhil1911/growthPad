@@ -14,3 +14,17 @@ export const storeTuition = createAsyncThunk(
     }
   }
 );
+
+export const storeStudent = createAsyncThunk(
+  "student/storeStudent",
+  async(data)=>{
+    try{
+      return {
+        student: data.user,
+      };
+    }
+    catch(error){
+      throw error;
+    }
+  }
+)

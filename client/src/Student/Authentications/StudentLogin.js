@@ -12,8 +12,9 @@ import StudentBeforeAppbar from "../BeforeLogin/StudentBeforeAppbar";
 import axios from "axios";
 import "../../Home/HomeForAll.css";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-
-
+import { useDispatch } from "react-redux";
+import { storeStudent } from "../../Store/thunk";
+import Cookies from 'universal-cookie'
 const StudentLogin = () => {
   const [values, setValues] = React.useState({
     showPassword: false,
@@ -25,9 +26,9 @@ const StudentLogin = () => {
       showPassword: !values.showPassword,
     });
   };
-
+  const dispatch = useDispatch()
   const navigate = useNavigate();
-
+  const cookies = new Cookies()
   const initialValues = {
     student_id: "",
     email: "",
@@ -61,6 +62,7 @@ const StudentLogin = () => {
         }}
         spacing={2}
         marginTop={"4%"}
+        alignItems={"center"}
       >
         <Box
           sx={{
@@ -97,9 +99,10 @@ const StudentLogin = () => {
                     student_id,
                   }
                 );
-                console.log(response);
                 if (response.data.success) {
+                  dispatch(storeStudent(response.data))
                   resetForm();
+                  cookies.set("token",response.data.token)
                   showToast("SUCCESS", `${response.data.message}`);
                   navigate("/studenthome");
                 } else {
