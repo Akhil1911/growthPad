@@ -38,19 +38,27 @@ export default function SidebarWithAppbar() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#254061" }}>
+      <AppBar position="static" open={open} sx={{ backgroundColor: "#254061" }}>
         <Toolbar>
           <Typography
             variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, fontStyle: "bold" }}
+            noWrap
+            href=""
+            sx={{
+              mr: 2,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+              flexGrow: 1,
+            }}
           >
             <Link
               to={"/tuition/subscribed/home"}
               style={{
                 textDecoration: "none",
                 color: "white",
-                marginLeft: "2rem",
               }}
             >
               GrowthPad

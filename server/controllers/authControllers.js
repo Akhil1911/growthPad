@@ -350,7 +350,7 @@ export const removeStudentController = async (req, res) => {
 export const authTuitionController = async (req, res) => {
   try {
     const { token } = req.params;
-    console.log(token);
+    // console.log(token);
     const id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
     const tuition = await tuitionModel.findOne({ _id:id });
     res.status(200).send({
@@ -420,3 +420,23 @@ export const updateTuitionProfileController = async (req, res) => {
     });
   }
 };
+
+// get || tuition details
+export const getTuitionDetailController = async (req, res) => {
+  try {
+    const { token } = req.params;
+    // console.log(token);
+     const id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+    const tuition = await tuitionModel.findOne({ _id: id });
+    res.status(200).send({
+      success: true,
+      message: "Fetched Successfully",
+      tuition
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error In Fetching Details...",
+    });
+  }
+}
