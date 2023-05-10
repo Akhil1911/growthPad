@@ -43,12 +43,11 @@ export default function SidebarWithAppbar() {
           <Typography
             variant="h6"
             noWrap
-            href=""
             sx={{
               mr: 2,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".2rem",
               color: "inherit",
               textDecoration: "none",
               flexGrow: 1,
@@ -62,6 +61,28 @@ export default function SidebarWithAppbar() {
               }}
             >
               GrowthPad
+            </Link>
+          </Typography>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              mr: 2,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              color: "inherit",
+              textDecoration: "none",
+             flexGrow: 1
+            }}
+          >
+            <Link
+              to={"/tuition/subscribed/view-students"}
+              style={{
+                textDecoration: "none",
+                color: "white",
+              }}
+            >
+              View Students
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
@@ -99,7 +120,7 @@ export default function SidebarWithAppbar() {
               <MenuItem
                 onClick={() => {
                   cookies.remove("subtoken");
-                  localStorage.removeItem('subtoken')
+                  localStorage.removeItem("subtoken");
                   navigate("/login");
                 }}
               >

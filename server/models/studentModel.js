@@ -65,6 +65,10 @@ const studentSchema = new mongoose.Schema(
     token:{
       type:String,
       default:""
+    },
+    feesPerMonth:{
+      type:Number,
+      deafult:0
     }
   },
   { timestamps: true }

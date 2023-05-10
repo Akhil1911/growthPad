@@ -35,19 +35,30 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (
-      (localStorage.getItem("token") && !cookie.get("token")) ||
-      (!localStorage.getItem("token") && cookie.get("token")) ||
-      (localStorage.getItem("token") && cookie.get("token"))
-    ) {
-      let temptoken = localStorage.getItem("token");
-      let token = temptoken.replace(/['"]+/g, "");
-      cookie.set("token", token);
-      if (localStorage.getItem("token") && cookie.get("token")) {
-        navigate("/tuition/home");
-      }
-    } 
-    
+    // if (
+    //   (localStorage.getItem("token") && !cookie.get("token")) ||
+    //   (!localStorage.getItem("token") && cookie.get("token")) ||
+    //   (localStorage.getItem("token") && cookie.get("token"))
+    // ) {
+    //   let temptoken = localStorage.getItem("token");
+    //   // let token = temptoken.replace(/['"]+/g, "");
+    //   cookie.set("token", token);
+    //   if (localStorage.getItem("token") && cookie.get("token")) {
+    //     navigate("/tuition/home");
+    //   }
+    // } 
+    //  if (
+    //    (localStorage.getItem("subtoken") && !cookie.get("subtoken")) ||
+    //    (!localStorage.getItem("subtoken") && cookie.get("subtoken")) ||
+    //    (localStorage.getItem("subtoken") && cookie.get("subtoken"))
+    //  ) {
+    //    let temptoken = localStorage.getItem("subtoken");
+    //   //  let subtoken = temptoken.replace(/['"]+/g, "");
+    //    cookie.set("subtoken", subtoken);
+    //    if (localStorage.getItem("subtoken") && cookie.get("subtoken")) {
+    //      navigate("/tuition/subscribed/home");
+    //    }
+    //  } 
   },[])
 
   const validationSchema = Yup.object({
@@ -138,7 +149,9 @@ const Login = () => {
                       </>
                     ) : (
                       <>
-                        {cookie.set("token", response.data.token)}
+                        {cookie.set("token", response.data.token,{
+                          expires: new Date(Date.now()+50000)
+                        })}
                         {localStorage.setItem(
                           "token",
                           JSON.stringify(response.data.token)

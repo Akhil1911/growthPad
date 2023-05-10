@@ -29,7 +29,7 @@ const TuitionProfile = () => {
     const response = await axios.get(
       `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
         "token"
-      )}`
+      )||cookies.get("subtoken")}`
     );
     if (response.data) {
       dispatch(storeTuition(response.data));
@@ -37,7 +37,7 @@ const TuitionProfile = () => {
   };
 
   useEffect(() => {
-    if (!cookies.get("token")) {
+    if (!cookies.get("token") && !cookies.get("subtoken")) {
       navigate("/login");
     } else {
       getSettingState();
