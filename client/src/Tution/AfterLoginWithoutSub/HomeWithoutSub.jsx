@@ -3,14 +3,39 @@ import HomeAppBar from "./HomeAppBar";
 import HomeCarousel from "./HomeCarousel/FeaturesCarousel";
 import SubscriptionPlans from "./SubscriptionPlans";
 import Footer from "./Footer";
-import CheckLogin from "../CheckLogin.js";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import Cookies from "universal-cookie";
+import { storeTuition } from "../../Store/thunk";
+import { clearTuition } from "../../Store/tuition";
 
 const HomeWithoutSub = () => {
-  
+  const dispatch = useDispatch();
+  const getSettingState = async () => {
+    console.log("Inside setting state");
+    const response = await axios.get(
+      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get("token")}`
+    );
+    // console.log(response.data);
+    if (response.data) {
+      dispatch(storeTuition(response.data))
+    }
+}
+
+  const navigate = new useNavigate();
+  const cookies = new Cookies()
   useEffect(() => {
-     <CheckLogin/>
-  }, [])
-  
+    if (!cookies.get("token")) {
+      navigate("/login");
+    } else {
+      getSettingState();
+    }
+    return () => {
+      dispatch(clearTuition())
+    }
+  }, []);
+
   const featuresData = [
     {
       image: "../images/ManageFees.png",

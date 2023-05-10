@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,17 +11,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import Cookies from "universal-cookie"
-import  {useNavigate}  from "react-router-dom";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearTuition } from "../../Store/tuition";
 const HomeAppBar = () => {
-const cookies = new Cookies()
-  const navigate = new useNavigate()
+  const cookies = new Cookies();
+  const navigate = new useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
-      if(!(cookies.get("token"))){
-        navigate("/login")
-      }
-  }, [])
-
+    if (!cookies.get("token")) {
+      navigate("/login");
+    }
+  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -40,7 +42,6 @@ const cookies = new Cookies()
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
 
   return (
     <>
@@ -158,15 +159,19 @@ const cookies = new Cookies()
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={()=>{
-                  navigate("/tuition/profile")
-                }}>
+                <MenuItem
+                  onClick={() => {
+                    navigate("/tuition/profile");
+                  }}
+                >
                   <Typography textAlign="center">My Profile</Typography>
                 </MenuItem>
-                <MenuItem onClick={()=>{
-                  cookies.remove("token")
-                  navigate("/login")
-                }}>
+                <MenuItem
+                  onClick={() => {
+                    cookies.remove("token");
+                    navigate("/login");
+                  }}
+                >
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>

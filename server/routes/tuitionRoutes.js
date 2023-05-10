@@ -1,5 +1,5 @@
 import express from "express";
-import { confirmStudentController, getStudentController, removeStudentController } from "../controllers/authControllers.js";
+import { confirmStudentController, getStudentController, removeStudentController, updateTuitionProfileController } from "../controllers/authControllers.js";
 import {requireSignIn} from "../middlewares/authMiddleware.js"
 
 
@@ -20,4 +20,6 @@ router.delete(
   removeStudentController
 );
 
+//update || tuition profile
+router.put("/update-profile/:email",updateTuitionProfileController)
 export default router;

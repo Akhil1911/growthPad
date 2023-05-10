@@ -98,30 +98,31 @@ export const loginController = async (req, res) => {
       });
     }
     const token = JWT.sign({ _id: userExist._id }, process.env.JSONWEBTOKENKEY);
-    const addToken = await tuitionModel.findByIdAndUpdate(userExist._id,{token},{new:true})
-    res.cookie("token",token,{
-      httpOnly:true,
-      expires:new Date(Date.now() + 2589200000)
-    })
-    return res
-      .status(200)
-      .send({
-        success: true,
-        message: "Login Successfull",
-        user: {
-          name: userExist.name,
-          email: userExist.email,
-          phone_number: userExist.phone_number,
-          tuition_id: userExist.tuition_id,
-          tuition_class_name: userExist.tuition_class_name,
-          address: userExist.address,
-          tuition_address: userExist.tuition_address,
-          _id: userExist._id,
-          subscribed: userExist.subscribed,
-        },
-        token,
-      })
-      
+    const addToken = await tuitionModel.findByIdAndUpdate(
+      userExist._id,
+      { token },
+      { new: true }
+    );
+    res.cookie("token", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 2589200000),
+    });
+    return res.status(200).send({
+      success: true,
+      message: "Login Successfull",
+      user: {
+        name: userExist.name,
+        email: userExist.email,
+        phone_number: userExist.phone_number,
+        tuition_id: userExist.tuition_id,
+        tuition_class_name: userExist.tuition_class_name,
+        address: userExist.address,
+        tuition_address: userExist.tuition_address,
+        _id: userExist._id,
+        subscribed: userExist.subscribed,
+      },
+      token,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send({
@@ -232,31 +233,29 @@ export const studentLoginController = async (req, res) => {
         { _id: studentExist._id },
         process.env.JSONWEBTOKENKEY
       );
-       return res.status(200).send({
-         success: true,
-         message: "Login Successfull",
-         user: {
-           name: studentExist.name,
-           email: studentExist.email,
-           phone_number: studentExist.phone_number,
-           student_id: studentExist.student_id,
-           standard: studentExist.standard,
-           tuition_class_name: studentExist.tuition_class_name,
-           address: studentExist.address,
-           tuition_id: studentExist.tuition_id,
-           _id: studentExist._id,
-           confirm: studentExist.confirm,
-         },
-         token,
-       });
+      return res.status(200).send({
+        success: true,
+        message: "Login Successfull",
+        user: {
+          name: studentExist.name,
+          email: studentExist.email,
+          phone_number: studentExist.phone_number,
+          student_id: studentExist.student_id,
+          standard: studentExist.standard,
+          tuition_class_name: studentExist.tuition_class_name,
+          address: studentExist.address,
+          tuition_id: studentExist.tuition_id,
+          _id: studentExist._id,
+          confirm: studentExist.confirm,
+        },
+        token,
+      });
+    } else {
+      return res.status(200).send({
+        success: false,
+        meassage: "Confirmation pending by tuition class",
+      });
     }
-    else{
-        return res.status(200).send({
-          success: false,
-          meassage: "Confirmation pending by tuition class",})
-    }
-    
-   
   } catch (err) {
     console.log(err);
     res.status(500).send({
@@ -288,22 +287,22 @@ export const studentTestController = (req, res) => {
 };
 
 // get all Student list
-export const getStudentController = async(req, res) => {
+export const getStudentController = async (req, res) => {
   try {
-    const students = await studentModel.find({})
+    const students = await studentModel.find({});
     res.status(200).send({
       success: true,
       message: "Successfully Getted",
-      students
-    })
+      students,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message:"Error in getting students lists"
-    })
+      message: "Error in getting students lists",
+    });
   }
-}
+};
 
 // put  confirm student
 export const confirmStudentController = async (req, res) => {
@@ -321,28 +320,101 @@ export const confirmStudentController = async (req, res) => {
       student,
     });
   } catch (error) {
-     console.log(error);
-     res.status(500).send({
-       success: false,
-       message: "Error While Confirming Student",
-     });
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error While Confirming Student",
+    });
   }
-}
+};
 
 //delete  discrad student
 export const removeStudentController = async (req, res) => {
   try {
     const { id } = req.params;
-    const student = await studentModel.findByIdAndDelete(id)
+    const student = await studentModel.findByIdAndDelete(id);
     res.status(200).send({
       success: true,
       message: " Deleted Successfully",
     });
   } catch (error) {
-     console.log(error);
-     res.status(500).send({
-       success: false,
-       message: "Error While Confirming Student",
-     });
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error While Confirming Student",
+    });
   }
-}
+};
+
+//verifying tuition || token based
+export const authTuitionController = async (req, res) => {
+  try {
+    const { token } = req.params;
+    // console.log(token);
+
+    const tuition = await tuitionModel.findOne({ token: token });
+    res.status(200).send({
+      user: {
+        name: tuition.name,
+        email: tuition.email,
+        address: tuition.address,
+        phone_number: tuition.phone_number,
+        tuition_class_name: tuition.tuition_class_name,
+        tuition_address: tuition.tuition_address,
+        subscribed:tuition.subscribed
+      },
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error ....",
+    });
+  }
+};
+
+// put  || update tuition profile
+export const updateTuitionProfileController = async (req, res) => {
+  try {
+    const {
+      name,
+      address,
+      phone_number,
+      tuition_class_name,
+      tuition_address,
+    } = req.body;
+    const { email } = req.params;
+    console.log(email);
+    const tuition = await tuitionModel.findOneAndUpdate(
+      email , 
+      {
+        name,
+        address,
+        phone_number,
+        tuition_class_name,
+        tuition_address,
+      },
+      { new: true }
+    );
+    console.log(tuition);
+    res.status(200).send({
+      success: true,
+      message: " Updated Successfully",
+      user: {
+        name: tuition.name,
+        email: tuition.email,
+        address: tuition.address,
+        phone_number: tuition.phone_number,
+        tuition_class_name: tuition.tuition_class_name,
+        tuition_address: tuition.tuition_address,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In Updating...",
+    });
+  }
+};

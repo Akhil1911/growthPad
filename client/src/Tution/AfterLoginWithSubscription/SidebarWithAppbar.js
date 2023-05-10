@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Avatar, Menu, MenuItem, Tooltip } from "@mui/material";
 import Cookies from "universal-cookie"
 import {useNavigate} from "react-router-dom"
+import { clearTuition } from "../../Store/tuition";
+import {useDispatch} from "react-redux"
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -32,6 +34,7 @@ export default function SidebarWithAppbar() {
   const [open, setOpen] = React.useState(false);
   const cookies = new Cookies()
   const navigate = useNavigate()
+  const dispatch = useDispatch();
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -75,14 +78,16 @@ export default function SidebarWithAppbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={()=>{navigate("/tuition/profile")}}>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">View Subscription</Typography>
               </MenuItem>
-              <MenuItem onClick={()=>{ cookies.remove("token")
-                  navigate("/login")}}>
+              <MenuItem onClick={() => {
+                cookies.remove("token")
+                navigate("/login")
+              }}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>
@@ -92,3 +97,7 @@ export default function SidebarWithAppbar() {
     </Box>
   );
 }
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+//   .eyJfaWQiOiI2NDU2NmI0MzI2NTkyMTNjYjY1ZmIwOTAiLCJpYXQiOjE2ODM3MDYwMzR9
+//   .u92e4rhrM5lymZPaJlrhsqgDGTDhWpckm_iiWS7JqLw;

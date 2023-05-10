@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getStudentController,
+  authTuitionController,
   loginController,
   registerController,
   stdRegisterController,
@@ -28,5 +28,6 @@ router.post("/studentlogin", studentLoginController);
 router.get("/test", requireSignIn, isTutionSubscribed, testController);
 //test student routes
 router.get("/sTest", requireSignIn, isStudentConfirmed, studentTestController);
-//get all students
+//authenticate tuition
+router.get("/auth-tuition/:token", authTuitionController); 
 export default router;

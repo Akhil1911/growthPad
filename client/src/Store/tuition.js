@@ -6,14 +6,12 @@ export const TuitionSlice = createSlice({
   name: "tuition",
   initialState: {
     tuition: null,
-    token: "",
   },
   reducers: {
-    // clearTuition: (state) => {
-    //   // console.log("Inside Clear");
-    //       state.tuition = null;
-    //       state.token = "";
-    // },
+    clearTuition: (state) => {
+      // console.log("Inside Clear");
+          state.tuition = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -21,11 +19,9 @@ export const TuitionSlice = createSlice({
       //storing student after login
       .addCase(storeTuition.fulfilled, (state, action) => {
         state.tuition = action.payload.tuition;
-        state.token = action.payload.token;
-        // console.log(state.tuition);
       });
   },
 });
 
-// export const {clearTuition} = TuitionSlice.actions
+export const {clearTuition} = TuitionSlice.actions
 export default TuitionSlice.reducer;

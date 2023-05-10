@@ -5,9 +5,9 @@ export const storeTuition = createAsyncThunk(
   async (data) => {
     try {
       //tuition protected routes || token checking (in tools sectioin)
+      // console.log(data.user);
       return {
         tuition: data.user,
-        token: data.token,
       };
     } catch (error) {
       throw error;
