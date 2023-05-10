@@ -218,7 +218,7 @@ export const studentLoginController = async (req, res) => {
     if (!studentExist) {
       return res.status(200).send({
         success: false,
-        meassage: "Please Register before login",
+        message: "Please Register before login",
       });
     }
     if (studentExist.confirm) {
@@ -226,7 +226,7 @@ export const studentLoginController = async (req, res) => {
       if (!match) {
         return res.status(200).send({
           success: false,
-          meassage: "Invalid email or password",
+          message: "Invalid email or password",
         });
       }
       const token = JWT.sign(
@@ -253,7 +253,7 @@ export const studentLoginController = async (req, res) => {
     } else {
       return res.status(200).send({
         success: false,
-        meassage: "Confirmation pending by tuition class",
+        message: "Confirmation pending by tuition class",
       });
     }
   } catch (err) {
