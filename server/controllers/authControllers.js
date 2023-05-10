@@ -146,7 +146,7 @@ export const stdRegisterController = async (req, res) => {
       standard,
       tuition_class_name,
       tuition_id,
-      tuition_db_id,
+      age,
     } = req.body;
     if (
       !name &&
@@ -156,8 +156,8 @@ export const stdRegisterController = async (req, res) => {
       !phone_number &&
       !tuition_class_name &&
       !tuition_id &&
-      !tuition_db_id &&
-      !standard
+      !age &&
+      !standard 
     ) {
       return res.send({
         success: false,
@@ -186,7 +186,7 @@ export const stdRegisterController = async (req, res) => {
       tuition_class_name,
       tuition_id,
       student_id,
-      tuition_db_id,
+      age
     }).save();
     return res.status(201).send({
       success: true,
@@ -233,6 +233,15 @@ export const studentLoginController = async (req, res) => {
         { _id: studentExist._id },
         process.env.JSONWEBTOKENKEY
       );
+      const addToken = await studentModel.findByIdAndUpdate(
+        studentExist._id,
+        { token },
+        { new: true }
+      );
+      res.cookie("token", token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 2589200000),
+      });
       return res.status(200).send({
         success: true,
         message: "Login Successfull",
