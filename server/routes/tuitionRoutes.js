@@ -6,7 +6,7 @@ import {isTutionSubscribed, requireSignIn} from "../middlewares/authMiddleware.j
 const router = express.Router();
 
 //get all students
-router.get("/students-list", getStudentController)
+router.get("/students-list/:token", getStudentController)
 
 //update || confirm student
 router.put(

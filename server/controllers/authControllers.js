@@ -306,7 +306,10 @@ export const studentTestController = (req, res) => {
 // get all Student list
 export const getStudentController = async (req, res) => {
   try {
-    const students = await studentModel.find({});
+    const {token} = req.params
+    const _id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+    console.log(_id);
+    const students = await studentModel.find({tuition_db_id:_id});
     res.status(200).send({
       success: true,
       message: "Successfully Getted",

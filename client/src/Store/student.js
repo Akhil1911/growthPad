@@ -5,6 +5,7 @@ export const StudentSlice = createSlice({
   name: "student",
   initialState: {
     student: null,
+    filteredStudents:[]
   },
   reducers: {},
   extraReducers: (builder) => {
