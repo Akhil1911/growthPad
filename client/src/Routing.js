@@ -13,6 +13,7 @@ import AfterHome from "./Tution/AfterLoginWithSubscription/AfterHome";
 import StudentAfterHome from "./Student/AfterLogin/StudentAfterHome";
 import TuitionProfile from "./Tution/TuitionProfile";
 import ViewStudents from "./Tution/AfterLoginWithSubscription/ViewStudents";
+import StudentProfile from "./Student/AfterLogin/StudentProfile";
 const Routing = () => {
   return (
     <>
@@ -22,7 +23,11 @@ const Routing = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Signup />} />
           <Route exact path="/home" element={<BeforeLogin />} />
-          <Route exact path="/tuition/subscribed/view-students" element={<ViewStudents/>} />
+          <Route
+            exact
+            path="/tuition/subscribed/view-students"
+            element={<ViewStudents />}
+          />
           <Route
             exact
             path="/tuition/subscribed/home"
@@ -35,6 +40,11 @@ const Routing = () => {
           <Route exact path="/studentregister" element={<StudentSignup />} />
           <Route exact path="/student/home" element={<StudentBeforeLogin />} />
           <Route exact path="/studenthome" element={<StudentAfterHome />} />
+          <Route
+            exact
+            path="/student/profile"
+            element={<StudentProfile />}
+          />
           <Route exact path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>

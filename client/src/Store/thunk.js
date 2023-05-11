@@ -17,10 +17,11 @@ export const storeTuition = createAsyncThunk(
 
 export const storeStudent = createAsyncThunk(
   "student/storeStudent",
-  async(data)=>{
+  async (data) => {
+    // console.log(data);
     try{
       return {
-        student: data.user,
+        student: data.student,
       };
     }
     catch(error){

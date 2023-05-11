@@ -44,3 +44,41 @@ export const getTuitionDetailsController = async (req, res) => {
     });
   }
 };
+
+//update studentiya profile
+export const updateStudentProfileController = async (req, res) => {
+  try {
+    const { name, email, address, phone_number } = req.body;
+    const student = await studentModel.findOneAndUpdate({ email }, { name, address, phone_number }, { new: true });
+    res.status(200).send({
+      success: true,
+      message: "Updated Successfully",
+      student
+    })
+    
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Updating",
+      error,
+    });
+  }
+}
+
+//delete student account
+export const deleteStudentAccountController = async (req,res) => {
+  try {
+    const {email} = req.params
+    const student = await studentModel.findOneAndDelete({ email })   
+    res.status(200).send({
+      success: true,
+      message: "Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+}

@@ -158,7 +158,7 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={()=>{navigate("/student/profile");}}>
                 <Typography textAlign="center">My Profile</Typography>
               </MenuItem>
               <MenuItem onClick={()=>{

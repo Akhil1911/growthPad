@@ -146,6 +146,7 @@ const StudentAfterHome = () => {
               }}
               variant="outlined"
               color="darkColor"
+              onClick={()=>{navigate("/student/profile")}}
             >
               View More
             </Button>

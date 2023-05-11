@@ -334,8 +334,6 @@ const StudentSignup = () => {
                       sx={{ mr: 1, my: 0.5 }}
                     />
                     <Field
-                      multiline
-                      maxRows={3}
                       as={TextField}
                       color="darkColor"
                       label="Enter Standard"
