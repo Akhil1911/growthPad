@@ -41,7 +41,6 @@ function NavBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -100,8 +99,6 @@ function NavBar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -113,7 +110,15 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            GrowthPad
+            <Link
+              to={"/studenthome"}
+              style={{
+                textDecoration: "none",
+                color: "white",
+              }}
+            >
+              GrowthPad
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button

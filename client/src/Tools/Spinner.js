@@ -12,7 +12,7 @@ const Spinner = () => {
         const interval = setInterval(() => {
             setCount((prevValue) => --prevValue)
         }, 1000);
-        count === 0 && naviagate(`/`)
+        count === 0 && naviagate(`/studentlogin`)
         return () => clearInterval(interval)
     },[count,naviagate])
 

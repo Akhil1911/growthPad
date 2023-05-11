@@ -1,8 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar'
 import { Stack,Box,Typography,Paper,Button } from '@mui/material';
+import Cookies from 'universal-cookie'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 const StudentAfterHome = () => {
+  const cookies = new Cookies()
+  const navigate = useNavigate()
   const [studProfile, setstudProfile] = useState([])  
+  const getDetails = async()=>{
+     const response = await axios.get(
+       `${
+         process.env.REACT_APP_URL_LINK
+       }/api/v1/student/student-details/${cookies.get("stutoken")}`
+     );
+     setstudProfile(response.data.student)
+    //  console.log(studProfile);
+  }
+  useEffect(() => {
+      if(localStorage.getItem("stutoken")){
+        let token = localStorage.getItem("stutoken")
+        cookies.set("stutoken",token)
+       getDetails()
+      }
+      else{
+        navigate("/studentlogin")
+      }
+  }, [])
+  
   return (
     <>
       <NavBar />
@@ -32,7 +57,7 @@ const StudentAfterHome = () => {
           fontFamily={"Comfortaa, cursive"}
           color={"#254061"}
         >
-          Welcome student
+          Welcome {studProfile.name}
         </Typography>
       </Stack>
       <hr
@@ -197,21 +222,7 @@ const StudentAfterHome = () => {
             Tuition Class Name :- 
           </Typography>
           <Stack mb={3} m={3} justifyContent={"center"} alignContent={"center"}>
-            <Button
-              sx={{
-                fontSize: {
-                  lg: "large",
-                  md: "large",
-                  sm: "large",
-                  xs: "medium",
-                },
-              }}
-              variant="outlined"
-              color="darkColor"
-             
-            >
-              View More
-            </Button>
+            
           </Stack>
         </Paper>
       </Stack>
