@@ -1,8 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import NavBar from './NavBar'
-import { Stack,Box,Typography,Paper,Button } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import NavBar from "./NavBar";
+import { Stack, Box, Typography, Paper, Button } from "@mui/material";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const StudentAfterHome = () => {
-  const [studProfile, setstudProfile] = useState([])  
+  const cookies = new Cookies();
+  const navigate = useNavigate();
+  const [studProfile, setstudProfile] = useState([]);
+  const [tuiProfile, settuiProfile] = useState([]);
+  const getDetails = async () => {
+    const response = await axios.get(
+      `${
+        process.env.REACT_APP_URL_LINK
+      }/api/v1/student/student-details/${cookies.get("stutoken")}`
+    );
+    setstudProfile(response.data.student);
+    const id = response.data.student.tuition_db_id;
+    const response1 = await axios.get(
+      `${process.env.REACT_APP_URL_LINK}/api/v1/student/get-tuition-details/${id}`
+    );
+    settuiProfile(response1.data.tuition);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("stutoken")) {
+      let token = localStorage.getItem("stutoken");
+      cookies.set("stutoken", token);
+      getDetails();
+    } else {
+      navigate("/studentlogin");
+    }
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -32,7 +62,7 @@ const StudentAfterHome = () => {
           fontFamily={"Comfortaa, cursive"}
           color={"#254061"}
         >
-          Welcome student
+          Welcome {studProfile.name}
         </Typography>
       </Stack>
       <hr
@@ -75,7 +105,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Name :- 
+            Name :- {studProfile.name}
           </Typography>
           <Typography
             variant="body1"
@@ -84,7 +114,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Email :- 
+            Email :- {studProfile.email}
           </Typography>
           <Typography
             variant="body1"
@@ -93,7 +123,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Student Id :- 
+            Student Id :- {studProfile.student_id}
           </Typography>
           <Typography
             variant="body1"
@@ -116,7 +146,6 @@ const StudentAfterHome = () => {
               }}
               variant="outlined"
               color="darkColor"
-              
             >
               View More
             </Button>
@@ -149,7 +178,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Owner Name :- 
+            Owner Name :- {tuiProfile.name}
           </Typography>
           <Typography
             variant="body1"
@@ -158,7 +187,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Email :- 
+            Email :- {tuiProfile.email}
           </Typography>
           <Typography
             variant="body1"
@@ -167,7 +196,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Tuition Id :-
+            Tuition Id :- {tuiProfile.tuition_id}
           </Typography>
           <Typography
             variant="body1"
@@ -176,7 +205,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Contact Number :-
+            Contact Number :- {tuiProfile.phone_number}
           </Typography>
           <Typography
             variant="body1"
@@ -185,7 +214,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Tuition Class Address :-
+            Tuition Class Address :- {tuiProfile.tuition_address}
           </Typography>
           <Typography
             variant="body1"
@@ -194,29 +223,18 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Tuition Class Name :- 
+            Tuition Class Name :- {tuiProfile.tuition_class_name}
           </Typography>
-          <Stack mb={3} m={3} justifyContent={"center"} alignContent={"center"}>
-            <Button
-              sx={{
-                fontSize: {
-                  lg: "large",
-                  md: "large",
-                  sm: "large",
-                  xs: "medium",
-                },
-              }}
-              variant="outlined"
-              color="darkColor"
-             
-            >
-              View More
-            </Button>
-          </Stack>
+          <Stack
+            mb={3}
+            m={3}
+            justifyContent={"center"}
+            alignContent={"center"}
+          ></Stack>
         </Paper>
       </Stack>
     </>
   );
-}
+};
 
-export default StudentAfterHome
+export default StudentAfterHome;

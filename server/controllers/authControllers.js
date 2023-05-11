@@ -172,7 +172,14 @@ export const stdRegisterController = async (req, res) => {
         message: "Already Register",
       });
     }
-
+    const tuitionDetails = await tuitionModel.findOne({tuition_id,tuition_class_name})
+    if(!tuitionDetails){
+      return res.status(200).send({
+        success: false,
+        message: "No such classes found",
+      });
+    }
+    const tuition_db_id = tuitionDetails._id
     const hashpass = await passwordHashing(password);
     const student_id = await generateStudentId(name, tuition_id);
 
@@ -185,6 +192,7 @@ export const stdRegisterController = async (req, res) => {
       standard,
       tuition_class_name,
       tuition_id,
+      tuition_db_id,
       student_id,
       age
     }).save();

@@ -7,18 +7,19 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-
+import Cookies from 'universal-cookie';
+import { useNavigate } from "react-router-dom";
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const cookies = new Cookies();
+  const navigate = useNavigate()
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -41,7 +42,6 @@ function NavBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -100,8 +100,6 @@ function NavBar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -113,7 +111,15 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            GrowthPad
+            <Link
+              to={"/studenthome"}
+              style={{
+                textDecoration: "none",
+                color: "white",
+              }}
+            >
+              GrowthPad
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
@@ -155,7 +161,11 @@ function NavBar() {
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">My Profile</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={()=>{
+                localStorage.removeItem("stutoken")
+                cookies.remove("stutoken")
+                navigate("/studentlogin")
+              }}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>

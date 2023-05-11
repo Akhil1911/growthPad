@@ -103,6 +103,7 @@ const StudentLogin = () => {
                   dispatch(storeStudent(response.data))
                   resetForm();
                   cookies.set("stutoken",response.data.token)
+                  localStorage.setItem("stutoken",response.data.token)
                   showToast("SUCCESS", `${response.data.message}`);
                   navigate("/studenthome");
                 } else {

@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import connectionDB from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import tuitionRoutes from './routes/tuitionRoutes.js'
+import studentRoutes from './routes/studentRoutes.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 const app = express()
@@ -19,6 +20,7 @@ app.use(cookieParser())
 //using Routes
 app.use("/api/v1/auth",authRoutes)
 app.use("/api/v1/tuition", tuitionRoutes);
+app.use("/api/v1/student", studentRoutes);
 
 //Listening to a Port number 
 app.listen(port,()=>{
