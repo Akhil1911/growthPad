@@ -394,7 +394,7 @@ export const updateTuitionProfileController = async (req, res) => {
       tuition_class_name,
       tuition_address,
     } = req.body;
-    console.log(email);
+    // console.log(email);
     // const tuition = await tuitionModel.findOne({email})
     const tuition = await tuitionModel.findOneAndUpdate(
       {email} , 
@@ -407,7 +407,7 @@ export const updateTuitionProfileController = async (req, res) => {
       },
       { new: true }
     );
-    console.log(tuition);
+    // console.log(tuition);
     res.status(200).send({
       success: true,
       message: " Updated Successfully",
