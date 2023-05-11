@@ -56,7 +56,7 @@ const studentSchema = new mongoose.Schema(
     tuition_db_id: {
       type: mongoose.ObjectId,
       ref: "tuition",
-      required: false,
+      required: true,
     },
     confirm: {
       type: Boolean,
