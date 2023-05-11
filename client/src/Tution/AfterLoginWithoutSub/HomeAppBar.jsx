@@ -19,11 +19,6 @@ const HomeAppBar = () => {
   const cookies = new Cookies();
   const navigate = new useNavigate();
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (!cookies.get("token")) {
-      navigate("/login");
-    }
-  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);

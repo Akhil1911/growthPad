@@ -2,6 +2,7 @@ import React from "react";
 import BeforeAppbar from "./BeforeAppbar";
 import Features from "./Features";
 import RegisterNow from "./RegisterNow";
+import CheckingTokens from "../../Tools/CheckingTokens";
 
 const BeforeLogin = () => {
 
@@ -37,6 +38,7 @@ const BeforeLogin = () => {
   ];
   return (
     <>
+      <CheckingTokens/>
       <BeforeAppbar />
       <RegisterNow />
       <h1 style={{ color: "#254061", textAlign: "center" }}>Features of ASK</h1>

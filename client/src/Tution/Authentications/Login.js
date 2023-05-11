@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { storeTuition } from "../../Store/thunk";
 import Cookies from "universal-cookie";
 import "../../Home/HomeForAll.css";
+import CheckingTokens from "../../Tools/CheckingTokens";
 const cookie = new Cookies();
 const Login = () => {
   const [values, setValues] = React.useState({
@@ -34,33 +35,6 @@ const Login = () => {
     password: "",
   };
 
-  useEffect(() => {
-    // if (
-    //   (localStorage.getItem("token") && !cookie.get("token")) ||
-    //   (!localStorage.getItem("token") && cookie.get("token")) ||
-    //   (localStorage.getItem("token") && cookie.get("token"))
-    // ) {
-    //   let temptoken = localStorage.getItem("token");
-    //   // let token = temptoken.replace(/['"]+/g, "");
-    //   cookie.set("token", token);
-    //   if (localStorage.getItem("token") && cookie.get("token")) {
-    //     navigate("/tuition/home");
-    //   }
-    // } 
-    //  if (
-    //    (localStorage.getItem("subtoken") && !cookie.get("subtoken")) ||
-    //    (!localStorage.getItem("subtoken") && cookie.get("subtoken")) ||
-    //    (localStorage.getItem("subtoken") && cookie.get("subtoken"))
-    //  ) {
-    //    let temptoken = localStorage.getItem("subtoken");
-    //   //  let subtoken = temptoken.replace(/['"]+/g, "");
-    //    cookie.set("subtoken", subtoken);
-    //    if (localStorage.getItem("subtoken") && cookie.get("subtoken")) {
-    //      navigate("/tuition/subscribed/home");
-    //    }
-    //  } 
-  },[])
-
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Email is required")
@@ -70,8 +44,8 @@ const Login = () => {
 
   return (
     <>
+    <CheckingTokens/>
       <BeforeAppbar />
-
       <Stack
         direction={{
           lg: "row",
@@ -141,21 +115,15 @@ const Login = () => {
                   {
                     response.data.user.subscribed ? (
                       <>
-                        {cookie.set("subtoken", response.data.token)}
-                        {localStorage.setItem(
-                          "subtoken",
-                          JSON.stringify(response.data.token)
-                        )}
+                        {
+                          (cookie.set("subtoken", response.data.token))
+                        }
+                        {localStorage.setItem("subtoken", response.data.token)}
                       </>
                     ) : (
                       <>
-                        {cookie.set("token", response.data.token,{
-                          expires: new Date(Date.now()+50000)
-                        })}
-                        {localStorage.setItem(
-                          "token",
-                          JSON.stringify(response.data.token)
-                        )}
+                        {cookie.set("token", response.data.token)}
+                        {localStorage.setItem("token", response.data.token)}
                       </>
                     );
                   }

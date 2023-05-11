@@ -13,27 +13,31 @@ import { clearTuition } from "../../Store/tuition";
 const HomeWithoutSub = () => {
   const dispatch = useDispatch();
   const getSettingState = async () => {
-    console.log("Inside setting state");
+    let temptoken = localStorage.getItem("token");
+    cookies.set("token", temptoken);
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get("token")}`
+      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
+        "token"
+      )}`
     );
-    // console.log(response.data);
     if (response.data) {
-      dispatch(storeTuition(response.data))
+      dispatch(storeTuition(response.data));
     }
-}
+  };
 
   const navigate = new useNavigate();
-  const cookies = new Cookies()
+  const cookies = new Cookies();
   useEffect(() => {
-    if (!cookies.get("token")) {
-      navigate("/login");
-    } else {
+    if (localStorage.getItem("token")) {
       getSettingState();
+    } else if (localStorage.getItem("subtoken")) {
+      navigate("/tuition/subscribed/home");
+    } else {
+      navigate(-1);
     }
     return () => {
-      dispatch(clearTuition())
-    }
+      dispatch(clearTuition());
+    };
   }, []);
 
   const featuresData = [

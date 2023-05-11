@@ -16,23 +16,13 @@ const AfterHome = () => {
   const cookies = new Cookies();
   const tuiProfile = useSelector((state) => state.tuition.tuition);
   const getSettingState = async () => {
-    // console.log("Inside setting state");
-    let token;
-    if (cookies.get("subtoken")) {
-      token = cookies.get("subtoken");
-      // let temptoken = localStorage.getItem("subtoken");
-      // token = temptoken.replace(/['"]+/g, "");
-    } else {
-      let temptoken = localStorage.getItem("subtoken");
-      token = temptoken.replace(/['"]+/g, "");
-      cookies.set("subtoken", token);
-    }
+   let temptoken = localStorage.getItem("subtoken");
+   cookies.set("subtoken", temptoken);
     const response = await axios.get(
       `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
         "subtoken"
       )}`
     );
-    // console.log(response.data);
     if (response.data) {
       if (response.data.user.subscribed) {
         dispatch(storeTuition(response.data));
@@ -43,19 +33,14 @@ const AfterHome = () => {
   };
 
   useEffect(() => {
-    getSettingState();
-    if (tuiProfile) {
-      if (tuiProfile.subscribed) {
-        if (!cookies.get("subtoken") && !localStorage.getItem("subtoken")) {
-          navigate("/login");
-        } else {
-          getSettingState();
-        }
-      } else {
-        navigate(-1);
-      }
+    if (localStorage.getItem("subtoken")) {
+      getSettingState();
+      getTuitoinDetails();
+    } else if (localStorage.getItem("token")) {
+      navigate("/tuition/home");
+    } else {
+      navigate(-1);
     }
-
     return () => {
       dispatch(clearTuition());
     };
@@ -73,15 +58,11 @@ const AfterHome = () => {
         process.env.REACT_APP_URL_LINK
       }/api/v1/tuition/get-tuition-detail/${cookies.get("subtoken")}`
     );
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.success) {
       setTutDetails(response.data.tuition);
     }
   };
-
-  useEffect(() => {
-    getTuitoinDetails();
-  }, []);
 
   return (
     <>
