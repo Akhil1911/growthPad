@@ -15,6 +15,7 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useDispatch } from "react-redux";
 import { storeStudent } from "../../Store/thunk";
 import Cookies from 'universal-cookie'
+import CheckingStuTokens from "../../Tools/CheckingStuTokens";
 const StudentLogin = () => {
   const [values, setValues] = React.useState({
     showPassword: false,
@@ -46,6 +47,7 @@ const StudentLogin = () => {
 
   return (
     <>
+      <CheckingStuTokens/>
       <StudentBeforeAppbar />
       <Stack
         direction={{
@@ -100,10 +102,10 @@ const StudentLogin = () => {
                   }
                 );
                 if (response.data.success) {
-                  dispatch(storeStudent(response.data))
+                  dispatch(storeStudent(response.data));
                   resetForm();
-                  cookies.set("stutoken",response.data.token)
-                  localStorage.setItem("stutoken",response.data.token)
+                  cookies.set("stutoken", response.data.token);
+                  localStorage.setItem("stutoken", response.data.token);
                   showToast("SUCCESS", `${response.data.message}`);
                   navigate("/studenthome");
                 } else {

@@ -457,3 +457,23 @@ export const getTuitionDetailController = async (req, res) => {
     });
   }
 }
+//delete tuition profile
+export const deleteTuitionProfileController = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const tuition = await tuitionModel.findOneAndDelete({ email });
+    const tuition_db_id = tuition._id
+    const students = await studentModel.deleteMany({tuition_db_id})
+    res.status(200).send({
+      success: true,
+      message: "Deleted Successfully",
+      tuition
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+}

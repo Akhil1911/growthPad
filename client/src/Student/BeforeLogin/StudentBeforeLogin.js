@@ -2,6 +2,7 @@ import React from 'react'
 import StudentBeforeAppbar from "./StudentBeforeAppbar";
 import Features from './Features'
 import StudentRegister from './StudentRegister';
+import CheckingStuTokens from '../../Tools/CheckingStuTokens';
 
 const StudentBeforeLogin = () => {
     const featureAry = [
@@ -26,6 +27,7 @@ const StudentBeforeLogin = () => {
     ];
   return (
     <>
+      <CheckingStuTokens/>
       <StudentBeforeAppbar  />
       <StudentRegister />
       <h1 style={{ color: "#254061", textAlign: "center" }}>Login To Access</h1>

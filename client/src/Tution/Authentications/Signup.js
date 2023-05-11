@@ -16,6 +16,7 @@ import BeforeAppbar from "../BeforeLogin/BeforeAppbar";
 import { showToast } from "../../Tools/showToast";
 import axios from "axios";
 import '../../Home/HomeForAll.css'
+import CheckingTokens from "../../Tools/CheckingTokens";
 
 const Signup = () => {
   // useEffect(() => {console.log(process.env.URL_LINK);}, []);
@@ -68,8 +69,8 @@ const Signup = () => {
 
   return (
     <>
+      <CheckingTokens />
       <BeforeAppbar position="fixed" />
-
       <Stack
         direction={{
           lg: "row",

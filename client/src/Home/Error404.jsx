@@ -12,7 +12,7 @@ const Error404 = () => {
     const interval = setInterval(() => {
       setCount((prevValue) => --prevValue);
     }, 1000);
-    count === 0 && naviagate(`/`);
+    count === 0 && naviagate(-1);
     return () => clearInterval(interval);
   }, [count, naviagate]);
 
@@ -27,7 +27,7 @@ const Error404 = () => {
         alignItems={"center"}
       >
         <img
-          src="../images/Mountain404.png"
+          src="../../images/Mountain404.png"
           alt="ERROR 404,Page Not Found"
           height={"400px"}
           width={"400px"}

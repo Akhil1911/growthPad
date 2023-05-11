@@ -15,7 +15,7 @@ const CheckingTokens = () => {
        let temptoken = localStorage.getItem("subtoken");
        cookie.set("subtoken", temptoken);
        navigate("/tuition/subscribed/home");
-     }
+    }  
   }, []);
 };
 

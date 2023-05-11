@@ -97,10 +97,40 @@ const TuitionProfile = () => {
     }
   }
 
+  const handleDeleteProfile = async (email) => {
+    const confirm = window.confirm("Are you sure you want to delete this profile?");
+    if (confirm) {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_URL_LINK}/api/v1/auth/delete-tuition-profile/${email}`
+      );
+      if (response.data.success) {
+        showToast("SUCCESS", `${response.data.message}`)
+        response.data.tuition.subscribed ? (
+          <>
+            {localStorage.removeItem("subtoken")}
+            {cookies.remove("subtoken")}
+          </>
+        ) : (
+          <>
+            {localStorage.removeItem("token")}
+            {cookies.remove("token")}
+          </>
+        );
+        navigate("/register")
+
+      }
+    }
+  }
+
   return (
     <>
-     
-      {(tuiProfile?tuiProfile.subscribed?<SidebarWithAppbar/>:<HomeAppBar/>:null)}
+      {tuiProfile ? (
+        tuiProfile.subscribed ? (
+          <SidebarWithAppbar />
+        ) : (
+          <HomeAppBar />
+        )
+      ) : null}
 
       <Stack
         direction={{
@@ -158,38 +188,42 @@ const TuitionProfile = () => {
                   tuition_class_name,
                   tuition_address,
                 } = values;
-                if (name === tuiProfile.name && phone_number === tuiProfile.phone_number && address === tuiProfile.address && tuition_address === tuiProfile.tuition_address && tuition_class_name === tuiProfile.tuition_class_name) {
-                    showToast("ERROR","Please Update Someting")
+                if (
+                  name === tuiProfile.name &&
+                  phone_number === tuiProfile.phone_number &&
+                  address === tuiProfile.address &&
+                  tuition_address === tuiProfile.tuition_address &&
+                  tuition_class_name === tuiProfile.tuition_class_name
+                ) {
+                  showToast("ERROR", "Please Update Someting");
                 } else {
-                   try {
-                     console.log(tuiProfile);
-                    
-                     const response = await axios.put(
-                       `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile`,
-                       {
-                         name,
-                         email,
-                         address,
-                         phone_number,
-                         tuition_class_name,
-                         tuition_address,
-                        
-                       }
-                     );
-                     if (response.data.success) {
-                       showToast("SUCCESS", `${response.data.message}`);
-                       dispatch(storeTuition(response.data))
-                       navigate("/tuition/profile");
-                       // navigate("/login");
-                     } else {
-                       showToast("ERROR", `${response.data.message}`);
-                     }
-                   } catch (error) {
+                  try {
+                    console.log(tuiProfile);
+
+                    const response = await axios.put(
+                      `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile`,
+                      {
+                        name,
+                        email,
+                        address,
+                        phone_number,
+                        tuition_class_name,
+                        tuition_address,
+                      }
+                    );
+                    if (response.data.success) {
+                      showToast("SUCCESS", `${response.data.message}`);
+                      dispatch(storeTuition(response.data));
+                      navigate("/tuition/profile");
+                      // navigate("/login");
+                    } else {
+                      showToast("ERROR", `${response.data.message}`);
+                    }
+                  } catch (error) {
                     //  console.log(error);
-                     showToast("ERROR", "Something Went Wrong");
-                   }
+                    showToast("ERROR", "Something Went Wrong");
+                  }
                 }
-               
               }}
             >
               <Stack alignItems={"center"} mt={"2rem"}>
@@ -341,7 +375,17 @@ const TuitionProfile = () => {
                       justifyContent="center"
                       alignItems={"center"}
                       style={{ marginBottom: "2rem" }}
-                    ></Stack>
+                    >
+                      <Button
+                        variant="contained"
+                        sx={{ color: "white" }}
+                        color="error"
+                        type="button"
+                        onClick={()=>{handleDeleteProfile(tuiProfile.email)}}
+                      >
+                        Delete Account
+                      </Button>
+                    </Stack>
                   </Box>
                 </Form>
               </Stack>

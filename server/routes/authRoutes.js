@@ -1,6 +1,7 @@
 import express from "express";
 import {
   authTuitionController,
+  deleteTuitionProfileController,
   loginController,
   registerController,
   stdRegisterController,
@@ -30,4 +31,6 @@ router.get("/test", requireSignIn, isTutionSubscribed, testController);
 router.get("/sTest", requireSignIn, isStudentConfirmed, studentTestController);
 //authenticate tuition
 router.get("/auth-tuition/:token", authTuitionController); 
+//delete tuition
+router.delete("/delete-tuition-profile/:email",deleteTuitionProfileController)
 export default router;

@@ -84,7 +84,9 @@ const StudentProfile = () => {
               `${process.env.REACT_APP_URL_LINK}/api/v1/student/delete-student-account/${email}`
             );
             if (response.data.success) {
-                showToast("SUCCESS",`${response.data.message}`)
+              showToast("SUCCESS", `${response.data.message}`)
+              cookies.remove("stutoken")
+              localStorage.removeItem("stutoken")
                 navigate("/studentregister");
             }
         } else {
@@ -95,7 +97,6 @@ const StudentProfile = () => {
   return (
     <>
       <NavBar />
-
       <Stack
         direction={{
           lg: "row-reverse",

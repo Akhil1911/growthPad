@@ -18,6 +18,7 @@ import { showToast } from "../../Tools/showToast";
 import StudentBeforeAppbar from "../BeforeLogin/StudentBeforeAppbar";
 import axios from "axios";
 import "../../Home/HomeForAll.css";
+import CheckingStuTokens from "../../Tools/CheckingStuTokens";
 
 const StudentSignup = () => {
   const [values, setValues] = React.useState({
@@ -77,6 +78,7 @@ const StudentSignup = () => {
 
   return (
     <>
+      <CheckingStuTokens />
       <StudentBeforeAppbar position={"fixed"} />
       <Stack
         direction={{
