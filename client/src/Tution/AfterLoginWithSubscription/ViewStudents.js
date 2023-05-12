@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container, Grid, Modal, Paper, Stack, TextField } from "@mui/material";
 import axios from "axios";
-import { clearFilteredStudents } from "../../Store/student";
+import { clearFilterAppliedStudents, clearFilteredStudents } from "../../Store/student";
 
 const ViewStudents = () => {
   const navigate = useNavigate();
@@ -53,9 +53,8 @@ const ViewStudents = () => {
     } catch (error) {
       showToast("ERROR", "Error...");
     }
-    return () => {
       dispatch(clearFilteredStudents());
-    };
+      dispatch(clearFilterAppliedStudents());
   };
 
   useEffect(() => {
@@ -271,7 +270,7 @@ const ViewStudents = () => {
           ))}
         </Grid>
       </Container>
-      {checkData ? (
+      {checkData || studentArray.length === 0 ? (
         <div className="div">
           <Stack
             direction={{
