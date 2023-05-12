@@ -11,7 +11,6 @@ const qnaSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     student_id: {
       type: mongoose.ObjectId,

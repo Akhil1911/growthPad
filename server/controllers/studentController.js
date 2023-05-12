@@ -88,7 +88,7 @@ export const deleteStudentAccountController = async (req,res) => {
 
 export const questionSubmitController = async(req,res)=>{
   try{
-    // console.log(req.body)
+    console.log(req.body)
     const {student_id,name,email,tuition_db_id,que} = req.body
     console.log(student_id, name, email, tuition_db_id, que);
     const isquestion = await new qnaModel({
