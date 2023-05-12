@@ -1,6 +1,7 @@
 import JWT from "jsonwebtoken";
 import tuitionModel from "../models/tuitionModel.js";
 import studentModel from "../models/studentModel.js";
+import qnaModel from "../models/qnaModel.js";
 
 //get student details controller
 
@@ -75,6 +76,33 @@ export const deleteStudentAccountController = async (req,res) => {
       message: "Deleted Successfully",
     });
   } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+}
+
+//submit question controller
+
+export const questionSubmitController = async(req,res)=>{
+  try{
+    const {student_id,name,email,tuition_db_id,que} = req.body
+    const question = await new qnaModel({
+      student_id,
+      student_name:name,
+      student_email:email,
+      tuition_db_id,
+      question:que
+    }).save()
+    res.status(201).send({
+      success: true,
+      message: "Question Submitted",
+      question,
+    });
+  }
+  catch(error){
     res.status(500).send({
       success: false,
       message: "Error in Deleting Account",

@@ -14,6 +14,7 @@ import StudentAfterHome from "./Student/AfterLogin/StudentAfterHome";
 import TuitionProfile from "./Tution/TuitionProfile";
 import ViewStudents from "./Tution/AfterLoginWithSubscription/ViewStudents";
 import StudentProfile from "./Student/AfterLogin/StudentProfile";
+import QnA from "./Student/AfterLogin/QnA";
 const Routing = () => {
   return (
     <>
@@ -44,6 +45,11 @@ const Routing = () => {
             exact
             path="/student/profile"
             element={<StudentProfile />}
+          />
+          <Route
+            exact
+            path="/student/QnA"
+            element={<QnA/>}
           />
           <Route exact path="*" element={<Error404 />} />
         </Routes>

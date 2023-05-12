@@ -95,6 +95,9 @@ function NavBar() {
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Pay Fees</Typography>
               </MenuItem>
+              <MenuItem onClick={()=>{navigate("/student/QnA")}}>
+                <Typography textAlign="center">QnA</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -129,7 +132,7 @@ function NavBar() {
               Pay Fees
             </Button>
             <Button
-              onClick={handleCloseNavMenu}
+              onClick={()=>{navigate("/student/QnA");}}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Q/A

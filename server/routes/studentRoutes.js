@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteStudentAccountController, getStudentDetailsController, getTuitionDetailsController, updateStudentProfileController } from "../controllers/studentController.js";
+import { deleteStudentAccountController, getStudentDetailsController, getTuitionDetailsController, questionSubmitController, updateStudentProfileController } from "../controllers/studentController.js";
 
 const router = express.Router();
 //get solo student details
@@ -10,4 +10,6 @@ router.get("/get-tuition-details/:id", getTuitionDetailsController)
 router.put("/update-student-profile", updateStudentProfileController);
 //delete || delete student account
 router.delete("/delete-student-account/:email",deleteStudentAccountController)
+//post || add tuition
+router.post("/submit-question",questionSubmitController)
 export default router;
