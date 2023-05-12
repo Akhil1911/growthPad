@@ -7,6 +7,7 @@ import {
   stdRegisterController,
   studentLoginController,
   studentTestController,
+  submitAnswerController,
   testController,
 } from "../controllers/authControllers.js";
 import {
@@ -33,4 +34,5 @@ router.get("/sTest", requireSignIn, isStudentConfirmed, studentTestController);
 router.get("/auth-tuition/:token", authTuitionController); 
 //delete tuition
 router.delete("/delete-tuition-profile/:email",deleteTuitionProfileController)
+
 export default router;

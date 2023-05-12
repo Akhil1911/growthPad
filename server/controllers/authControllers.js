@@ -7,6 +7,7 @@ import {
 import JWT from "jsonwebtoken";
 import tuitionModel from "../models/tuitionModel.js";
 import studentModel from "../models/studentModel.js";
+import qnaModel from "../models/qnaModel.js"
 
 //Tuition register controlleer
 
@@ -379,6 +380,7 @@ export const authTuitionController = async (req, res) => {
     const tuition = await tuitionModel.findOne({ _id: id });
     res.status(200).send({
       user: {
+        id:tuition._id,
         name: tuition.name,
         email: tuition.email,
         address: tuition.address,
@@ -402,6 +404,7 @@ export const authTuitionController = async (req, res) => {
 export const updateTuitionProfileController = async (req, res) => {
   try {
     const {
+      id,
       name,
       email,
       address,
@@ -411,6 +414,9 @@ export const updateTuitionProfileController = async (req, res) => {
     } = req.body;
     // console.log(email);
     // const tuition = await tuitionModel.findOne({email})
+    const student = await studentModel.findOneAndUpdate({tuition_db_id:id},{
+      tuition_class_name
+    },{new:true})
     const tuition = await tuitionModel.findOneAndUpdate(
       { email },
       {
@@ -589,3 +595,49 @@ export const getFilteredStudentsController = async (req, res) => {
     });
   }
 };
+
+//submit answer controller
+
+export const submitAnswerController = async(req,res)=>{
+  try {
+    const { modalAnswer } = req.body;
+    console.log(modalAnswer)
+    const { id } = req.params;
+    console.log(id)
+    const submit = await qnaModel.findByIdAndUpdate(
+      { _id: id },
+      { answer: modalAnswer },
+      { new: true }
+    );
+    res.status(200).send({
+      success: true,
+      message: " Answer Submitted",
+      submit,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+}
+
+//delete question
+export const deleteQuestionHandler = async(req,res)=>{
+  try {
+    const { id } = req.params;
+    const data = await qnaModel.findByIdAndDelete({_id:id})
+    res.status(200).send({
+      success:true,
+      message:"Deleted Successfully"
+    })
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+
+}

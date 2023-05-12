@@ -6,14 +6,37 @@ import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { clearTuition } from "../../Store/tuition";
 import Modal from "@mui/material/Modal";
+import { showToast } from "../../Tools/showToast";
 import { Stack,Box , Paper, Typography, TextField, Container, Button} from '@mui/material';
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius:"10px"
+};
 const TuitionQnA = () => {
      const dispatch = useDispatch();
      const navigate = useNavigate();
      const cookies = new Cookies();
      const [queList, setqueList] = useState([])
      const [open, setOpen] = React.useState(false);
-     const handleOpen = () => setOpen(true);
+     const [modalId, setmodalId] = useState(null)
+     const [modalQuestion, setmodalQuestion] = useState("")
+     const [modalAnswer, setmodalAnswer] = useState("")
+     const handleOpen = (id,question,answer) => {
+        // console.log(id,question,answer)
+        setOpen(true)
+        setmodalId(id)
+        setmodalQuestion(question);
+        setmodalAnswer(answer);
+        // console.log(modalId,modalQuestion,modalAnswer)
+    };
      const handleClose = () => setOpen(false);
     const getQnaList = async()=>{
          const response = await axios.get(
@@ -21,11 +44,22 @@ const TuitionQnA = () => {
              process.env.REACT_APP_URL_LINK
            }/api/v1/student/student-view-question/${cookies.get("subtoken")}`
          );
-         console.log(response.data);
+        //  console.log(response.data);
          setqueList(response.data.questions);
-         console.log(queList);
+        //  console.log(queList);
     }
-
+    const handleSubmitAnswer = async()=>{
+        const response =await axios.put(
+          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-submit-answer/${modalId}`,{modalAnswer}
+        );
+        // 
+        if(response.data.success){
+            showToast("SUCCESS",response.data.message)
+            setOpen(false)
+            getQnaList()
+        }
+        // console.log(response)
+    }
      useEffect(() => {
        if (localStorage.getItem("subtoken")) {
         cookies.set("subtoken",localStorage.getItem("subtoken"))
@@ -40,6 +74,15 @@ const TuitionQnA = () => {
        };
      }, []);
 
+     const deleteQuestionHandler = async(_id) =>{
+        const response =await axios.delete(
+          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-delete-question/${_id}`
+        );
+        if(response.data.success){
+            showToast("SUCCESS",response.data.message)
+            getQnaList()
+        }
+     }
      /////////////////////////////////////
      // Get Tution Details
      /////////////////////////////////////
@@ -69,14 +112,14 @@ const TuitionQnA = () => {
                   minHeight={100}
                 >
                   <Paper
-                    justifyContent={"center"}
-                    alignContent={"center"}
+                    
+                    
                     sx={{
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
-                      minHeight: 240,
+                      minHeight: 270,
                       backgroundColor: "#ebf4fa",
                       border: "2px solid #254061",
                       borderRadius: "20px",
@@ -97,24 +140,70 @@ const TuitionQnA = () => {
                       value={value.question}
                       inputProps={{ readOnly: true }}
                     />
+                    <TextField
+                      label="Answer"
+                      name="answer"
+                      variant="standard"
+                      sx={{
+                        width: "75%",
+                        marginTop: "10px",
+                      }}
+                      value={value.answer}
+                      inputProps={{ readOnly: true }}
+                    />
                     <Modal
                       open={open}
                       onClose={handleClose}
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
                     >
-                      <Box>
-                        <Typography
-                          id="modal-modal-title"
-                          variant="h6"
-                          component="h2"
+                      <Box sx={style}>
+                        <Stack
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          direction="column"
+                          spacing={2}
                         >
-                          Text in a modal
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          Duis mollis, est non commodo luctus, nisi erat
-                          porttitor ligula.
-                        </Typography>
+                          <Typography
+                            id="modal-modal-title"
+                            variant="h4"
+                            component="h2"
+                            color={"#254061"}
+                          >
+                            Give Answer
+                          </Typography>
+                          <TextField
+                            id="outlined-basic"
+                            label="Question"
+                            variant="outlined"
+                            value={modalQuestion}
+                            sx={{width:"75%"}}
+                            onChange={(e) => {
+                              setmodalQuestion(e.target.value);
+                            }}
+                            inputProps={{
+                                readOnly:true
+                            }}
+                          />
+                          <TextField
+                            id="outlined-basic"
+                            label="Answer"
+                            variant="standard"
+                            value={modalAnswer}
+                            sx={{width:"75%"}}
+                            onChange={(e) => {
+                              setmodalAnswer(e.target.value);
+                            }}
+                          />
+                          <Button
+                            variant="contained"
+                            color="darkColor"
+                            sx={{ color: "white" }}
+                            onClick={handleSubmitAnswer}
+                          >
+                            Submit
+                          </Button>
+                        </Stack>
                       </Box>
                     </Modal>
                     <Button
@@ -124,7 +213,9 @@ const TuitionQnA = () => {
                         marginTop: "10px",
                         color: "white",
                       }}
-                      onClick={handleOpen}
+                      onClick={() => {
+                        handleOpen(value._id, value.question, value.answer);
+                      }}
                     >
                       Give Answer
                     </Button>
@@ -135,6 +226,7 @@ const TuitionQnA = () => {
                         marginTop: "10px",
                         color: "white",
                       }}
+                      onClick={()=>{deleteQuestionHandler(value._id)}}
                     >
                       Delete
                     </Button>

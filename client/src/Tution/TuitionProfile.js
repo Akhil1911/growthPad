@@ -53,6 +53,7 @@ const TuitionProfile = () => {
   // console.log(tuiProfile);
   const initialValues = tuiProfile
     ? {
+        id:tuiProfile.id,
         name: tuiProfile.name,
         email: tuiProfile.email,
         address: tuiProfile.address,
@@ -61,6 +62,7 @@ const TuitionProfile = () => {
         tuition_address: tuiProfile.tuition_address,
       }
     : {
+        id:"",
         name: "",
         email: "",
         address: "",
@@ -181,6 +183,7 @@ const TuitionProfile = () => {
               validationSchema={validationSchema}
               onSubmit={async (values, { resetForm }) => {
                 const {
+                  id,
                   name,
                   email,
                   phone_number,
@@ -203,6 +206,7 @@ const TuitionProfile = () => {
                     const response = await axios.put(
                       `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile`,
                       {
+                        id,
                         name,
                         email,
                         address,
@@ -252,6 +256,18 @@ const TuitionProfile = () => {
                     <Typography color={"red"} sx={{ textAlign: "center" }}>
                       <ErrorMessage name="name" />
                     </Typography>
+                    <Box sx={{ display: "none", alignItems: "flex-end" }}>
+                      <EmailIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
+                      <Field
+                        as={TextField}
+                        color="darkColor"
+                        label="Your Id"
+                        variant="standard"
+                        fullWidth
+                        name="id"
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Box>
                     <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                       <EmailIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
                       <Field
@@ -381,7 +397,9 @@ const TuitionProfile = () => {
                         sx={{ color: "white" }}
                         color="error"
                         type="button"
-                        onClick={()=>{handleDeleteProfile(tuiProfile.email)}}
+                        onClick={() => {
+                          handleDeleteProfile(tuiProfile.email);
+                        }}
                       >
                         Delete Account
                       </Button>
