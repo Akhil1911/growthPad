@@ -47,10 +47,9 @@ export const filteredStudents = createAsyncThunk(
 export const filterAppliedStudents = createAsyncThunk(
   "student/filterAppliedStudents",
   async (data) => {
-    // console.log(data);
     try {
       return {
-        filterAppliedStud: data.students,
+        filterAppliedStud: data,
       };
     } catch (error) {
       throw error;

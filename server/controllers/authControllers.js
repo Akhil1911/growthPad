@@ -157,7 +157,7 @@ export const stdRegisterController = async (req, res) => {
       !tuition_class_name &&
       !tuition_id &&
       !age &&
-      !standard 
+      !standard
     ) {
       return res.send({
         success: false,
@@ -172,14 +172,17 @@ export const stdRegisterController = async (req, res) => {
         message: "Already Register",
       });
     }
-    const tuitionDetails = await tuitionModel.findOne({tuition_id,tuition_class_name})
-    if(!tuitionDetails){
+    const tuitionDetails = await tuitionModel.findOne({
+      tuition_id,
+      tuition_class_name,
+    });
+    if (!tuitionDetails) {
       return res.status(200).send({
         success: false,
         message: "No such classes found",
       });
     }
-    const tuition_db_id = tuitionDetails._id
+    const tuition_db_id = tuitionDetails._id;
     const hashpass = await passwordHashing(password);
     const student_id = await generateStudentId(name, tuition_id);
 
@@ -194,7 +197,7 @@ export const stdRegisterController = async (req, res) => {
       tuition_id,
       tuition_db_id,
       student_id,
-      age
+      age,
     }).save();
     return res.status(201).send({
       success: true,
@@ -306,10 +309,10 @@ export const studentTestController = (req, res) => {
 // get all Student list
 export const getStudentController = async (req, res) => {
   try {
-    const {token} = req.params
+    const { token } = req.params;
     const _id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
     // console.log(_id);
-    const students = await studentModel.find({tuition_db_id:_id});
+    const students = await studentModel.find({ tuition_db_id: _id });
     res.status(200).send({
       success: true,
       message: "Successfully Getted",
@@ -327,12 +330,12 @@ export const getStudentController = async (req, res) => {
 // put  confirm student
 export const confirmStudentController = async (req, res) => {
   try {
-    const {modalFees} = req.body
+    const { modalFees } = req.body;
     const { id } = req.params;
     // console.log(modalFees,id);
     const student = await studentModel.findByIdAndUpdate(
-      {_id:id},
-      { confirm:true,feesPerMonth:modalFees },
+      { _id: id },
+      { confirm: true, feesPerMonth: modalFees },
       { new: true }
     );
     res.status(200).send({
@@ -373,7 +376,7 @@ export const authTuitionController = async (req, res) => {
     const { token } = req.params;
     // console.log(token);
     const id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
-    const tuition = await tuitionModel.findOne({ _id:id });
+    const tuition = await tuitionModel.findOne({ _id: id });
     res.status(200).send({
       user: {
         name: tuition.name,
@@ -382,7 +385,7 @@ export const authTuitionController = async (req, res) => {
         phone_number: tuition.phone_number,
         tuition_class_name: tuition.tuition_class_name,
         tuition_address: tuition.tuition_address,
-        subscribed:tuition.subscribed
+        subscribed: tuition.subscribed,
       },
       token,
     });
@@ -409,7 +412,7 @@ export const updateTuitionProfileController = async (req, res) => {
     // console.log(email);
     // const tuition = await tuitionModel.findOne({email})
     const tuition = await tuitionModel.findOneAndUpdate(
-      {email} , 
+      { email },
       {
         name,
         address,
@@ -430,7 +433,7 @@ export const updateTuitionProfileController = async (req, res) => {
         phone_number: tuition.phone_number,
         tuition_class_name: tuition.tuition_class_name,
         tuition_address: tuition.tuition_address,
-        subscribed:tuition.subscribed
+        subscribed: tuition.subscribed,
       },
     });
   } catch (error) {
@@ -447,12 +450,12 @@ export const getTuitionDetailController = async (req, res) => {
   try {
     const { token } = req.params;
     // console.log(token);
-     const id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+    const id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
     const tuition = await tuitionModel.findOne({ _id: id });
     res.status(200).send({
       success: true,
       message: "Fetched Successfully",
-      tuition
+      tuition,
     });
   } catch (error) {
     res.status(500).send({
@@ -460,18 +463,18 @@ export const getTuitionDetailController = async (req, res) => {
       message: "Error In Fetching Details...",
     });
   }
-}
+};
 //delete tuition profile
 export const deleteTuitionProfileController = async (req, res) => {
   try {
     const { email } = req.params;
     const tuition = await tuitionModel.findOneAndDelete({ email });
-    const tuition_db_id = tuition._id
-    const students = await studentModel.deleteMany({tuition_db_id})
+    const tuition_db_id = tuition._id;
+    const students = await studentModel.deleteMany({ tuition_db_id });
     res.status(200).send({
       success: true,
       message: "Deleted Successfully",
-      tuition
+      tuition,
     });
   } catch (error) {
     res.status(500).send({
@@ -480,19 +483,82 @@ export const deleteTuitionProfileController = async (req, res) => {
       error,
     });
   }
-}
+};
 
 //get || filtered students (dropdown based)
 export const getFilteredStudentsController = async (req, res) => {
   try {
-    const { token } = req.params
-    const { confirm, standard, name } = req.body
-    console.log(req.body);
+    const { token } = req.params;
+    const { confirm, standard, name } = req.body;
     const _id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
-    if (confirm && standard && name) {
+    // console.log(_id,req.body);
+    if (confirm === "None" && standard === "None" && name === "") {
+      res.status(200).send({
+        success: false,
+        message: "No Filter Applied",
+        students,
+      });
+    } else if (confirm !== "None" && standard === "None" && name === "") {
       const students = await studentModel.find({
         tuition_db_id: _id,
         confirm,
+      });
+      // console.log(students);
+
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    } else if (confirm === "None" && standard !== "None" && name === "") {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
+        standard,
+      });
+      // console.log(students);
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    } else if (confirm === "None" && standard === "None" && name !== "") {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
+        name,
+      });
+      // console.log(students);
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    } else if (confirm !== "None" && standard !== "None" && name === "") {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
+        confirm,
+        standard,
+      });
+      // console.log(students);
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    } else if (confirm !== "None" && standard === "None" && name !== "") {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
+        confirm,
+        name,
+      });
+      // console.log(students);
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    } else if (confirm === "None" && standard !== "None" && name !== "") {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
         standard,
         name,
       });
@@ -502,7 +568,7 @@ export const getFilteredStudentsController = async (req, res) => {
         message: "Filtered Applied Successfully",
         students,
       });
-    } else if (confirm && standard) {
+    } else {
       const students = await studentModel.find({
         tuition_db_id: _id,
         confirm,
@@ -517,10 +583,10 @@ export const getFilteredStudentsController = async (req, res) => {
       });
     }
   } catch (error) {
-     res.status(500).send({
-       success: false,
-       message: "Error in Fetching Details",
-       error,
-     });
+    res.status(500).send({
+      success: false,
+      message: "Error in Fetching Details",
+      error,
+    });
   }
-}
+};

@@ -6,12 +6,15 @@ export const StudentSlice = createSlice({
   initialState: {
     student: null,
     filteredStudents: [],
-    filterAppliedStudents:[]
+    filterAppliedStudents: [],
   },
   reducers: {
     clearFilteredStudents: (state) => {
-      state.filteredStudents = []
-    }
+      state.filteredStudents = [];
+    },
+    clearFilterAppliedStudents: (state) => {
+      state.filterAppliedStudents = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -24,9 +27,10 @@ export const StudentSlice = createSlice({
         state.filteredStudents = action.payload.filteredStud;
       })
       .addCase(filterAppliedStudents.fulfilled, (state, action) => {
-      state.filterAppliedStudents = action.payload.filterAppliedStud;
-    })
+        state.filterAppliedStudents = action.payload.filterAppliedStud;
+      });
   },
 });
-export const {clearFilteredStudents} = StudentSlice.actions
+export const { clearFilteredStudents, clearFilterAppliedStudents } =
+  StudentSlice.actions;
 export default StudentSlice.reducer;

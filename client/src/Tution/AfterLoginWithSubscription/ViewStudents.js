@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container, Grid, Modal, Paper, Stack, TextField } from "@mui/material";
 import axios from "axios";
-import { clearFilteredStudents } from "../../Store/student";
+import { clearFilterAppliedStudents, clearFilteredStudents } from "../../Store/student";
 
 const ViewStudents = () => {
   const navigate = useNavigate();
@@ -22,6 +22,11 @@ const ViewStudents = () => {
   const cookies = new Cookies();
   const studentList = useSelector((state) => state.student.filteredStudents);
   const [fees, setFees] = useState(0);
+  const [studentArray, setStudentArray] = useState([])
+
+   const filterAppliedStud = useSelector(
+     (state) => state.student.filterAppliedStudents
+  );
 
   const style = {
     position: "absolute",
@@ -62,6 +67,10 @@ const ViewStudents = () => {
       navigate(-1);
     }
   }, []);
+  
+
+ 
+
   const [open, setOpen] = React.useState(false);
   const [modalId, setmodalId] = useState(null);
   const [modalName, setmodalName] = useState("");
@@ -80,7 +89,7 @@ const ViewStudents = () => {
 
   const handleFees = async () => {
     setOpen(false)
-    if (modalFees >= 0) {
+    if (modalFees > 0) {
         const response = await axios.put(
           `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/confirm-students/${modalId}`,
           { modalFees }
@@ -91,7 +100,8 @@ const ViewStudents = () => {
           showToast("SUCCESS",`${response.data.message}`)
         }
     } else {
-      showToast("ERROR","Please Enter Valid Fees")
+      showToast("ERROR", "Please Enter Valid Fees")
+      setOpen(true)
      }
     
   };
@@ -110,27 +120,39 @@ const ViewStudents = () => {
     }
   }
 
+  // console.log(filterAppliedStud);
+
+  useEffect(() => {
+    if (filterAppliedStud.length > 0) {
+      setStudentArray(filterAppliedStud)
+      console.log(studentArray);
+    } else if (filterAppliedStud.length === 0) {
+      setStudentArray(studentList)
+      console.log(studentArray);
+    }
+  },[filterAppliedStud,studentList,studentArray,setStudentArray])
+
   return (
     <>
       <SidebarWithAppbar />
       <FilterForm token={cookies.get("subtoken")} />
       <Container>
-          <Grid container direction={"row"}>
-            {studentList?.map((value, index) => (
+        <Grid container direction={"row"}>
+            {studentArray?.map((value, index) => (
               <Grid
                 item
                 xs={12}
                 sm={12}
                 md={4}
-                lg={3}
+                lg={4}
                 sx={{ padding: 2 }}
                 key={value._id}
                 display={"flex"}
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Paper sx={{ maxWidth: 275, minHeight: 400 }} elevation={10}>
-                  <Card sx={{ maxWidth: 275, minHeight: 400 }}>
+                <Paper sx={{ minWidth:300, maxWidth: 320, minHeight: 400 }} elevation={10}>
+                  <Card sx={{minWidth:300,  maxWidth: 320, minHeight: 400 }}>
                     {" "}
                     <CardContent>
                       <Typography
