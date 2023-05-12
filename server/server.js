@@ -4,6 +4,7 @@ import connectionDB from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import tuitionRoutes from './routes/tuitionRoutes.js'
 import studentRoutes from './routes/studentRoutes.js'
+import paymentRoutes from './routes/paymentRoutes.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 const app = express()
@@ -21,6 +22,7 @@ app.use(cookieParser())
 app.use("/api/v1/auth",authRoutes)
 app.use("/api/v1/tuition", tuitionRoutes);
 app.use("/api/v1/student", studentRoutes);
+app.use("/api/v1/payment", paymentRoutes)
 
 //Listening to a Port number 
 app.listen(port,()=>{

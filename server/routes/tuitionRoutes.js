@@ -1,6 +1,6 @@
 import express from "express";
-import { confirmStudentController, deleteQuestionHandler, getFilteredStudentsController, getStudentController, getTuitionDetailController, removeStudentController, submitAnswerController, updateTuitionProfileController } from "../controllers/authControllers.js";
-import {isTutionSubscribed, requireSignIn} from "../middlewares/authMiddleware.js"
+import { confirmStudentController, deleteQuestionHandler, getFilteredStudentsController, getStudentController, getTuitionDetailController, removeStudentController, submitAnswerController, updateSubscribeController, updateTuitionProfileController } from "../controllers/authControllers.js";
+
 
 
 const router = express.Router();
@@ -35,4 +35,7 @@ router.put("/tuition-submit-answer/:id", submitAnswerController);
 
 //delete question
 router.delete("/tuition-delete-question/:id",deleteQuestionHandler)
+
+//update subscribe
+router.put("/tuition-update-subscribe",updateSubscribeController)
 export default router;

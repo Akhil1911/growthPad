@@ -641,3 +641,21 @@ export const deleteQuestionHandler = async(req,res)=>{
   }
 
 }
+
+//update subscribe
+export const updateSubscribeController = async(req,res)=>{
+  try {
+    const {tuition_id} = req.body
+    const tuition = await tuitionModel.findByIdAndUpdate({_id:tuition_id},{subscribed:true},{new:true})
+    res.send({
+      success:true,
+      tuition
+    })
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+}
