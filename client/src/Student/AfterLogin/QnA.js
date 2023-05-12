@@ -40,7 +40,11 @@ const QnA = () => {
         }
     }
     const getQuestion = async() => {
-        console.log("get details")
+        // console.log("get details")
+        const response = await axios.get(
+          `${process.env.REACT_APP_URL_LINK}/api/v1/student/student-view-question/${cookies.get("stutoken")}`
+          );
+          console.log(response.data)
     }
     useEffect(() => {
       if (localStorage.getItem("stutoken")) {

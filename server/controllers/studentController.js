@@ -88,21 +88,49 @@ export const deleteStudentAccountController = async (req,res) => {
 
 export const questionSubmitController = async(req,res)=>{
   try{
+    // console.log(req.body)
     const {student_id,name,email,tuition_db_id,que} = req.body
-    const question = await new qnaModel({
-      student_id,
+    console.log(student_id, name, email, tuition_db_id, que);
+    const isquestion = await new qnaModel({
       student_name:name,
       student_email:email,
+      student_id,
       tuition_db_id,
       question:que
-    }).save()
+    }).save();
+    console.log(isquestion)
     res.status(201).send({
       success: true,
       message: "Question Submitted",
-      question,
+      isquestion,
     });
   }
   catch(error){
+    res.status(500).send({
+      success: false,
+      message: "Error in submiting question",
+      error,
+    });
+  }
+}
+
+//get all question of particular students
+
+export const getAllQuestionController = async(req,res)=>{
+  try{
+    const {token} = req.params
+    const id = JWT.verify(token,process.env.JSONWEBTOKENKEY)
+    console.log(id)
+    const questions = await qnaModel.find({student_id:id})
+    // console.log(questions)
+    res.status(200).send(
+      {
+        success: true,
+        message: "Question Submitted",
+        questions,
+      },
+    );
+  }catch(error){
     res.status(500).send({
       success: false,
       message: "Error in Deleting Account",
