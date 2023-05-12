@@ -84,6 +84,16 @@ export default function SidebarWithAppbar() {
             >
               View Students
             </Link>
+            <Link
+              to={"/tuition/QnA"}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                marginLeft:"20px"
+              }}
+            >
+              QnA
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="View Profile">

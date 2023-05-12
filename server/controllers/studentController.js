@@ -121,7 +121,7 @@ export const getAllQuestionController = async(req,res)=>{
     const {token} = req.params
     const id = JWT.verify(token,process.env.JSONWEBTOKENKEY)
     console.log(id)
-    const questions = await qnaModel.find({student_id:id})
+    const questions = await qnaModel.find({$or: [{student_id:id},{tuition_db_id:id}]})
     // console.log(questions)
     res.status(200).send(
       {

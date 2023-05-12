@@ -572,7 +572,7 @@ export const getFilteredStudentsController = async (req, res) => {
         tuition_db_id: _id,
         confirm,
         standard,
-        name,
+        $or: [{ name: { $regex: name, $options: "i" } }],
       });
       console.log(students);
       res.status(200).send({

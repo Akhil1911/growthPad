@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import NavBar from './NavBar'
-import { Button, Container, Stack, TextField, TextareaAutosize, Typography } from '@mui/material'
+import { Button, Container, Paper, Stack, TextField, TextareaAutosize, Typography } from '@mui/material'
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,6 +10,7 @@ const QnA = () => {
     const navigate = useNavigate();
     const [studProfile, setstudProfile] = useState([]);
     const [tuiProfile, settuiProfile] = useState([]);
+    const [queList, setqueList] = useState([]);
     const [que, setque] = useState("")
     const getDetails = async () => {
       const response = await axios.get(
@@ -35,7 +36,7 @@ const QnA = () => {
         );
         if(response.data.success){
             showToast("SUCCESS",response.data.message)
-            console.log(response.data)
+            getQuestion()
             setque("")
         }
     }
@@ -44,7 +45,9 @@ const QnA = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_URL_LINK}/api/v1/student/student-view-question/${cookies.get("stutoken")}`
           );
-          console.log(response.data)
+          // console.log(response.data)
+          setqueList(response.data.questions);
+          // console.log(queList);
     }
     useEffect(() => {
       if (localStorage.getItem("stutoken")) {
@@ -85,6 +88,66 @@ const QnA = () => {
         />
         <Button disabled={que===""?true:false} onClick={submitQuestion} variant="contained" color='darkColor' sx={{color:"white"}}>Submit</Button>
         </Stack>
+        {queList?queList.map((value,index)=>{
+          return (
+            <Stack
+              mb={5}
+              direction={{
+                lg: "column",
+                md: "column",
+                sm: "column",
+                xs: "column",
+              }}
+              spacing={2}
+              mt={4}
+              justifyContent={"center"}
+              alignContent={"center"}
+              key={index}
+              minHeight={100}
+            >
+              <Paper
+                justifyContent={"center"}
+                alignContent={"center"}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: 240,
+                  backgroundColor: "#ebf4fa",
+                  border:"1px#254061",
+                  borderRadius:"20px"
+                }}
+                elevation={10}
+              >
+                <Typography mt={1} variant="h5" color="#254061">
+                  Question {index + 1}
+                </Typography>
+                <TextField
+                  label="Question"
+                  name="question"
+                  variant="outlined"
+                  sx={{
+                    width: "75%",
+                    marginTop: "10px",
+                  }}
+                  value={value.question}
+                />
+                <TextField
+                  label="Answer"
+                  name="answer"
+                  variant="standard"
+                  sx={{
+                    width: "75%",
+                    marginTop: "10px",
+                    marginBottom: 5,
+                  }}
+                  value={value.answer}
+                />
+              </Paper>
+            </Stack>
+          );
+        }):null}
       </Container>
     </>
   );
