@@ -340,7 +340,7 @@ export const confirmStudentController = async (req, res) => {
     );
     res.status(200).send({
       success: true,
-      message: " Confirmed Successfully",
+      message: student.confirm ? "Fees Updated" : " Confirmed Successfully",
       student,
     });
   } catch (error) {
@@ -496,7 +496,6 @@ export const getFilteredStudentsController = async (req, res) => {
       res.status(200).send({
         success: false,
         message: "No Filter Applied",
-        students,
       });
     } else if (confirm !== "None" && standard === "None" && name === "") {
       const students = await studentModel.find({
@@ -524,7 +523,7 @@ export const getFilteredStudentsController = async (req, res) => {
     } else if (confirm === "None" && standard === "None" && name !== "") {
       const students = await studentModel.find({
         tuition_db_id: _id,
-        name,
+        $or: [{ name: { $regex: name, $options: "i" } }],
       });
       // console.log(students);
       res.status(200).send({
@@ -548,7 +547,7 @@ export const getFilteredStudentsController = async (req, res) => {
       const students = await studentModel.find({
         tuition_db_id: _id,
         confirm,
-        name,
+        $or: [{ name: { $regex: name, $options: "i" } }],
       });
       // console.log(students);
       res.status(200).send({
@@ -560,7 +559,7 @@ export const getFilteredStudentsController = async (req, res) => {
       const students = await studentModel.find({
         tuition_db_id: _id,
         standard,
-        name,
+        $or: [{ name: { $regex: name, $options: "i" } }],
       });
       // console.log(students);
       res.status(200).send({
@@ -575,7 +574,7 @@ export const getFilteredStudentsController = async (req, res) => {
         standard,
         name,
       });
-      // console.log(students);
+      console.log(students);
       res.status(200).send({
         success: true,
         message: "Filtered Applied Successfully",
