@@ -39,11 +39,15 @@ const QnA = () => {
             setque("")
         }
     }
+    const getQuestion = async() => {
+        console.log("get details")
+    }
     useEffect(() => {
       if (localStorage.getItem("stutoken")) {
         let token = localStorage.getItem("stutoken");
         cookies.set("stutoken", token);
         getDetails();
+        getQuestion();
       } else {
         navigate("/studentlogin");
       }

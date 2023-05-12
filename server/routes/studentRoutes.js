@@ -12,4 +12,6 @@ router.put("/update-student-profile", updateStudentProfileController);
 router.delete("/delete-student-account/:email",deleteStudentAccountController)
 //post || add tuition
 router.post("/submit-question",questionSubmitController)
+//get || student question answer
+router.get("/student-view-question")
 export default router;
