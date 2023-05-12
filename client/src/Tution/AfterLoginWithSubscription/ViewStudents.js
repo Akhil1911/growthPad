@@ -53,8 +53,6 @@ const ViewStudents = () => {
     } catch (error) {
       showToast("ERROR", "Error...");
     }
-      dispatch(clearFilteredStudents());
-      dispatch(clearFilterAppliedStudents());
   };
 
   useEffect(() => {
@@ -66,6 +64,10 @@ const ViewStudents = () => {
     } else {
       navigate(-1);
     }
+     return () => {
+       dispatch(clearFilteredStudents());
+       dispatch(clearFilterAppliedStudents());
+     };
   }, []);
 
   const [open, setOpen] = React.useState(false);
