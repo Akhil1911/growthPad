@@ -1,56 +1,55 @@
 import * as React from "react";
-import { styled} from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-import { Avatar, Menu, MenuItem, Tooltip } from "@mui/material";
-import Cookies from "universal-cookie"
-import {useNavigate} from "react-router-dom"
-import { clearTuition } from "../../Store/tuition";
-import {useDispatch} from "react-redux"
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-}));
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
-export default function SidebarWithAppbar() {
+function SidebarWithAppbar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const cookies = new Cookies();
+  const navigate = useNavigate();
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const [open, setOpen] = React.useState(false);
-  const cookies = new Cookies()
-  const navigate = useNavigate()
-  const dispatch = useDispatch();
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="static" open={open} sx={{ backgroundColor: "#254061" }}>
-        <Toolbar>
+    <AppBar position="static" sx={{ backgroundColor: "#254061" }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             sx={{
               mr: 2,
+              display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".2rem",
+              letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-              flexGrow: 1,
             }}
           >
             <Link
@@ -63,42 +62,99 @@ export default function SidebarWithAppbar() {
               GrowthPad
             </Link>
           </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  navigate("/tuition/subscribed/view-students");
+                }}
+              >
+                <Typography textAlign="center">View Students</Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/tuition/QnA");
+                }}
+              >
+                <Typography textAlign="center">QnA</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             sx={{
               mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
+              letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
-             flexGrow: 1
             }}
           >
             <Link
-              to={"/tuition/subscribed/view-students"}
+              to={"/tuition/subscribed/home"}
               style={{
                 textDecoration: "none",
                 color: "white",
               }}
             >
-              View Students
-            </Link>
-            <Link
-              to={"/tuition/QnA"}
-              style={{
-                textDecoration: "none",
-                color: "white",
-                marginLeft:"20px"
-              }}
-            >
-              QnA
+              GrowthPad
             </Link>
           </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button
+              onClick={() => {
+                navigate("/tuition/subscribed/view-students");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              View Students
+            </Button>
+            <Button
+              onClick={() => {
+                navigate("/tuition/QnA");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Q/A
+            </Button>
+          </Box>
+
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="View Profile">
+            <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Profile Pic" src="" />
+                <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -122,15 +178,15 @@ export default function SidebarWithAppbar() {
                   navigate("/tuition/profile");
                 }}
               >
-                <Typography textAlign="center">Profile</Typography>
+                <Typography textAlign="center">My Profile</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">View Subscription</Typography>
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  cookies.remove("subtoken");
                   localStorage.removeItem("subtoken");
+                  cookies.remove("subtoken");
                   navigate("/login");
                 }}
               >
@@ -139,8 +195,8 @@ export default function SidebarWithAppbar() {
             </Menu>
           </Box>
         </Toolbar>
-      </AppBar>
-    </Box>
+      </Container>
+    </AppBar>
   );
 }
-
+export default SidebarWithAppbar;

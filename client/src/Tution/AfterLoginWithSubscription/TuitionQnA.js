@@ -7,19 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { clearTuition } from "../../Store/tuition";
 import Modal from "@mui/material/Modal";
 import { showToast } from "../../Tools/showToast";
-import { Stack,Box , Paper, Typography, TextField, Container, Button} from '@mui/material';
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderRadius:"10px"
-};
+import { Stack, Box, Paper, Typography, TextField, Container, Button } from '@mui/material';
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  };  
 const TuitionQnA = () => {
      const dispatch = useDispatch();
      const navigate = useNavigate();
@@ -112,8 +113,6 @@ const TuitionQnA = () => {
                   minHeight={100}
                 >
                   <Paper
-                    
-                    
                     sx={{
                       display: "flex",
                       flexDirection: "column",
@@ -152,6 +151,7 @@ const TuitionQnA = () => {
                       inputProps={{ readOnly: true }}
                     />
                     <Modal
+                      keepMounted
                       open={open}
                       onClose={handleClose}
                       aria-labelledby="modal-modal-title"
@@ -177,12 +177,12 @@ const TuitionQnA = () => {
                             label="Question"
                             variant="outlined"
                             value={modalQuestion}
-                            sx={{width:"75%"}}
+                            sx={{ width: "75%" }}
                             onChange={(e) => {
                               setmodalQuestion(e.target.value);
                             }}
                             inputProps={{
-                                readOnly:true
+                              readOnly: true,
                             }}
                           />
                           <TextField
@@ -190,7 +190,7 @@ const TuitionQnA = () => {
                             label="Answer"
                             variant="standard"
                             value={modalAnswer}
-                            sx={{width:"75%"}}
+                            sx={{ width: "75%" }}
                             onChange={(e) => {
                               setmodalAnswer(e.target.value);
                             }}
@@ -226,7 +226,9 @@ const TuitionQnA = () => {
                         marginTop: "10px",
                         color: "white",
                       }}
-                      onClick={()=>{deleteQuestionHandler(value._id)}}
+                      onClick={() => {
+                        deleteQuestionHandler(value._id);
+                      }}
                     >
                       Delete
                     </Button>
