@@ -4,15 +4,16 @@ import Select from "@mui/material/Select";
 import React, { useEffect, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
-import Cookies from "universal-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { filterAppliedStudents } from "../../Store/thunk";
+import { clearFilterAppliedStudents } from "../../Store/student";
 
-const FilterForm = ({token}) => {
-
-  const cookies = new Cookies()
+const FilterForm = ({ token, getStudents }) => {
   const [confirm, setConfirm] = useState("None");
   const [feesstatus, setFeesstatus] = useState("None");
   const [standard, setStandard] = useState("None");
-  const [keywords, setKeywords] = useState("");
+  const [name, setName] = useState("");
+  const dispatch = useDispatch();
 
   const handleFilters = async () => {
     try {
@@ -20,13 +21,16 @@ const FilterForm = ({token}) => {
         confirm !== "None" ||
         feesstatus !== "None" ||
         standard !== "None" ||
-        keywords !== ""
+        name !== ""
       ) {
         // console.log(keywords);
         const response = await axios.post(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-students/${token}`,{confirm,standard,keywords}
+          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-students/${token}`,
+          { confirm, standard, name }
         );
-        console.log(response.data);
+        if (response.data.success) {
+          dispatch(filterAppliedStudents(response.data.students));
+        }
       } else {
         ///
       }
@@ -53,17 +57,17 @@ const FilterForm = ({token}) => {
         </Typography>
         <div>
           <TextField
-            label="Search Student"
-            value={keywords}
+            label="Name Of Student"
+            value={name}
             onChange={(e) => {
-              setKeywords(e.target.value);
+              setName(e.target.value);
             }}
           />
         </div>
         <Typography>Confirmation</Typography>
         <div>
           <Select
-            defaultValue={'None'}
+            value={confirm ? confirm : "None"}
             onChange={(e) => {
               setConfirm(e.target.value);
             }}
@@ -76,7 +80,7 @@ const FilterForm = ({token}) => {
         <Typography>Standard</Typography>
         <div>
           <Select
-            defaultValue={'None'}
+            value={standard ? standard : "None"}
             onChange={(e) => {
               setStandard(e.target.value);
             }}
@@ -99,12 +103,13 @@ const FilterForm = ({token}) => {
         <Typography>Fees Status</Typography>
         <div>
           <Select
-            defaultValue={'None'}
+            value={feesstatus ? feesstatus : "None"}
             onChange={(e) => {
               setFeesstatus(e.target.value);
             }}
+            disabled
           >
-            <MenuItem value="None">None</MenuItem>
+            <MenuItem value="None">Pending Work...</MenuItem>
             <MenuItem value={"pending"}>Pending</MenuItem>
             <MenuItem value={"paid"}>Paid</MenuItem>
           </Select>
@@ -119,7 +124,18 @@ const FilterForm = ({token}) => {
         >
           Submit
         </Button>
-        <Button variant="contained" size={"large"} color="error">
+        <Button
+          variant="contained"
+          size={"large"}
+          color="error"
+          onClick={() => {
+            setConfirm("None");
+            setFeesstatus("None");
+            setStandard("None");
+            setName("");
+            dispatch(clearFilterAppliedStudents());
+          }}
+        >
           Reset
         </Button>
 
