@@ -5,8 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { filterAppliedStudents } from "../../Store/thunk";
+import { checkFilteredData, filterAppliedStudents } from "../../Store/thunk";
 import { clearFilterAppliedStudents } from "../../Store/student";
+import { showToast } from "../../Tools/showToast";
 
 const FilterForm = ({ token, getStudents }) => {
   const [confirm, setConfirm] = useState("None");
@@ -29,10 +30,16 @@ const FilterForm = ({ token, getStudents }) => {
           { confirm, standard, name }
         );
         if (response.data.success) {
+          if (response.data.students.length === 0) {
+            // showToast("ERROR", "No Data Found");
+            dispatch(checkFilteredData(true));
+          } else {
+            dispatch(checkFilteredData(false));
+          }
           dispatch(filterAppliedStudents(response.data.students));
         }
       } else {
-        ///
+        showToast("ERROR", "Please Apply Filter");
       }
     } catch (error) {}
   };
@@ -134,6 +141,7 @@ const FilterForm = ({ token, getStudents }) => {
             setStandard("None");
             setName("");
             dispatch(clearFilterAppliedStudents());
+            dispatch(checkFilteredData(false))
           }}
         >
           Reset

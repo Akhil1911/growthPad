@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { filterAppliedStudents, filteredStudents, storeStudent } from "./thunk";
+import {
+  checkFilteredData,
+  filterAppliedStudents,
+  filteredStudents,
+  storeStudent,
+} from "./thunk";
 
 export const StudentSlice = createSlice({
   name: "student",
@@ -7,6 +12,7 @@ export const StudentSlice = createSlice({
     student: null,
     filteredStudents: [],
     filterAppliedStudents: [],
+    noDataFound: false,
   },
   reducers: {
     clearFilteredStudents: (state) => {
@@ -28,6 +34,9 @@ export const StudentSlice = createSlice({
       })
       .addCase(filterAppliedStudents.fulfilled, (state, action) => {
         state.filterAppliedStudents = action.payload.filterAppliedStud;
+      })
+      .addCase(checkFilteredData.fulfilled, (state, action) => {
+        state.noDataFound = action.payload.checkData;
       });
   },
 });
