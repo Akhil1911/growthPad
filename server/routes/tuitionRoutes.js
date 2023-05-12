@@ -1,5 +1,5 @@
 import express from "express";
-import { confirmStudentController, getStudentController, getTuitionDetailController, removeStudentController, updateTuitionProfileController } from "../controllers/authControllers.js";
+import { confirmStudentController, getFilteredStudentsController, getStudentController, getTuitionDetailController, removeStudentController, updateTuitionProfileController } from "../controllers/authControllers.js";
 import {isTutionSubscribed, requireSignIn} from "../middlewares/authMiddleware.js"
 
 
@@ -24,5 +24,9 @@ router.delete(
 router.put("/update-profile", updateTuitionProfileController)
 
 //get tuition details
-router.get("/get-tuition-detail/:token",getTuitionDetailController)
+router.get("/get-tuition-detail/:token", getTuitionDetailController)
+
+
+//get || filter students
+router.post("/get-filtered-students/:token", getFilteredStudentsController);
 export default router;

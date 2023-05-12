@@ -308,7 +308,7 @@ export const getStudentController = async (req, res) => {
   try {
     const {token} = req.params
     const _id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
-    console.log(_id);
+    // console.log(_id);
     const students = await studentModel.find({tuition_db_id:_id});
     res.status(200).send({
       success: true,
@@ -327,11 +327,12 @@ export const getStudentController = async (req, res) => {
 // put  confirm student
 export const confirmStudentController = async (req, res) => {
   try {
-    const { confirm } = req.body;
+    const {modalFees} = req.body
     const { id } = req.params;
+    // console.log(modalFees,id);
     const student = await studentModel.findByIdAndUpdate(
-      id,
-      { confirm },
+      {_id:id},
+      { confirm:true,feesPerMonth:modalFees },
       { new: true }
     );
     res.status(200).send({
@@ -478,5 +479,48 @@ export const deleteTuitionProfileController = async (req, res) => {
       message: "Error in Deleting Account",
       error,
     });
+  }
+}
+
+//get || filtered students (dropdown based)
+export const getFilteredStudentsController = async (req, res) => {
+  try {
+    const { token } = req.params
+    const { confirm, standard, name } = req.body
+    console.log(req.body);
+    const _id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+    if (confirm && standard && name) {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
+        confirm,
+        standard,
+        name,
+      });
+      // console.log(students);
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    } else if (confirm && standard) {
+      const students = await studentModel.find({
+        tuition_db_id: _id,
+        confirm,
+        standard,
+        name,
+      });
+      // console.log(students);
+      res.status(200).send({
+        success: true,
+        message: "Filtered Applied Successfully",
+        students,
+      });
+    }
+  } catch (error) {
+     res.status(500).send({
+       success: false,
+       message: "Error in Fetching Details",
+       error,
+     });
   }
 }

@@ -22,6 +22,7 @@ export const storeStudent = createAsyncThunk(
     try{
       return {
         student: data.student,
+        filteredStudents:data.students
       };
     }
     catch(error){
@@ -29,3 +30,31 @@ export const storeStudent = createAsyncThunk(
     }
   }
 )
+export const filteredStudents = createAsyncThunk(
+  "student/filteredStudents",
+  async (data) => {
+    // console.log(data);
+    try{
+      return {
+        filteredStud:data.students
+      };
+    }
+    catch(error){
+      throw error;
+    }
+  }
+)
+export const filterAppliedStudents = createAsyncThunk(
+  "student/filterAppliedStudents",
+  async (data) => {
+    // console.log(data);
+    try {
+      return {
+        filterAppliedStud: data.students,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+

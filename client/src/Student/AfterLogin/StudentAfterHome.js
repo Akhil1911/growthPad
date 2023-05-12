@@ -132,7 +132,7 @@ const StudentAfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Fees Per Month :- pending work...
+            Fees Per Month :- {studProfile.feesPerMonth}
           </Typography>
           <Stack mb={3} m={3} justifyContent={"center"} alignContent={"center"}>
             <Button

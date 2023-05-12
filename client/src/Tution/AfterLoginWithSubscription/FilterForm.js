@@ -1,21 +1,50 @@
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
-const FilterForm = () => {
+const FilterForm = ({token}) => {
+
+  const cookies = new Cookies()
   const [confirm, setConfirm] = useState("None");
   const [feesstatus, setFeesstatus] = useState("None");
   const [standard, setStandard] = useState("None");
   const [keywords, setKeywords] = useState("");
+
+  const handleFilters = async () => {
+    try {
+      if (
+        confirm !== "None" ||
+        feesstatus !== "None" ||
+        standard !== "None" ||
+        keywords !== ""
+      ) {
+        // console.log(keywords);
+        const response = await axios.post(
+          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-students/${token}`,{confirm,standard,keywords}
+        );
+        console.log(response.data);
+      } else {
+        ///
+      }
+    } catch (error) {}
+  };
+
   return (
     <>
       <Stack
-        direction="row"
+        direction={{
+          lg: "row",
+          md: "row",
+          sm: "column",
+          xs: "column",
+        }}
         justifyContent="flex-start"
         alignItems="center"
-        spacing={3}
+        spacing={2}
         m={4}
       >
         {/* <FormControl sx={{ m: 1, minWidth: 120 }}> */}
@@ -34,20 +63,20 @@ const FilterForm = () => {
         <Typography>Confirmation</Typography>
         <div>
           <Select
-            defaultValue={confirm}
+            defaultValue={'None'}
             onChange={(e) => {
               setConfirm(e.target.value);
             }}
           >
             <MenuItem value="None">None</MenuItem>
-            <MenuItem value={"confirm"}>Confirm</MenuItem>
-            <MenuItem value={"not confirmed"}>Not Confirmed</MenuItem>
+            <MenuItem value={"true"}>Confirm</MenuItem>
+            <MenuItem value={"false"}>Not Confirmed</MenuItem>
           </Select>
         </div>
         <Typography>Standard</Typography>
         <div>
           <Select
-            defaultValue={standard}
+            defaultValue={'None'}
             onChange={(e) => {
               setStandard(e.target.value);
             }}
@@ -70,7 +99,7 @@ const FilterForm = () => {
         <Typography>Fees Status</Typography>
         <div>
           <Select
-            defaultValue={feesstatus}
+            defaultValue={'None'}
             onChange={(e) => {
               setFeesstatus(e.target.value);
             }}
@@ -80,7 +109,14 @@ const FilterForm = () => {
             <MenuItem value={"paid"}>Paid</MenuItem>
           </Select>
         </div>
-        <Button variant="contained" size={"large"} color="success">
+        <Button
+          variant="contained"
+          size={"large"}
+          color="success"
+          onClick={() => {
+            handleFilters();
+          }}
+        >
           Submit
         </Button>
         <Button variant="contained" size={"large"} color="error">
