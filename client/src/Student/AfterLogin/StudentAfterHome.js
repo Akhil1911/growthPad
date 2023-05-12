@@ -24,6 +24,7 @@ const StudentAfterHome = () => {
   };
 
   useEffect(() => {
+    document.title = "Student - Home";
     if (localStorage.getItem("stutoken")) {
       let token = localStorage.getItem("stutoken");
       cookies.set("stutoken", token);

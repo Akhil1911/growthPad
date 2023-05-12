@@ -180,9 +180,6 @@ function SidebarWithAppbar() {
               >
                 <Typography textAlign="center">My Profile</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">View Subscription</Typography>
-              </MenuItem>
               <MenuItem
                 onClick={() => {
                   localStorage.removeItem("subtoken");

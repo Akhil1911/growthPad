@@ -56,6 +56,7 @@ const ViewStudents = () => {
   };
 
   useEffect(() => {
+    document.title = "Tuition - View Students"
     if (localStorage.getItem("subtoken")) {
       cookies.set("subtoken", localStorage.getItem("subtoken"));
       getStudents();

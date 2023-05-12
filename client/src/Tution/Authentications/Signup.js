@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
@@ -19,6 +19,9 @@ import '../../Home/HomeForAll.css'
 import CheckingTokens from "../../Tools/CheckingTokens";
 
 const Signup = () => {
+  useEffect(() => {
+    document.title = "Tuition - Signup";
+  }, []);
   // useEffect(() => {console.log(process.env.URL_LINK);}, []);
 
   const [values, setValues] = React.useState({

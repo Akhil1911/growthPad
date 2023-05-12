@@ -36,6 +36,7 @@ const StudentProfile = () => {
   };
 
   useEffect(() => {
+    document.title = "My Profile";
     if (localStorage.getItem("stutoken")) {
       let token = localStorage.getItem("stutoken");
       cookies.set("stutoken", token);

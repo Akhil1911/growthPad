@@ -37,6 +37,7 @@ const TuitionProfile = () => {
   };
 
   useEffect(() => {
+    document.title = "My Profile";
     if (!cookies.get("token") && !cookies.get("subtoken")) {
       navigate("/login");
     } else {

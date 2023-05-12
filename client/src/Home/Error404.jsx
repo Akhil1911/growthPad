@@ -9,6 +9,7 @@ const Error404 = () => {
   const [count, setCount] = useState(5);
 
   useEffect(() => {
+    document.title = "404 - Page Not Found";
     const interval = setInterval(() => {
       setCount((prevValue) => --prevValue);
     }, 1000);

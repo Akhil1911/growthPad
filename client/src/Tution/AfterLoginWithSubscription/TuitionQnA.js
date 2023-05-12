@@ -61,7 +61,8 @@ const TuitionQnA = () => {
         }
         // console.log(response)
     }
-     useEffect(() => {
+  useEffect(() => {
+         document.title = "Tuition - QnA";
        if (localStorage.getItem("subtoken")) {
         cookies.set("subtoken",localStorage.getItem("subtoken"))
         getQnaList()

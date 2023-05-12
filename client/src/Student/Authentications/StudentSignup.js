@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
@@ -21,6 +21,9 @@ import "../../Home/HomeForAll.css";
 import CheckingStuTokens from "../../Tools/CheckingStuTokens";
 
 const StudentSignup = () => {
+  useEffect(() => {
+    document.title = "Student - Signup";
+  },[])
   const [values, setValues] = React.useState({
     showPassword: false,
   });

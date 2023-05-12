@@ -7,8 +7,8 @@ import {
 import JWT from "jsonwebtoken";
 import tuitionModel from "../models/tuitionModel.js";
 import studentModel from "../models/studentModel.js";
-import qnaModel from "../models/qnaModel.js"
-
+import qnaModel from "../models/qnaModel.js";
+import orderModel from "../models/orderModel.js"
 //Tuition register controlleer
 
 export const registerController = async (req, res) => {
@@ -380,7 +380,7 @@ export const authTuitionController = async (req, res) => {
     const tuition = await tuitionModel.findOne({ _id: id });
     res.status(200).send({
       user: {
-        id:tuition._id,
+        id: tuition._id,
         name: tuition.name,
         email: tuition.email,
         address: tuition.address,
@@ -414,9 +414,13 @@ export const updateTuitionProfileController = async (req, res) => {
     } = req.body;
     // console.log(email);
     // const tuition = await tuitionModel.findOne({email})
-    const student = await studentModel.findOneAndUpdate({tuition_db_id:id},{
-      tuition_class_name
-    },{new:true})
+    const student = await studentModel.findOneAndUpdate(
+      { tuition_db_id: id },
+      {
+        tuition_class_name,
+      },
+      { new: true }
+    );
     const tuition = await tuitionModel.findOneAndUpdate(
       { email },
       {
@@ -598,12 +602,12 @@ export const getFilteredStudentsController = async (req, res) => {
 
 //submit answer controller
 
-export const submitAnswerController = async(req,res)=>{
+export const submitAnswerController = async (req, res) => {
   try {
     const { modalAnswer } = req.body;
-    console.log(modalAnswer)
+    console.log(modalAnswer);
     const { id } = req.params;
-    console.log(id)
+    console.log(id);
     const submit = await qnaModel.findByIdAndUpdate(
       { _id: id },
       { answer: modalAnswer },
@@ -621,17 +625,17 @@ export const submitAnswerController = async(req,res)=>{
       error,
     });
   }
-}
+};
 
 //delete question
-export const deleteQuestionHandler = async(req,res)=>{
+export const deleteQuestionHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await qnaModel.findByIdAndDelete({_id:id})
+    const data = await qnaModel.findByIdAndDelete({ _id: id });
     res.status(200).send({
-      success:true,
-      message:"Deleted Successfully"
-    })
+      success: true,
+      message: "Deleted Successfully",
+    });
   } catch (error) {
     res.status(500).send({
       success: false,
@@ -639,16 +643,40 @@ export const deleteQuestionHandler = async(req,res)=>{
       error,
     });
   }
-
-}
+};
 
 //update subscribe
-export const updateSubscribeController = async(req,res)=>{
+export const updateSubscribeController = async (req, res) => {
   try {
-    const {tuition_id} = req.body
-    const tuition = await tuitionModel.findByIdAndUpdate({_id:tuition_id},{subscribed:true},{new:true})
+    const { tuition_id } = req.body;
+    const tuition = await tuitionModel.findByIdAndUpdate(
+      { _id: tuition_id },
+      { subscribed: true },
+      { new: true }
+    );
     res.send({
-      success:true,
+      success: true,
+      tuition,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Deleting Account",
+      error,
+    });
+  }
+};
+
+// get || subscri.. details
+export const getSubscriptionDetailsController = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const tuition_id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+    // console.log(_id);
+    const tuition = await orderModel.findOne({ tuition_id });
+    res.status(200).send({
+      success: true,
+      message: "Fetched Successfully",
       tuition
     })
   } catch (error) {
@@ -658,4 +686,4 @@ export const updateSubscribeController = async(req,res)=>{
       error,
     });
   }
-}
+};

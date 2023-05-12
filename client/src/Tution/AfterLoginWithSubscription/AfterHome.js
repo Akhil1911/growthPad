@@ -16,8 +16,6 @@ const AfterHome = () => {
   const cookies = new Cookies();
   const tuiProfile = useSelector((state) => state.tuition.tuition);
   const getSettingState = async () => {
-   let temptoken = localStorage.getItem("subtoken");
-   cookies.set("subtoken", temptoken);
     const response = await axios.get(
       `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
         "subtoken"
@@ -33,9 +31,13 @@ const AfterHome = () => {
   };
 
   useEffect(() => {
+    document.title = "Subscribed Tuition - Home";
     if (localStorage.getItem("subtoken")) {
+      let temptoken = localStorage.getItem("subtoken");
+      cookies.set("subtoken", temptoken);
       getSettingState();
       getTuitoinDetails();
+      getSubscriptionDetails();
     } else if (localStorage.getItem("token")) {
       navigate("/tuition/home");
     } else {
@@ -61,6 +63,20 @@ const AfterHome = () => {
     // console.log(response.data);
     if (response.data.success) {
       setTutDetails(response.data.tuition);
+    }
+  };
+
+  const [subscriptionDetails, setSubscriptionDetails] = useState([]);
+
+  const getSubscriptionDetails = async () => {
+    const response = await axios.get(
+      `${
+        process.env.REACT_APP_URL_LINK
+      }/api/v1/tuition/get-subscription-detail/${cookies.get("subtoken")}`
+    );
+    console.log(response.data);
+    if (response.data.success) {
+      setSubscriptionDetails(response.data.tuition);
     }
   };
 
@@ -215,7 +231,7 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Name :- {tutDetails.name}
+            Name :- {subscriptionDetails.name}
           </Typography>
           <Typography
             variant="body1"
@@ -224,7 +240,7 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Email :- {tutDetails.email}
+            Price :- {subscriptionDetails.payment?.params.transaction.amount}
           </Typography>
           <Typography
             variant="body1"
@@ -233,7 +249,7 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Tuition Id :- {tutDetails.tuition_id}
+            Duration :- {subscriptionDetails.duration + " Years"}
           </Typography>
           <Typography
             variant="body1"
@@ -242,26 +258,18 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Tuition Class Name :- {tutDetails.tuition_class_name}
+            Purchased Date :- {subscriptionDetails.createdAt?.substring(0,10)}
           </Typography>
-          <Stack mb={3} m={3} justifyContent={"center"} alignContent={"center"}>
-            <Button
-              sx={{
-                fontSize: {
-                  lg: "large",
-                  md: "large",
-                  sm: "large",
-                  xs: "medium",
-                },
-              }}
-              variant="outlined"
-              color="darkColor"
-              onClick={() => {
-                navigate("/tuition/profile");
-              }}
-            >
-              View More
-            </Button>
+          <Typography
+            variant="body1"
+            fontWeight={"bold"}
+            fontFamily={"Comfortaa, cursive"}
+            color={"#254061"}
+            m={2}
+          >
+            Expires On :- {subscriptionDetails.expireDate}
+          </Typography>
+          <Stack mb={3} m={3} justifyContent={"center"} alignContent={"center"}>w
           </Stack>
         </Paper>
       </Stack>

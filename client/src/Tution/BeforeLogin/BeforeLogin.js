@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useEffect} from "react";
 import BeforeAppbar from "./BeforeAppbar";
 import Features from "./Features";
 import RegisterNow from "./RegisterNow";
 import CheckingTokens from "../../Tools/CheckingTokens";
 
 const BeforeLogin = () => {
+  useEffect(() => {
+    document.title = "Tuition - Home";
+  }, []);
 
   const featureAry = [
     {

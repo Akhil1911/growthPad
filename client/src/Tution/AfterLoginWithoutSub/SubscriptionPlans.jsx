@@ -1,15 +1,15 @@
-import React, { useState,useEffect } from "react";
-import { Button, Box, Stack, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Box, Stack, Typography, duration } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import DoneIcon from "@mui/icons-material/Done";
 import "./Styles.css";
 import Modal from "@mui/material/Modal";
-import {useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 import DropIn from "braintree-web-drop-in-react";
-import {showToast} from "../../Tools/showToast"
-import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
-import Cookies from 'universal-cookie'
+import { showToast } from "../../Tools/showToast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 const style = {
   position: "absolute",
   top: "50%",
@@ -22,60 +22,65 @@ const style = {
   p: 4,
 };
 const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
-  const navigate = useNavigate()
-  const cookies = new Cookies()
-    const [clientToken, setClientToken] = useState("");
-    const [instance, setInstance] = useState("");
-  const tuition_id = useSelector((state)=>state.tuition.tuition?.id)
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const [clientToken, setClientToken] = useState("");
+  const [instance, setInstance] = useState("");
+  const tuition_id = useSelector((state) => state.tuition.tuition?.id);
   const [tempId, setTempId] = useState(1);
   const [modalAmount, setmodalAmount] = useState("0");
+  const [modalName, setmodalName] = useState("0");
+  const [modalDuration, setmodalDuration] = useState("0");
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (price) => {
-    setOpen(true)
-    setmodalAmount(price)
+  const handleOpen = (price,name,duration) => {
+    setOpen(true);
+    setmodalAmount(price);
+    setmodalName(name);
+    setmodalDuration(duration)
   };
-   const getToken = async () => {
-     try {
-       const { data } = await axios.get(
-         `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/token`
-       );
-       setClientToken(data?.clientToken);
-       console.log(data)
-     } catch (error) {
-       console.log(error);
-     }
-   };
-   useEffect(() => {
-     getToken();
-   }, []);
-    const handlePayment = async () => {
-      try {
-        
-        const { nonce } = await instance.requestPaymentMethod();
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/payment`,
-          {
-            nonce,
-            amount: modalAmount,
-            tuition_id,
-            student_id: "",
-          }
-        );
-      
-        const response = await axios.put(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-update-subscribe`,{tuition_id}
-          );
-          if(response.data.success){
-          showToast("SUCCESS","Payment Completed Successfully ");
-          cookies.remove("token")
-          localStorage.removeItem("token")
-          navigate("/login")
+  const getToken = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/token`
+      );
+      setClientToken(data?.clientToken);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getToken();
+  }, []);
+  const handlePayment = async () => {
+    try {
+      const { nonce } = await instance.requestPaymentMethod();
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/payment`,
+        {
+          nonce,
+          amount: modalAmount,
+          tuition_id,
+          name: modalName,
+          duration:modalDuration,
+          student_id: "",
         }
-      } catch (error) {
-        console.log(error);
-       
+      );
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-update-subscribe`,
+        { tuition_id }
+      );
+      if (response.data.success) {
+        showToast("SUCCESS", "Payment Completed Successfully ");
+        cookies.remove("token");
+        localStorage.removeItem("token");
+        navigate("/login");
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleClose = () => setOpen(false);
   return (
     <>
@@ -159,7 +164,7 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
                 </Typography>
                 <Button
                   onClick={() => {
-                    handleOpen(price);
+                    handleOpen(price,name,duration);
                   }}
                   sx={{ m: "auto" }}
                   variant={"contained"}

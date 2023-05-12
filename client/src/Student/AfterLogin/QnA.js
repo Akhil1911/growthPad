@@ -49,7 +49,8 @@ const QnA = () => {
           setqueList(response.data.questions);
           // console.log(queList);
     }
-    useEffect(() => {
+  useEffect(() => {
+    document.title = "Student - QnA";
       if (localStorage.getItem("stutoken")) {
         let token = localStorage.getItem("stutoken");
         cookies.set("stutoken", token);

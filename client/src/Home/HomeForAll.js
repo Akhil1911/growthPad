@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import "./HomeForAll.css";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
 
 const HomeForAll = () => {
+  useEffect(() => {
+    document.title = "Growthpad - Home"
+  },[])
   return (
     <>
       <div className="image2">

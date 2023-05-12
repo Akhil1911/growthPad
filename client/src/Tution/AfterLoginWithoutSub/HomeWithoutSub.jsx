@@ -28,6 +28,7 @@ const HomeWithoutSub = () => {
   const navigate = new useNavigate();
   const cookies = new Cookies();
   useEffect(() => {
+    document.title = "Tuition - Home";
     if (localStorage.getItem("token")) {
       getSettingState();
     } else if (localStorage.getItem("subtoken")) {

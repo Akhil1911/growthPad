@@ -17,6 +17,9 @@ import "../../Home/HomeForAll.css";
 import CheckingTokens from "../../Tools/CheckingTokens";
 const cookie = new Cookies();
 const Login = () => {
+   useEffect(() => {
+     document.title = "Tuition - Login";
+   }, []);
   const [values, setValues] = React.useState({
     showPassword: false,
   });

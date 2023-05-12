@@ -40,141 +40,68 @@ const HomeAppBar = () => {
 
   return (
     <>
-      <AppBar
-        position="static"
-        style={{ backgroundColor: "#254061", height: "auto" }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              GrowthPad
-            </Typography>
-
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar
+          position="static"
+          style={{ backgroundColor: "#254061", height: "auto" }}
+        >
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Button
+                onClick={()=>navigate("/tuition/home")}
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  flexGrow: 1,
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
                 }}
               >
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Home</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">About Us</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Contact Us</Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-            <Typography
-              variant="h5"
-              noWrap
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              ASK
+                GrowthPad
+              </Button>
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                Home
-              </Button>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                About Us
-              </Button>
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                Contact Us
-              </Button>
-            </Box>
-
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="View Profile">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Profile Pic" src="" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+            <Tooltip title="View Profile">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Profile Pic" src="" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem
+                onClick={() => {
+                  navigate("/tuition/profile");
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
-                <MenuItem
-                  onClick={() => {
-                    navigate("/tuition/profile");
-                  }}
-                >
-                  <Typography textAlign="center">My Profile</Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    cookies.remove("token");
-                    localStorage.removeItem('token')
-                    navigate("/login");
-                  }}
-                >
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
+                <Typography textAlign="center">My Profile</Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  cookies.remove("token");
+                  localStorage.removeItem("token");
+                  navigate("/login");
+                }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
+            </Menu>
           </Toolbar>
-        </Container>
-      </AppBar>
+        </AppBar>
+      </Box>
     </>
   );
 };

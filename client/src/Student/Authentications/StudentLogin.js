@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
@@ -17,6 +17,9 @@ import { storeStudent } from "../../Store/thunk";
 import Cookies from 'universal-cookie'
 import CheckingStuTokens from "../../Tools/CheckingStuTokens";
 const StudentLogin = () => {
+  useEffect(() => {
+    document.title = "Student - Login";
+  },[])
   const [values, setValues] = React.useState({
     showPassword: false,
   });

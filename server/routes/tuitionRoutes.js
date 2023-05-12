@@ -1,5 +1,5 @@
 import express from "express";
-import { confirmStudentController, deleteQuestionHandler, getFilteredStudentsController, getStudentController, getTuitionDetailController, removeStudentController, submitAnswerController, updateSubscribeController, updateTuitionProfileController } from "../controllers/authControllers.js";
+import { confirmStudentController, deleteQuestionHandler, getFilteredStudentsController, getStudentController, getSubscriptionDetailsController, getTuitionDetailController, removeStudentController, submitAnswerController, updateSubscribeController, updateTuitionProfileController } from "../controllers/authControllers.js";
 
 
 
@@ -37,5 +37,8 @@ router.put("/tuition-submit-answer/:id", submitAnswerController);
 router.delete("/tuition-delete-question/:id",deleteQuestionHandler)
 
 //update subscribe
-router.put("/tuition-update-subscribe",updateSubscribeController)
+router.put("/tuition-update-subscribe", updateSubscribeController)
+
+//get subscription details
+router.get("/get-subscription-detail/:token", getSubscriptionDetailsController);
 export default router;

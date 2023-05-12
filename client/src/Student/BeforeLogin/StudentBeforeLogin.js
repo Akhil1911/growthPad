@@ -1,10 +1,13 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import StudentBeforeAppbar from "./StudentBeforeAppbar";
 import Features from './Features'
 import StudentRegister from './StudentRegister';
 import CheckingStuTokens from '../../Tools/CheckingStuTokens';
 
 const StudentBeforeLogin = () => {
+  useEffect(() => {
+    document.title = "Student - Home";
+  },[])
     const featureAry = [
       {
         src: "../images/notice.png",
