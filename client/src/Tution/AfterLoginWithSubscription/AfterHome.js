@@ -74,7 +74,6 @@ const AfterHome = () => {
         process.env.REACT_APP_URL_LINK
       }/api/v1/tuition/get-subscription-detail/${cookies.get("subtoken")}`
     );
-    console.log(response.data);
     if (response.data.success) {
       setSubscriptionDetails(response.data.tuition);
     }
@@ -231,7 +230,7 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Name :- {subscriptionDetails.name}
+            Name :- {subscriptionDetails.name + " Subscription"}
           </Typography>
           <Typography
             variant="body1"
@@ -240,7 +239,8 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Price :- {subscriptionDetails.payment?.params.transaction.amount}
+            Price :-{" "}
+            {subscriptionDetails.payment?.params.transaction.amount + " ₹"}
           </Typography>
           <Typography
             variant="body1"
@@ -258,7 +258,7 @@ const AfterHome = () => {
             color={"#254061"}
             m={2}
           >
-            Purchased Date :- {subscriptionDetails.createdAt?.substring(0,10)}
+            Purchased Date :- {subscriptionDetails.createdAt?.substring(0, 10)}
           </Typography>
           <Typography
             variant="body1"
@@ -269,8 +269,12 @@ const AfterHome = () => {
           >
             Expires On :- {subscriptionDetails.expireDate}
           </Typography>
-          <Stack mb={3} m={3} justifyContent={"center"} alignContent={"center"}>w
-          </Stack>
+          <Stack
+            mb={3}
+            m={3}
+            justifyContent={"center"}
+            alignContent={"center"}
+          ></Stack>
         </Paper>
       </Stack>
     </>

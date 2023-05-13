@@ -1,5 +1,5 @@
 import express from "express";
-import { confirmStudentController, deleteQuestionHandler, getFilteredStudentsController, getStudentController, getSubscriptionDetailsController, getTuitionDetailController, removeStudentController, submitAnswerController, updateSubscribeController, updateTuitionProfileController } from "../controllers/authControllers.js";
+import { confirmStudentController, deleteQuestionHandler, getFilteredStudentFeesBasedController, getFilteredStudentsController, getStudentController, getSubscriptionDetailsController, getTuitionDetailController, removeStudentController, submitAnswerController, updateSubscribeController, updateTuitionProfileController } from "../controllers/authControllers.js";
 
 
 
@@ -41,4 +41,7 @@ router.put("/tuition-update-subscribe", updateSubscribeController)
 
 //get subscription details
 router.get("/get-subscription-detail/:token", getSubscriptionDetailsController);
+
+//get || filter students payments based
+router.post("/get-filtered-feesBased-students/:token", getFilteredStudentFeesBasedController);
 export default router;

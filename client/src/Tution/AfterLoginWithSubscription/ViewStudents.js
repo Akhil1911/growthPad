@@ -190,6 +190,9 @@ const ViewStudents = () => {
                     <Typography variant="body1" mb={1}>
                       Fees: {value.feesPerMonth}
                     </Typography>
+                    <Typography variant="body1" mb={1}>
+                      Fees Status: {value?.feesStatus}
+                    </Typography>
                     <div>
                       {/* <Button onClick={()=>{handleOpen(value._id,value.name,value.feesPerMonth,value.confirm)}}>Open modal</Button> */}
                       <Modal

@@ -2,6 +2,7 @@ import JWT from "jsonwebtoken";
 import tuitionModel from "../models/tuitionModel.js";
 import studentModel from "../models/studentModel.js";
 import qnaModel from "../models/qnaModel.js";
+import feesModal from "../models/feesModal.js";
 
 //get student details controller
 
@@ -138,3 +139,81 @@ export const getAllQuestionController = async(req,res)=>{
     });
   }
 }
+
+export const getFeesDetailsController = async (req, res) => {
+  try {
+    const { student_id,tuition_id } = req.body;
+    // console.log(student_id, tuition_id);
+    const student = await feesModal.findOne({ student_id, tuition_id });
+    if (student) {
+     res.status(200).send({
+       success: true,
+       message: "Fetched Successfully",
+       student,
+     }); 
+    } else {
+      res.status(201).send({
+        success: false,
+        message: "No Data Found",
+        student,
+      });
+    }
+    // console.log(student);
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Error in server",
+      err,
+    });
+  }
+}
+
+//update fees status
+export const updateFeesStatusController = async (req, res) => {
+    try {
+      const { email } = req.body;
+      console.log(email);
+      const student = await studentModel.findOneAndUpdate(
+        { email },
+        { feesStatus: "Paid" },
+        { new: true }
+      );
+      console.log(student);
+      res.status(200).send({
+        success: true,
+        message: "Updated Successfully",
+        student,
+      });
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+        message: "Error in Updating",
+        error,
+      });
+    }
+}
+
+//update fees status pending
+export const updateFeesStatusPendingController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log(email);
+    const student = await studentModel.findOneAndUpdate(
+      { email },
+      { feesStatus: "Pending" },
+      { new: true }
+    );
+    console.log(student);
+    res.status(200).send({
+      success: true,
+      message: "Updated Successfully",
+      student,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in Updating",
+      error,
+    });
+  }
+};

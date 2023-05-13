@@ -202,8 +202,6 @@ const TuitionProfile = () => {
                   showToast("ERROR", "Please Update Someting");
                 } else {
                   try {
-                    console.log(tuiProfile);
-
                     const response = await axios.put(
                       `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile`,
                       {

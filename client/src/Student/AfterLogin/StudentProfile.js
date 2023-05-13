@@ -176,7 +176,6 @@ const StudentProfile = () => {
                       }
                     );
                     if (response.data.success) {
-                      console.log(response.data);
                       showToast("SUCCESS", `${response.data.message}`);
                       // dispatch(storeStudent(response.data.student));
                       navigate("/student/profile");

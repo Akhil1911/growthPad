@@ -16,20 +16,33 @@ import ViewStudents from "./Tution/AfterLoginWithSubscription/ViewStudents";
 import StudentProfile from "./Student/AfterLogin/StudentProfile";
 import QnA from "./Student/AfterLogin/QnA";
 import TuitionQnA from "./Tution/AfterLoginWithSubscription/TuitionQnA";
+import ViewPayments from "./Tution/AfterLoginWithSubscription/ViewPayments";
+import AdminLogin from "./admin/adminLogin";
+import AdminHome from "./admin/AdminHome";
+import ViewAllStudents from "./admin/ViewAllStudents";
 const Routing = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/adminhome" element={<AdminHome />} />
+          <Route path="/admin/view-students" element={<ViewAllStudents />} />
+          {/* ///////////////////////////////////////// */}
           <Route exact path="/" element={<HomeForAll />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Signup />} />
           <Route exact path="/home" element={<BeforeLogin />} />
-          <Route exact path="/tuition/QnA" element={<TuitionQnA/>} />
+          <Route exact path="/tuition/QnA" element={<TuitionQnA />} />
           <Route
             exact
             path="/tuition/subscribed/view-students"
             element={<ViewStudents />}
+          />
+          <Route
+            exact
+            path="/tuition/subscribed/view-payments"
+            element={<ViewPayments />}
           />
           <Route
             exact

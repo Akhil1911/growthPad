@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 
-function SidebarWithAppbar() {
+const AdminAppbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const cookies = new Cookies();
@@ -53,13 +53,13 @@ function SidebarWithAppbar() {
             }}
           >
             <Link
-              to={"/tuition/subscribed/home"}
+              to={"/adminhome"}
               style={{
                 textDecoration: "none",
                 color: "white",
               }}
             >
-              GrowthPad
+              Admin
             </Link>
           </Typography>
 
@@ -94,24 +94,10 @@ function SidebarWithAppbar() {
             >
               <MenuItem
                 onClick={() => {
-                  navigate("/tuition/subscribed/view-students");
+                  navigate("/admin/view-students");
                 }}
               >
                 <Typography textAlign="center">View Students</Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/tuition/QnA");
-                }}
-              >
-                <Typography textAlign="center">QnA</Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/tuition/subscribed/view-payments");
-                }}
-              >
-                <Typography textAlign="center">View Payments</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -130,85 +116,56 @@ function SidebarWithAppbar() {
             }}
           >
             <Link
-              to={"/tuition/subscribed/home"}
+              to={"/adminhome"}
               style={{
                 textDecoration: "none",
                 color: "white",
               }}
             >
-              GrowthPad
+              Admin
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={() => {
-                navigate("/tuition/subscribed/view-students");
+                navigate("/admin/view-students");
               }}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               View Students
             </Button>
-            <Button
-              onClick={() => {
-                navigate("/tuition/QnA");
-              }}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Q/A
-            </Button>
-            <Button
-              onClick={() => {
-                navigate("/tuition/subscribed/view-payments");
-              }}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              View Payments
-            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+            <MenuItem
+              onClick={() => {
+                localStorage.removeItem("admintoken");
+                cookies.remove("admintoken");
+                navigate("/");
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              <MenuItem
-                onClick={() => {
-                  navigate("/tuition/profile");
+              <Typography
+                textAlign="center"
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
                 }}
               >
-                <Typography textAlign="center">My Profile</Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  localStorage.removeItem("subtoken");
-                  cookies.remove("subtoken");
-                  navigate("/login");
-                }}
-              >
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
-            </Menu>
+                Logout
+              </Typography>
+            </MenuItem>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
-export default SidebarWithAppbar;
+};
+
+export default AdminAppbar;

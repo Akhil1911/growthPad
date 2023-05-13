@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes.js'
 import tuitionRoutes from './routes/tuitionRoutes.js'
 import studentRoutes from './routes/studentRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
+import adminRoutes from './routes/adminRoutes.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 const app = express()
@@ -23,14 +24,10 @@ app.use("/api/v1/auth",authRoutes)
 app.use("/api/v1/tuition", tuitionRoutes);
 app.use("/api/v1/student", studentRoutes);
 app.use("/api/v1/payment", paymentRoutes)
+app.use("/api/v1/admin",adminRoutes)
 
 //Listening to a Port number 
 app.listen(port,()=>{
     console.log(`Listening..... ${port}`)
 })
 
-//home page demo
-app.get('/getToken',(req,res)=>{
-    console.log(req.cookies("token"));
-    return req.cookies.token
-})

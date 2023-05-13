@@ -62,14 +62,19 @@ const studentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    token:{
-      type:String,
-      default:""
+    token: {
+      type: String,
+      default: "",
     },
-    feesPerMonth:{
-      type:String,
-      default:"0"
-    }
+    feesPerMonth: {
+      type: String,
+      default: "0",
+    },
+    feesStatus: {
+      type: String,
+      default: "Pending",
+      enum: ["Pending","Paid"],
+    },
   },
   { timestamps: true }
 );

@@ -29,8 +29,8 @@ const QnA = () => {
         const student_id = studProfile._id
         const {name,email} = studProfile
         const tuition_db_id = tuiProfile._id
-        console.log(student_id,name,email,tuition_db_id)
-        console.log(que)
+        // console.log(student_id,name,email,tuition_db_id)
+        // console.log(que)
         const response =await axios.post(
           `${process.env.REACT_APP_URL_LINK}/api/v1/student/submit-question`,{student_id,name,email,tuition_db_id,que}
         );

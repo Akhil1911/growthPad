@@ -10,6 +10,7 @@ import { showToast } from "../../Tools/showToast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -21,6 +22,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -44,9 +46,8 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
         `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/token`
       );
       setClientToken(data?.clientToken);
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      showToast("ERROR","Something Went Wrong")
     }
   };
   useEffect(() => {
@@ -78,7 +79,8 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+            showToast("ERROR", "Something Went Wrong");
+
     }
   };
   const handleClose = () => setOpen(false);

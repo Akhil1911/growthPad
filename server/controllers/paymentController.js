@@ -1,6 +1,7 @@
 import braintree from "braintree";
 import orderModel from "../models/orderModel.js";
 import dotenv from "dotenv";
+import feesModal from "../models/feesModal.js";
 dotenv.config();
 var gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox,
@@ -59,3 +60,37 @@ export const brainTreePaymentController = async (req, res) => {
     console.log(error);
   }
 };
+
+export const brainTreeStudentFeesPaymentController = async (req, res) => {
+   try {
+     const { nonce,tuition_id, student_id,amount } = req.body;
+     
+     let newTransaction = gateway.transaction.sale(
+       {
+         amount: amount,
+         paymentMethodNonce: nonce,
+         options: {
+           submitForSettlement: true,
+         },
+       },
+       function (error, result) {
+         if (result) {
+           const fees = new feesModal({
+             tuition_id,
+             payment: result,
+             student_id,
+             fees:amount
+           }).save();
+           res.send({
+             success: true,
+             message: "Fees Paid Successfully",
+           });
+         } else {
+           res.status(500).send(error);
+         }
+       }
+     );
+   } catch (error) {
+     console.log(error);
+   }
+}

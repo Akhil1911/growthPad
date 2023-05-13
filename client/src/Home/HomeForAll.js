@@ -1,15 +1,40 @@
 import React,{useEffect} from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import "./HomeForAll.css";
-import { Link } from "react-router-dom";
-import ReactPlayer from "react-player";
+import { Link, useNavigate } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 const HomeForAll = () => {
+  const navigate = useNavigate()
   useEffect(() => {
     document.title = "Growthpad - Home"
   },[])
   return (
     <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: "#254061" }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                flexGrow: 1,
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              Growthpad
+            </Typography>
+            <Button color="inherit" onClick={() => navigate("/adminlogin")}>
+              ADMIN
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <div className="image2">
         {/* <img
           src="../images/bgHome.jpg"
@@ -31,9 +56,15 @@ const HomeForAll = () => {
             sx={{
               fontSize: {
                 lg: "4rem",
-                md: "4rem",
-                sm: "3rem",
+                md: "3rem",
+                sm: "2rem",
                 xs: "2rem",
+              },
+              mt: {
+                lg: 1,
+                md: 1,
+                sm: 2,
+                xs: 2,
               },
             }}
           >
@@ -111,10 +142,11 @@ const HomeForAll = () => {
             <h3 className="joinusas">Everything under one roof</h3> <br />
             {
               <p className="joinusas">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Et
-                malesuada fames ac turpis egestas sed. Malesuada fames ac turpis
-                egestas maecenas.
+                Join growthpad, to get easy access <br />
+                <br />
+                Get everything under one roof, easy to use <br />
+                <br />
+                No registration fees
               </p>
             }
           </div>
@@ -129,10 +161,13 @@ const HomeForAll = () => {
             <h3 className="joinusas">Fees Payment</h3> <br />
             {
               <p className="joinusas">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Et
-                malesuada fames ac turpis egestas sed. Malesuada fames ac turpis
-                egestas maecenas.
+                <br />
+                <br />
+                Using Growthpad, Tuition owner can easily handle fees
+                payments,and can give penalty for late fees payments
+                <br />
+                <br />
+                Students can easily pay fees on a single click
               </p>
             }
           </div>
@@ -147,10 +182,13 @@ const HomeForAll = () => {
             <h3 className="joinusas">Easy to use</h3> <br />
             {
               <p className="joinusas">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Et
-                malesuada fames ac turpis egestas sed. Malesuada fames ac turpis
-                egestas maecenas.
+                <br />
+                <br />
+                Its easy to use
+                <br />
+                <br />
+                Where efficiency meets convenience <br /><br/> We save you time and
+                effort
               </p>
             }
           </div>

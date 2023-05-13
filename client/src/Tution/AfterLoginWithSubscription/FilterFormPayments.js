@@ -7,25 +7,23 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { checkFilteredData, filterAppliedStudents } from "../../Store/thunk";
 import { clearFilterAppliedStudents } from "../../Store/student";
-import { showToast } from "../../Tools/showToast";
 
-const FilterForm = ({ token}) => {
-  const [confirm, setConfirm] = useState("None");
-  const [standard, setStandard] = useState("None");
+const FilterFormPayments = ({ token }) => {
+ 
+  const [feesStatus, setFeesstatus] = useState("None");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
 
   const handleFilters = async () => {
     try {
       if (
-        confirm !== "None" ||
-        standard !== "None" ||
+        feesStatus !== "None" ||
         name !== ""
       ) {
         // console.log(keywords);
         const response = await axios.post(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-students/${token}`,
-          { confirm, standard, name }
+          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-feesBased-students/${token}`,
+          { feesStatus, name }
         );
         if (response.data.success) {
           if (response.data.students.length === 0) {
@@ -70,40 +68,17 @@ const FilterForm = ({ token}) => {
             }}
           />
         </div>
-        <Typography>Confirmation</Typography>
+        <Typography>Fees Status</Typography>
         <div>
           <Select
-            value={confirm ? confirm : "None"}
+            value={feesStatus ? feesStatus : "None"}
             onChange={(e) => {
-              setConfirm(e.target.value);
+              setFeesstatus(e.target.value);
             }}
           >
-            <MenuItem value="None">None</MenuItem>
-            <MenuItem value={"true"}>Confirm</MenuItem>
-            <MenuItem value={"false"}>Not Confirmed</MenuItem>
-          </Select>
-        </div>
-        <Typography>Standard</Typography>
-        <div>
-          <Select
-            value={standard ? standard : "None"}
-            onChange={(e) => {
-              setStandard(e.target.value);
-            }}
-          >
-            <MenuItem value="None">None</MenuItem>
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={6}>6</MenuItem>
-            <MenuItem value={7}>7</MenuItem>
-            <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={9}>9</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={11}>11</MenuItem>
-            <MenuItem value={12}>12</MenuItem>
+            <MenuItem value="None">None...</MenuItem>
+            <MenuItem value={"Pending"}>Pending</MenuItem>
+            <MenuItem value={"Paid"}>Paid</MenuItem>
           </Select>
         </div>
         <Button
@@ -121,11 +96,11 @@ const FilterForm = ({ token}) => {
           size={"large"}
           color="error"
           onClick={() => {
-            setConfirm("None");
-            setStandard("None");
+            setFeesstatus("None");
+            setFeesstatus("None");
             setName("");
             dispatch(clearFilterAppliedStudents());
-            dispatch(checkFilteredData(false))
+            dispatch(checkFilteredData(false));
           }}
         >
           Reset
@@ -137,4 +112,4 @@ const FilterForm = ({ token}) => {
   );
 };
 
-export default FilterForm;
+export default FilterFormPayments;

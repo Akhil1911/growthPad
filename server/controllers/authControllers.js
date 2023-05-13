@@ -1,9 +1,4 @@
-import {
-  comparePassword,
-  generateStudentId,
-  generateTuitionId,
-  passwordHashing,
-} from "../helper/authHelper.js";
+import { passwordHashing,comparePassword,generateStudentId,generateTuitionId } from "../helper/authHelper.js";
 import JWT from "jsonwebtoken";
 import tuitionModel from "../models/tuitionModel.js";
 import studentModel from "../models/studentModel.js";
@@ -599,6 +594,63 @@ export const getFilteredStudentsController = async (req, res) => {
     });
   }
 };
+
+//get || filtered students (fees based)
+export const getFilteredStudentFeesBasedController = async (req, res) => {
+   try {
+     const { token } = req.params;
+     const { feesStatus , name } = req.body;
+     const _id = JWT.verify(token, process.env.JSONWEBTOKENKEY);
+     // console.log(_id,req.body);
+     if (feesStatus === "None"  && name === "") {
+       res.status(200).send({
+         success: false,
+         message: "No Filter Applied",
+       });
+     } else if (feesStatus !== "None"  && name === "") {
+       const students = await studentModel.find({
+         tuition_db_id: _id,
+         feesStatus,
+       });
+       // console.log(students);
+
+       res.status(200).send({
+         success: true,
+         message: "Filtered Applied Successfully",
+         students,
+       });
+     } else if (feesStatus === "None" && name !== "") {
+       const students = await studentModel.find({
+         tuition_db_id: _id,
+         $or: [{ name: { $regex: name, $options: "i" } }],
+       });
+       // console.log(students);
+       res.status(200).send({
+         success: true,
+         message: "Filtered Applied Successfully",
+         students,
+       });
+     } else {
+       const students = await studentModel.find({
+         tuition_db_id: _id,
+         feesStatus,
+         $or: [{ name: { $regex: name, $options: "i" } }],
+       });
+       console.log(students);
+       res.status(200).send({
+         success: true,
+         message: "Filtered Applied Successfully",
+         students,
+       });
+     }
+   } catch (error) {
+     res.status(500).send({
+       success: false,
+       message: "Error in Fetching Details",
+       error,
+     });
+   }
+}
 
 //submit answer controller
 

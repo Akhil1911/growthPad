@@ -151,7 +151,6 @@ const Signup = () => {
                   showToast("ERROR", `${response.data.message}`);
                 }
               } catch (error) {
-                console.log(error);
                 showToast("ERROR", "Something Went Wrong");
               }
             }}

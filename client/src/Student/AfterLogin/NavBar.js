@@ -92,9 +92,6 @@ function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Pay Fees</Typography>
-              </MenuItem>
               <MenuItem onClick={()=>{navigate("/student/QnA")}}>
                 <Typography textAlign="center">QnA</Typography>
               </MenuItem>
@@ -125,12 +122,6 @@ function NavBar() {
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Pay Fees
-            </Button>
             <Button
               onClick={()=>{navigate("/student/QnA");}}
               sx={{ my: 2, color: "white", display: "block" }}

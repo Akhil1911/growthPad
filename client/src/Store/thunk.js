@@ -47,7 +47,7 @@ export const filteredStudents = createAsyncThunk(
 export const filterAppliedStudents = createAsyncThunk(
   "student/filterAppliedStudents",
   async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       return {
         filterAppliedStud: data,
@@ -61,7 +61,7 @@ export const filterAppliedStudents = createAsyncThunk(
 export const checkFilteredData = createAsyncThunk(
   "student/checkFilteredData",
   async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       return {
         checkData: data,

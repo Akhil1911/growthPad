@@ -1,25 +1,21 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import { Link, useNavigate } from "react-router-dom";
-import { showToast } from "../../Tools/showToast";
-import StudentBeforeAppbar from "../BeforeLogin/StudentBeforeAppbar";
+import { useNavigate } from "react-router-dom";
+import { showToast } from "../Tools/showToast";
 import axios from "axios";
-import "../../Home/HomeForAll.css";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import { useDispatch } from "react-redux";
-import { storeStudent } from "../../Store/thunk";
-import Cookies from 'universal-cookie'
-import CheckingStuTokens from "../../Tools/CheckingStuTokens";
-const StudentLogin = () => {
+import "../Home/HomeForAll.css";
+import Cookies from "universal-cookie";
+import AdminAppbar from "./AdminAppbar"
+const AdminLogin = () => {
   useEffect(() => {
-    document.title = "Student - Login";
-  },[])
+    document.title = "Admin - Login";
+  }, []);
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -30,28 +26,21 @@ const StudentLogin = () => {
       showPassword: !values.showPassword,
     });
   };
-  const dispatch = useDispatch()
-  const navigate = useNavigate();
   const cookies = new Cookies()
+  const navigate = useNavigate();
   const initialValues = {
-    student_id: "",
-    email: "",
+    username: "",
     password: "",
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string("Enter valid email")
-      .required("Email is required")
-      .email("Enter valid email"),
-    password: Yup.string()
-      .required("Password is required"),
-    student_id: Yup.string().required("StudentID is required"),
+    username: Yup.string().required("Username is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   return (
     <>
-      <CheckingStuTokens/>
-      <StudentBeforeAppbar />
+      <AdminAppbar/>
       <Stack
         direction={{
           lg: "row",
@@ -65,9 +54,14 @@ const StudentLogin = () => {
           sm: "center",
           xs: "center",
         }}
+        alignItems={{
+          lg: "space-around",
+          md: "space-around",
+          sm: "center",
+          xs: "center",
+        }}
         spacing={2}
         marginTop={"4%"}
-        alignItems={"center"}
       >
         <Box
           sx={{
@@ -80,7 +74,7 @@ const StudentLogin = () => {
           }}
         >
           <img
-            src="../images/signup.png"
+            src="../images/AdminLogin.png"
             alt=""
             style={{
               width: "100%",
@@ -94,23 +88,20 @@ const StudentLogin = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={async (values, { resetForm }) => {
-              const { email, password, student_id } = values;
-              try {
+              const { username, password } = values;
+                try {
                 const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/auth/studentlogin`,
+                  `${process.env.REACT_APP_URL_LINK}/api/v1/admin/login`,
                   {
-                    email,
+                    username,
                     password,
-                    student_id,
                   }
                 );
-                if (response.data.success) {
-                  dispatch(storeStudent(response.data));
-                  resetForm();
-                  cookies.set("stutoken", response.data.token);
-                  localStorage.setItem("stutoken", response.data.token);
+                  if (response.data.success) {
                   showToast("SUCCESS", `${response.data.message}`);
-                  navigate("/studenthome");
+                  cookies.set("admintoken", response.data.token);
+                    localStorage.setItem("admintoken", response.data.token);
+                    navigate("/adminhome")
                 } else {
                   showToast("ERROR", `${response.data.message}`);
                 }
@@ -122,7 +113,7 @@ const StudentLogin = () => {
             <Stack alignItems={"center"}>
               <h1>
                 <p style={{ color: "#254061" }} className="joinusas">
-                  <LoginRoundedIcon fontSize="medium" /> Login Here
+                  <LoginRoundedIcon fontSize="medium" /> Admin Login
                 </p>
               </h1>
               <Form>
@@ -132,17 +123,17 @@ const StudentLogin = () => {
                     <Field
                       as={TextField}
                       color="darkColor"
-                      label="Enter Your email"
+                      label="Enter Admin Name"
                       variant="standard"
                       fullWidth
-                      name="email"
+                      name="username"
                     />
                   </Box>
                   <Typography
                     color={"red"}
                     sx={{ textAlign: "center", fontFamily: "Montserrat" }}
                   >
-                    <ErrorMessage name="email" />
+                    <ErrorMessage name="username" />
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "flex-end" }}>
                     {values.showPassword ? (
@@ -176,23 +167,6 @@ const StudentLogin = () => {
                   >
                     <ErrorMessage name="password" />
                   </Typography>
-                  <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                    <VpnKeyIcon color="darkColor" sx={{ mr: 1, my: 0.5 }} />
-                    <Field
-                      as={TextField}
-                      color="darkColor"
-                      label="Enter Student ID"
-                      variant="standard"
-                      fullWidth
-                      name="student_id"
-                    />
-                  </Box>
-                  <Typography
-                    color={"red"}
-                    sx={{ textAlign: "center", fontFamily: "Montserrat" }}
-                  >
-                    <ErrorMessage name="student_id" />
-                  </Typography>
                   <Stack
                     direction={{
                       lg: "row",
@@ -210,7 +184,7 @@ const StudentLogin = () => {
                       color="darkColor"
                       type="submit"
                     >
-                      SignIn
+                      Login
                     </Button>
                     <Button
                       variant="contained"
@@ -220,24 +194,6 @@ const StudentLogin = () => {
                     >
                       Clear
                     </Button>
-                  </Stack>
-                  <Stack
-                    direction={"row"}
-                    justifyContent="center"
-                    alignItems={"center"}
-                    style={{ marginBottom: "2rem" }}
-                  >
-                    <h4 style={{ color: "#254061" }} className="joinusas">
-                      Not Registered Yet?
-                      <Link
-                        to="/studentregister"
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Button color="darkColor" variant="text">
-                          Register Here
-                        </Button>
-                      </Link>
-                    </h4>
                   </Stack>
                 </Box>
               </Form>
@@ -249,4 +205,4 @@ const StudentLogin = () => {
   );
 };
 
-export default StudentLogin;
+export default AdminLogin;
