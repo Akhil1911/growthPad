@@ -21,60 +21,60 @@ import {
 import FilterFormPayments from "./FilterFormPayments";
 
 const ViewPayments = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const cookies = new Cookies();
-    const studentList = useSelector((state) => state.student.filteredStudents);
-    const checkData = useSelector((state) => state.student.noDataFound);
-    const [fees, setFees] = useState(0);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
+  const studentList = useSelector((state) => state.student.filteredStudents);
+  const checkData = useSelector((state) => state.student.noDataFound);
+  const [fees, setFees] = useState(0);
   const [studentArray, setStudentArray] = useState([]);
-  
-   const filterAppliedStud = useSelector(
-     (state) => state.student.filterAppliedStudents
-   );
 
-   const style = {
-     position: "absolute",
-     top: "50%",
-     left: "50%",
-     transform: "translate(-50%, -50%)",
-     width: 400,
-     bgcolor: "background.paper",
-     border: "2px solid #000",
-     boxShadow: 24,
-     p: 4,
+  const filterAppliedStud = useSelector(
+    (state) => state.student.filterAppliedStudents
+  );
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
   };
-  
-   const getStudents = async () => {
-     try {
-       const response = await axios.get(
-         `${
-           process.env.REACT_APP_URL_LINK
-         }/api/v1/tuition/students-list/${cookies.get("subtoken")}`
-       );
-       // console.log(response);
-       dispatch(filteredStudents(response.data));
-     } catch (error) {
-       showToast("ERROR", "Error...");
-     }
-   };
 
-   useEffect(() => {
-     document.title = "Tuition - View Payments";
-     if (localStorage.getItem("subtoken")) {
-       cookies.set("subtoken", localStorage.getItem("subtoken"));
-       getStudents();
-     } else if (localStorage.getItem("token")) {
-       navigate("/tuition/home");
-     } else {
-       navigate(-1);
-     }
-     return () => {
-       dispatch(clearFilteredStudents());
-       dispatch(clearFilterAppliedStudents());
-     };
-   }, []);
-  
+  const getStudents = async () => {
+    try {
+      const response = await axios.get(
+        `${
+          process.env.REACT_APP_URL_LINK
+        }/api/v1/tuition/students-list/${cookies.get("subtoken")}`
+      );
+      // console.log(response);
+      dispatch(filteredStudents(response.data));
+    } catch (error) {
+      showToast("ERROR", "Error...");
+    }
+  };
+
+  useEffect(() => {
+    document.title = "Tuition - View Payments";
+    if (localStorage.getItem("subtoken")) {
+      cookies.set("subtoken", localStorage.getItem("subtoken"));
+      getStudents();
+    } else if (localStorage.getItem("token")) {
+      navigate("/tuition/home");
+    } else {
+      navigate(-1);
+    }
+    return () => {
+      dispatch(clearFilteredStudents());
+      dispatch(clearFilterAppliedStudents());
+    };
+  }, []);
+
   const [open, setOpen] = React.useState(false);
   const [modalId, setmodalId] = useState(null);
   const [modalName, setmodalName] = useState("");
@@ -95,7 +95,7 @@ const ViewPayments = () => {
     setOpen(false);
     if (modalFees > 0) {
       const response = await axios.put(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/confirm-students/${modalId}`,
+        `/api/v1/tuition/confirm-students/${modalId}`,
         { modalFees }
       );
       if (response.data.success) {
@@ -113,7 +113,7 @@ const ViewPayments = () => {
     const confirm = window.confirm(`Are you sure you want to delete ${name}?`);
     if (confirm) {
       const response = await axios.delete(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/remove-student/${id}`
+        `/api/v1/tuition/remove-student/${id}`
       );
       if (response.data.success) {
         getStudents();

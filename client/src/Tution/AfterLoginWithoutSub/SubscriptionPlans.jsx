@@ -34,20 +34,18 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
   const [modalName, setmodalName] = useState("0");
   const [modalDuration, setmodalDuration] = useState("0");
   const [open, setOpen] = React.useState(false);
-  const handleOpen = (price,name,duration) => {
+  const handleOpen = (price, name, duration) => {
     setOpen(true);
     setmodalAmount(price);
     setmodalName(name);
-    setmodalDuration(duration)
+    setmodalDuration(duration);
   };
   const getToken = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/token`
-      );
+      const { data } = await axios.get(`/api/v1/payment/braintree/token`);
       setClientToken(data?.clientToken);
     } catch (error) {
-      showToast("ERROR","Something Went Wrong")
+      showToast("ERROR", "Something Went Wrong");
     }
   };
   useEffect(() => {
@@ -56,20 +54,17 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
   const handlePayment = async () => {
     try {
       const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/payment`,
-        {
-          nonce,
-          amount: modalAmount,
-          tuition_id,
-          name: modalName,
-          duration:modalDuration,
-          student_id: "",
-        }
-      );
+      const { data } = await axios.post(`/api/v1/payment/braintree/payment`, {
+        nonce,
+        amount: modalAmount,
+        tuition_id,
+        name: modalName,
+        duration: modalDuration,
+        student_id: "",
+      });
 
       const response = await axios.put(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-update-subscribe`,
+        `/api/v1/tuition/tuition-update-subscribe`,
         { tuition_id }
       );
       if (response.data.success) {
@@ -79,8 +74,7 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
         navigate("/login");
       }
     } catch (error) {
-            showToast("ERROR", "Something Went Wrong");
-
+      showToast("ERROR", "Something Went Wrong");
     }
   };
   const handleClose = () => setOpen(false);
@@ -166,7 +160,7 @@ const SubscriptionPlans = ({ SubscriptionDetails, SubscriptionFeatures }) => {
                 </Typography>
                 <Button
                   onClick={() => {
-                    handleOpen(price,name,duration);
+                    handleOpen(price, name, duration);
                   }}
                   sx={{ m: "auto" }}
                   variant={"contained"}

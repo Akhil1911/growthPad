@@ -17,9 +17,9 @@ import "../../Home/HomeForAll.css";
 import CheckingTokens from "../../Tools/CheckingTokens";
 const cookie = new Cookies();
 const Login = () => {
-   useEffect(() => {
-     document.title = "Tuition - Login";
-   }, []);
+  useEffect(() => {
+    document.title = "Tuition - Login";
+  }, []);
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -47,7 +47,7 @@ const Login = () => {
 
   return (
     <>
-    <CheckingTokens/>
+      <CheckingTokens />
       <BeforeAppbar />
       <Stack
         direction={{
@@ -80,7 +80,6 @@ const Login = () => {
               sm: "50%",
               xs: "100%",
             },
-            
           }}
         >
           <img
@@ -100,22 +99,17 @@ const Login = () => {
             onSubmit={async (values, { resetForm }) => {
               const { email, password } = values;
               try {
-                const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/auth/login`,
-                  {
-                    email,
-                    password,
-                  }
-                );
+                const response = await axios.post(`/api/v1/auth/login`, {
+                  email,
+                  password,
+                });
                 if (response.data.success) {
                   resetForm();
                   dispatch(storeTuition(response.data));
                   {
                     response.data.user.subscribed ? (
                       <>
-                        {
-                          (cookie.set("subtoken", response.data.token))
-                        }
+                        {cookie.set("subtoken", response.data.token)}
                         {localStorage.setItem("subtoken", response.data.token)}
                       </>
                     ) : (

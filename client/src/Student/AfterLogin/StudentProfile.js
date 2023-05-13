@@ -76,24 +76,24 @@ const StudentProfile = () => {
     } else {
       setConfUpdate(true);
     }
-    };
-    
-    const handleDeleteAccount = async (email) => {
-        const confirm = window.confirm("Are you sure you want to delete account?")
-        if (confirm) {
-            const response = await axios.delete(
-              `${process.env.REACT_APP_URL_LINK}/api/v1/student/delete-student-account/${email}`
-            );
-            if (response.data.success) {
-              showToast("SUCCESS", `${response.data.message}`)
-              cookies.remove("stutoken")
-              localStorage.removeItem("stutoken")
-                navigate("/studentregister");
-            }
-        } else {
-            ///
-        }
+  };
+
+  const handleDeleteAccount = async (email) => {
+    const confirm = window.confirm("Are you sure you want to delete account?");
+    if (confirm) {
+      const response = await axios.delete(
+        `/api/v1/student/delete-student-account/${email}`
+      );
+      if (response.data.success) {
+        showToast("SUCCESS", `${response.data.message}`);
+        cookies.remove("stutoken");
+        localStorage.removeItem("stutoken");
+        navigate("/studentregister");
+      }
+    } else {
+      ///
     }
+  };
 
   return (
     <>
@@ -152,7 +152,7 @@ const StudentProfile = () => {
                 tuition_id: studProfile.tuition_id,
                 student_id: studProfile.student_id,
                 age: studProfile.age,
-                              standard: studProfile.standard,
+                standard: studProfile.standard,
               }}
               validationSchema={validationSchema}
               onSubmit={async (values) => {
@@ -167,7 +167,7 @@ const StudentProfile = () => {
                   try {
                     // console.log(tuiProfile);
                     const response = await axios.put(
-                      `${process.env.REACT_APP_URL_LINK}/api/v1/student/update-student-profile`,
+                      `/api/v1/student/update-student-profile`,
                       {
                         name,
                         email,
@@ -384,10 +384,10 @@ const StudentProfile = () => {
                         variant="contained"
                         sx={{ color: "white" }}
                         color="error"
-                                              type="button"
-                                              onClick={() => {
-                                                  handleDeleteAccount(studProfile.email)
-                                              }}
+                        type="button"
+                        onClick={() => {
+                          handleDeleteAccount(studProfile.email);
+                        }}
                       >
                         Delete Account
                       </Button>

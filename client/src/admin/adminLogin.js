@@ -11,7 +11,7 @@ import axios from "axios";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import "../Home/HomeForAll.css";
 import Cookies from "universal-cookie";
-import AdminAppbar from "./AdminAppbar"
+import AdminAppbar from "./AdminAppbar";
 import BeforeLoginAppBar from "./BeforeLoginAppBar";
 const AdminLogin = () => {
   useEffect(() => {
@@ -27,7 +27,7 @@ const AdminLogin = () => {
       showPassword: !values.showPassword,
     });
   };
-  const cookies = new Cookies()
+  const cookies = new Cookies();
   const navigate = useNavigate();
   const initialValues = {
     username: "",
@@ -41,7 +41,7 @@ const AdminLogin = () => {
 
   return (
     <>
-      <BeforeLoginAppBar/>
+      <BeforeLoginAppBar />
       <Stack
         direction={{
           lg: "row",
@@ -90,19 +90,16 @@ const AdminLogin = () => {
             validationSchema={validationSchema}
             onSubmit={async (values, { resetForm }) => {
               const { username, password } = values;
-                try {
-                const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/admin/login`,
-                  {
-                    username,
-                    password,
-                  }
-                );
-                  if (response.data.success) {
+              try {
+                const response = await axios.post(`/api/v1/admin/login`, {
+                  username,
+                  password,
+                });
+                if (response.data.success) {
                   showToast("SUCCESS", `${response.data.message}`);
                   cookies.set("admintoken", response.data.token);
-                    localStorage.setItem("admintoken", response.data.token);
-                    navigate("/adminhome")
+                  localStorage.setItem("admintoken", response.data.token);
+                  navigate("/adminhome");
                 } else {
                   showToast("ERROR", `${response.data.message}`);
                 }

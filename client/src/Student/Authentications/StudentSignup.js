@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
@@ -23,7 +23,7 @@ import CheckingStuTokens from "../../Tools/CheckingStuTokens";
 const StudentSignup = () => {
   useEffect(() => {
     document.title = "Student - Signup";
-  },[])
+  }, []);
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -143,7 +143,7 @@ const StudentSignup = () => {
               } = values;
               try {
                 const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/auth/studentregister`,
+                  `/api/v1/auth/studentregister`,
                   {
                     name,
                     email,

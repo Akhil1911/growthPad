@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Stack, Typography } from "@mui/material";
@@ -14,12 +14,12 @@ import "../../Home/HomeForAll.css";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useDispatch } from "react-redux";
 import { storeStudent } from "../../Store/thunk";
-import Cookies from 'universal-cookie'
+import Cookies from "universal-cookie";
 import CheckingStuTokens from "../../Tools/CheckingStuTokens";
 const StudentLogin = () => {
   useEffect(() => {
     document.title = "Student - Login";
-  },[])
+  }, []);
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -30,9 +30,9 @@ const StudentLogin = () => {
       showPassword: !values.showPassword,
     });
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cookies = new Cookies()
+  const cookies = new Cookies();
   const initialValues = {
     student_id: "",
     email: "",
@@ -43,14 +43,13 @@ const StudentLogin = () => {
     email: Yup.string("Enter valid email")
       .required("Email is required")
       .email("Enter valid email"),
-    password: Yup.string()
-      .required("Password is required"),
+    password: Yup.string().required("Password is required"),
     student_id: Yup.string().required("StudentID is required"),
   });
 
   return (
     <>
-      <CheckingStuTokens/>
+      <CheckingStuTokens />
       <StudentBeforeAppbar />
       <Stack
         direction={{
@@ -96,14 +95,11 @@ const StudentLogin = () => {
             onSubmit={async (values, { resetForm }) => {
               const { email, password, student_id } = values;
               try {
-                const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/auth/studentlogin`,
-                  {
-                    email,
-                    password,
-                    student_id,
-                  }
-                );
+                const response = await axios.post(`/api/v1/auth/studentlogin`, {
+                  email,
+                  password,
+                  student_id,
+                });
                 if (response.data.success) {
                   dispatch(storeStudent(response.data));
                   resetForm();

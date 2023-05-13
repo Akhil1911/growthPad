@@ -13,27 +13,24 @@ import { showToast } from "../Tools/showToast";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 const AdminHome = () => {
-
-    const cookies = new Cookies();
-    const navigate = useNavigate();
+  const cookies = new Cookies();
+  const navigate = useNavigate();
   const [allTuitions, setAllTuitions] = useState([]);
 
   const getTuitions = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/admin/all-tuitions`
-    );
+    const response = await axios.get(`/api/v1/admin/all-tuitions`);
     if (response.data.success) {
       setAllTuitions(response.data.allTuitions);
     }
   };
 
-  const handleDelete = async (email,name) => {
+  const handleDelete = async (email, name) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this profile?"
     );
     if (confirm) {
       const response = await axios.delete(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/auth/delete-tuition-profile/${email}`
+        `/api/v1/auth/delete-tuition-profile/${email}`
       );
       if (response.data.success) {
         showToast("SUCCESS", `${name + " Deleted Successfully"}`);
@@ -45,11 +42,11 @@ const AdminHome = () => {
   useEffect(() => {
     document.title = "Admin - Home";
     getTuitions();
-     if (localStorage.getItem("admintoken")) {
-       cookies.set("admintoken", localStorage.getItem("admintoken"));
-     } else {
-       navigate(-1);
-     }
+    if (localStorage.getItem("admintoken")) {
+      cookies.set("admintoken", localStorage.getItem("admintoken"));
+    } else {
+      navigate(-1);
+    }
   }, []);
   return (
     <>
@@ -170,7 +167,13 @@ const AdminHome = () => {
                     {value.subscribed ? "YES" : "NO"}
                   </TableCell>
                   <TableCell align="center">
-                    <Button color="error" variant="contained" onClick={()=>{handleDelete(value?.email,value?.name)}}>
+                    <Button
+                      color="error"
+                      variant="contained"
+                      onClick={() => {
+                        handleDelete(value?.email, value?.name);
+                      }}
+                    >
                       <DeleteIcon />
                     </Button>
                   </TableCell>

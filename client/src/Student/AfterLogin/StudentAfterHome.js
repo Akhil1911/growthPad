@@ -44,7 +44,7 @@ const StudentAfterHome = () => {
     setstudProfile(response.data.student);
     const id = response.data.student.tuition_db_id;
     const response1 = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/student/get-tuition-details/${id}`
+      `/api/v1/student/get-tuition-details/${id}`
     );
 
     settuiProfile(response1.data.tuition);
@@ -53,26 +53,26 @@ const StudentAfterHome = () => {
     const tuition_id = response.data.student.tuition_id;
     const email = response.data.student.email;
 
-    const response2 = await axios.post(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/student/student-fees-details`,
-      { student_id, tuition_id }
-    );
+    const response2 = await axios.post(`/api/v1/student/student-fees-details`, {
+      student_id,
+      tuition_id,
+    });
 
     if (response2.data.success) {
       if (
         new Date().getMonth() + 1 >
         new Date(response2.data.student.updatedAt).getMonth() + 1
       ) {
-         const updateFees = await axios.put(
-           `${process.env.REACT_APP_URL_LINK}/api/v1/student/update-fees-status-pending`,
-           { email }
+        const updateFees = await axios.put(
+          `/api/v1/student/update-fees-status-pending`,
+          { email }
         );
         // console.log(updateFees);
         setCheckFees(false);
       } else {
         // console.log(response2.data.student);
         const updateFees = await axios.put(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/student/update-fees-status`,
+          `/api/v1/student/update-fees-status`,
           { email }
         );
         // console.log(updateFees);
@@ -95,13 +95,11 @@ const StudentAfterHome = () => {
   //get braintree token
   const getToken = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/token`
-      );
+      const { data } = await axios.get(`/api/v1/payment/braintree/token`);
       setClientToken(data?.clientToken);
       //  console.log(data);
     } catch (error) {
-      showToast("ERROR",error)
+      showToast("ERROR", error);
     }
   };
   useEffect(() => {
@@ -112,7 +110,7 @@ const StudentAfterHome = () => {
     try {
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/payment/braintree/student/payment`,
+        `/api/v1/payment/braintree/student/payment`,
         {
           nonce,
           amount: studProfile?.feesPerMonth,
@@ -129,7 +127,7 @@ const StudentAfterHome = () => {
         getDetails();
       }
     } catch (error) {
-            showToast("ERROR", error);
+      showToast("ERROR", error);
     }
   };
 

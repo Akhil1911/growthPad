@@ -17,9 +17,7 @@ const AfterHome = () => {
   const tuiProfile = useSelector((state) => state.tuition.tuition);
   const getSettingState = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
-        "subtoken"
-      )}`
+      `/api/v1/auth/auth-tuition/${cookies.get("subtoken")}`
     );
     if (response.data) {
       if (response.data.user.subscribed) {
