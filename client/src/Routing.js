@@ -20,6 +20,7 @@ import ViewPayments from "./Tution/AfterLoginWithSubscription/ViewPayments";
 import AdminLogin from "./admin/adminLogin";
 import AdminHome from "./admin/AdminHome";
 import ViewAllStudents from "./admin/ViewAllStudents";
+import ViewAllTuitions from "./admin/ViewAllTuitions";
 const Routing = () => {
   return (
     <>
@@ -28,6 +29,7 @@ const Routing = () => {
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/admin/view-students" element={<ViewAllStudents />} />
+          <Route path="/admin/view-tuitions" element={<ViewAllTuitions />} />
           {/* ///////////////////////////////////////// */}
           <Route exact path="/" element={<HomeForAll />} />
           <Route exact path="/login" element={<Login />} />
