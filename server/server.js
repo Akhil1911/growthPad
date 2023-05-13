@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser'
 const app = express()
 //confid dotenv
 dotenv.config()
-const port = process.env.PORT || 1911
+const port = process.env.PORT || 1911   
 //connect DB
 connectionDB();
 

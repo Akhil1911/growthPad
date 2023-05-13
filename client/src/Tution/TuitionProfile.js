@@ -27,9 +27,9 @@ const TuitionProfile = () => {
   const navigate = useNavigate();
   const getSettingState = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
-        "token"
-      )||cookies.get("subtoken")}`
+      `/api/v1/auth/auth-tuition/${
+        cookies.get("token") || cookies.get("subtoken")
+      }`
     );
     if (response.data) {
       dispatch(storeTuition(response.data));
@@ -43,18 +43,18 @@ const TuitionProfile = () => {
     } else {
       getSettingState();
     }
-     return () => {
-       dispatch(clearTuition());
-     };
+    return () => {
+      dispatch(clearTuition());
+    };
   }, []);
 
   //checkbox || updating or not
-  const [confUpdate, setConfUpdate] = useState(true)
+  const [confUpdate, setConfUpdate] = useState(true);
   const tuiProfile = useSelector((state) => state.tuition.tuition);
   // console.log(tuiProfile);
   const initialValues = tuiProfile
     ? {
-        id:tuiProfile.id,
+        id: tuiProfile.id,
         name: tuiProfile.name,
         email: tuiProfile.email,
         address: tuiProfile.address,
@@ -63,7 +63,7 @@ const TuitionProfile = () => {
         tuition_address: tuiProfile.tuition_address,
       }
     : {
-        id:"",
+        id: "",
         name: "",
         email: "",
         address: "",
@@ -94,20 +94,22 @@ const TuitionProfile = () => {
 
   const handleChange = (e) => {
     if (e.target.checked) {
-      setConfUpdate(false)
+      setConfUpdate(false);
     } else {
-      setConfUpdate(true)
+      setConfUpdate(true);
     }
-  }
+  };
 
   const handleDeleteProfile = async (email) => {
-    const confirm = window.confirm("Are you sure you want to delete this profile?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this profile?"
+    );
     if (confirm) {
       const response = await axios.delete(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/auth/delete-tuition-profile/${email}`
+        `/api/v1/auth/delete-tuition-profile/${email}`
       );
       if (response.data.success) {
-        showToast("SUCCESS", `${response.data.message}`)
+        showToast("SUCCESS", `${response.data.message}`);
         response.data.tuition.subscribed ? (
           <>
             {localStorage.removeItem("subtoken")}
@@ -119,11 +121,10 @@ const TuitionProfile = () => {
             {cookies.remove("token")}
           </>
         );
-        navigate("/register")
-
+        navigate("/register");
       }
     }
-  }
+  };
 
   return (
     <>
@@ -203,7 +204,7 @@ const TuitionProfile = () => {
                 } else {
                   try {
                     const response = await axios.put(
-                      `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/update-profile`,
+                      `/api/v1/tuition/update-profile`,
                       {
                         id,
                         name,

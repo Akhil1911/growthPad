@@ -9,7 +9,7 @@ import { checkFilteredData, filterAppliedStudents } from "../../Store/thunk";
 import { clearFilterAppliedStudents } from "../../Store/student";
 import { showToast } from "../../Tools/showToast";
 
-const FilterForm = ({ token}) => {
+const FilterForm = ({ token }) => {
   const [confirm, setConfirm] = useState("None");
   const [standard, setStandard] = useState("None");
   const [name, setName] = useState("");
@@ -17,14 +17,10 @@ const FilterForm = ({ token}) => {
 
   const handleFilters = async () => {
     try {
-      if (
-        confirm !== "None" ||
-        standard !== "None" ||
-        name !== ""
-      ) {
+      if (confirm !== "None" || standard !== "None" || name !== "") {
         // console.log(keywords);
         const response = await axios.post(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-students/${token}`,
+          `/api/v1/tuition/get-filtered-students/${token}`,
           { confirm, standard, name }
         );
         if (response.data.success) {
@@ -125,7 +121,7 @@ const FilterForm = ({ token}) => {
             setStandard("None");
             setName("");
             dispatch(clearFilterAppliedStudents());
-            dispatch(checkFilteredData(false))
+            dispatch(checkFilteredData(false));
           }}
         >
           Reset

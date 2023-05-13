@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Stack, Typography } from "@mui/material";
+import { TextField, Button, Box, Stack, Typography, AppBar, Toolbar } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
@@ -11,7 +11,7 @@ import axios from "axios";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import "../Home/HomeForAll.css";
 import Cookies from "universal-cookie";
-import AdminAppbar from "./AdminAppbar"
+import AdminAppbar from "./AdminAppbar";
 const AdminLogin = () => {
   useEffect(() => {
     document.title = "Admin - Login";
@@ -26,7 +26,7 @@ const AdminLogin = () => {
       showPassword: !values.showPassword,
     });
   };
-  const cookies = new Cookies()
+  const cookies = new Cookies();
   const navigate = useNavigate();
   const initialValues = {
     username: "",
@@ -40,7 +40,41 @@ const AdminLogin = () => {
 
   return (
     <>
-      <AdminAppbar/>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: "#254061" }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                flexGrow: 1,
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                sx={{
+                  textDecoration: "none",
+                  color: "white",
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                }}
+                onClick={() => navigate("/")}
+              >
+                Growthpad
+              </Button>
+            </Typography>
+            <Button color="inherit" onClick={() => navigate("/adminlogin")}>
+              ADMIN
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Stack
         direction={{
           lg: "row",
@@ -89,19 +123,16 @@ const AdminLogin = () => {
             validationSchema={validationSchema}
             onSubmit={async (values, { resetForm }) => {
               const { username, password } = values;
-                try {
-                const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/admin/login`,
-                  {
-                    username,
-                    password,
-                  }
-                );
-                  if (response.data.success) {
+              try {
+                const response = await axios.post(`/api/v1/admin/login`, {
+                  username,
+                  password,
+                });
+                if (response.data.success) {
                   showToast("SUCCESS", `${response.data.message}`);
                   cookies.set("admintoken", response.data.token);
-                    localStorage.setItem("admintoken", response.data.token);
-                    navigate("/adminhome")
+                  localStorage.setItem("admintoken", response.data.token);
+                  navigate("/adminhome");
                 } else {
                   showToast("ERROR", `${response.data.message}`);
                 }

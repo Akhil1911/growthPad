@@ -8,46 +8,44 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Button, Container } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {showToast} from "../Tools/showToast"
+import { showToast } from "../Tools/showToast";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 const ViewStudents = () => {
-  const [allStudents, setAllStudents] = useState([])
-  const cookies = new Cookies()
-  const navigate = useNavigate()
+  const [allStudents, setAllStudents] = useState([]);
+  const cookies = new Cookies();
+  const navigate = useNavigate();
 
   const getStudents = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/admin/all-students`
-    );
+    const response = await axios.get(`/api/v1/admin/all-students`);
     if (response.data.success) {
       setAllStudents(response.data.allStudents);
     }
-    };
-    
-    const handleDelete = async (email,name) => {
-        const confirm = window.confirm(`Are You Sure You Want TO Delete ${name}?`)
-        if (confirm) {
-            const response = await axios.delete(
-              `${process.env.REACT_APP_URL_LINK}/api/v1/student/delete-student-account/${email}`
-            );
-            if (response.data.success) {
-                showToast("SUCCESS",`${name + " Deleted Successfully"}`)
-            }
-            getStudents();
-        } else {
-            //
-        }
+  };
+
+  const handleDelete = async (email, name) => {
+    const confirm = window.confirm(`Are You Sure You Want TO Delete ${name}?`);
+    if (confirm) {
+      const response = await axios.delete(
+        `/api/v1/student/delete-student-account/${email}`
+      );
+      if (response.data.success) {
+        showToast("SUCCESS", `${name + " Deleted Successfully"}`);
+      }
+      getStudents();
+    } else {
+      //
     }
+  };
 
   useEffect(() => {
     document.title = "Admin - Home";
-       if (localStorage.getItem("admintoken")) {
-         cookies.set("admintoken", localStorage.getItem("admintoken"));
-       } else {
-         navigate(-1);
-       }
+    if (localStorage.getItem("admintoken")) {
+      cookies.set("admintoken", localStorage.getItem("admintoken"));
+    } else {
+      navigate(-1);
+    }
     getStudents();
   }, []);
   return (
@@ -160,14 +158,20 @@ const ViewStudents = () => {
                   <TableCell align="center">{value.name}</TableCell>
                   <TableCell align="center">{value.email}</TableCell>
                   <TableCell align="center">{value.phone_number}</TableCell>
-                  <TableCell align="center">
-                    {value.address}
-                  </TableCell>
+                  <TableCell align="center">{value.address}</TableCell>
                   <TableCell align="center">{value.student_id}</TableCell>
-                  <TableCell align="center">{value.tuition_class_name}</TableCell>
+                  <TableCell align="center">
+                    {value.tuition_class_name}
+                  </TableCell>
                   <TableCell align="center">{value.tuition_id}</TableCell>
                   <TableCell align="center">
-                    <Button color="error" variant="contained" onClick={()=>{handleDelete(value?.email,value?.name)}}>
+                    <Button
+                      color="error"
+                      variant="contained"
+                      onClick={() => {
+                        handleDelete(value?.email, value?.name);
+                      }}
+                    >
                       <DeleteIcon />
                     </Button>
                   </TableCell>

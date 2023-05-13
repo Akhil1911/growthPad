@@ -14,7 +14,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container, Grid, Modal, Paper, Stack, TextField } from "@mui/material";
 import axios from "axios";
-import { clearFilterAppliedStudents, clearFilteredStudents } from "../../Store/student";
+import {
+  clearFilterAppliedStudents,
+  clearFilteredStudents,
+} from "../../Store/student";
 
 const ViewStudents = () => {
   const navigate = useNavigate();
@@ -56,7 +59,7 @@ const ViewStudents = () => {
   };
 
   useEffect(() => {
-    document.title = "Tuition - View Students"
+    document.title = "Tuition - View Students";
     if (localStorage.getItem("subtoken")) {
       cookies.set("subtoken", localStorage.getItem("subtoken"));
       getStudents();
@@ -65,10 +68,10 @@ const ViewStudents = () => {
     } else {
       navigate(-1);
     }
-     return () => {
-       dispatch(clearFilteredStudents());
-       dispatch(clearFilterAppliedStudents());
-     };
+    return () => {
+      dispatch(clearFilteredStudents());
+      dispatch(clearFilterAppliedStudents());
+    };
   }, []);
 
   const [open, setOpen] = React.useState(false);
@@ -91,7 +94,7 @@ const ViewStudents = () => {
     setOpen(false);
     if (modalFees > 0) {
       const response = await axios.put(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/confirm-students/${modalId}`,
+        `/api/v1/tuition/confirm-students/${modalId}`,
         { modalFees }
       );
       if (response.data.success) {
@@ -109,7 +112,7 @@ const ViewStudents = () => {
     const confirm = window.confirm(`Are you sure you want to delete ${name}?`);
     if (confirm) {
       const response = await axios.delete(
-        `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/remove-student/${id}`
+        `/api/v1/tuition/remove-student/${id}`
       );
       if (response.data.success) {
         getStudents();
@@ -305,7 +308,7 @@ const ViewStudents = () => {
               fontFamily={"Comfortaa, cursive"}
               color={"#254061"}
             >
-             No Data Found
+              No Data Found
             </Typography>
           </Stack>
         </div>

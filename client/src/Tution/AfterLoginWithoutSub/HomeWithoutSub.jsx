@@ -16,9 +16,7 @@ const HomeWithoutSub = () => {
     let temptoken = localStorage.getItem("token");
     cookies.set("token", temptoken);
     const response = await axios.get(
-      `${process.env.REACT_APP_URL_LINK}/api/v1/auth/auth-tuition/${cookies.get(
-        "token"
-      )}`
+      `/api/v1/auth/auth-tuition/${cookies.get("token")}`
     );
     if (response.data) {
       dispatch(storeTuition(response.data));

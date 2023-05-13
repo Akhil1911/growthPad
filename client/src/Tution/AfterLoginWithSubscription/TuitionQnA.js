@@ -1,5 +1,5 @@
-import React,{useEffect,useState} from 'react'
-import SidebarWithAppbar from './SidebarWithAppbar'
+import React, { useEffect, useState } from "react";
+import SidebarWithAppbar from "./SidebarWithAppbar";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -7,89 +7,96 @@ import { useNavigate } from "react-router-dom";
 import { clearTuition } from "../../Store/tuition";
 import Modal from "@mui/material/Modal";
 import { showToast } from "../../Tools/showToast";
-import { Stack, Box, Paper, Typography, TextField, Container, Button } from '@mui/material';
+import {
+  Stack,
+  Box,
+  Paper,
+  Typography,
+  TextField,
+  Container,
+  Button,
+} from "@mui/material";
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "10px",
-  };  
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px",
+};
 const TuitionQnA = () => {
-     const dispatch = useDispatch();
-     const navigate = useNavigate();
-     const cookies = new Cookies();
-     const [queList, setqueList] = useState([])
-     const [open, setOpen] = React.useState(false);
-     const [modalId, setmodalId] = useState(null)
-     const [modalQuestion, setmodalQuestion] = useState("")
-     const [modalAnswer, setmodalAnswer] = useState("")
-     const handleOpen = (id,question,answer) => {
-        // console.log(id,question,answer)
-        setOpen(true)
-        setmodalId(id)
-        setmodalQuestion(question);
-        setmodalAnswer(answer);
-        // console.log(modalId,modalQuestion,modalAnswer)
-    };
-     const handleClose = () => setOpen(false);
-    const getQnaList = async()=>{
-         const response = await axios.get(
-           `${
-             process.env.REACT_APP_URL_LINK
-           }/api/v1/student/student-view-question/${cookies.get("subtoken")}`
-         );
-        //  console.log(response.data);
-         setqueList(response.data.questions);
-        //  console.log(queList);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const [queList, setqueList] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [modalId, setmodalId] = useState(null);
+  const [modalQuestion, setmodalQuestion] = useState("");
+  const [modalAnswer, setmodalAnswer] = useState("");
+  const handleOpen = (id, question, answer) => {
+    // console.log(id,question,answer)
+    setOpen(true);
+    setmodalId(id);
+    setmodalQuestion(question);
+    setmodalAnswer(answer);
+    // console.log(modalId,modalQuestion,modalAnswer)
+  };
+  const handleClose = () => setOpen(false);
+  const getQnaList = async () => {
+    const response = await axios.get(
+      `${
+        process.env.REACT_APP_URL_LINK
+      }/api/v1/student/student-view-question/${cookies.get("subtoken")}`
+    );
+    //  console.log(response.data);
+    setqueList(response.data.questions);
+    //  console.log(queList);
+  };
+  const handleSubmitAnswer = async () => {
+    const response = await axios.put(
+      `/api/v1/tuition/tuition-submit-answer/${modalId}`,
+      { modalAnswer }
+    );
+    //
+    if (response.data.success) {
+      showToast("SUCCESS", response.data.message);
+      setOpen(false);
+      getQnaList();
     }
-    const handleSubmitAnswer = async()=>{
-        const response =await axios.put(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-submit-answer/${modalId}`,{modalAnswer}
-        );
-        // 
-        if(response.data.success){
-            showToast("SUCCESS",response.data.message)
-            setOpen(false)
-            getQnaList()
-        }
-        // console.log(response)
-    }
+    // console.log(response)
+  };
   useEffect(() => {
-         document.title = "Tuition - QnA";
-       if (localStorage.getItem("subtoken")) {
-        cookies.set("subtoken",localStorage.getItem("subtoken"))
-        getQnaList()
-       } else if (localStorage.getItem("token")) {
-         navigate("/tuition/home");
-       } else {
-         navigate(-1);
-       }
-       return () => {
-         dispatch(clearTuition());
-       };
-     }, []);
+    document.title = "Tuition - QnA";
+    if (localStorage.getItem("subtoken")) {
+      cookies.set("subtoken", localStorage.getItem("subtoken"));
+      getQnaList();
+    } else if (localStorage.getItem("token")) {
+      navigate("/tuition/home");
+    } else {
+      navigate(-1);
+    }
+    return () => {
+      dispatch(clearTuition());
+    };
+  }, []);
 
-     const deleteQuestionHandler = async(_id) =>{
-        const response =await axios.delete(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/tuition-delete-question/${_id}`
-        );
-        if(response.data.success){
-            showToast("SUCCESS",response.data.message)
-            getQnaList()
-        }
-     }
-     /////////////////////////////////////
-     // Get Tution Details
-     /////////////////////////////////////
-
-     
+  const deleteQuestionHandler = async (_id) => {
+    const response = await axios.delete(
+      `/api/v1/tuition/tuition-delete-question/${_id}`
+    );
+    if (response.data.success) {
+      showToast("SUCCESS", response.data.message);
+      getQnaList();
+    }
+  };
+  /////////////////////////////////////
+  // Get Tution Details
+  /////////////////////////////////////
 
   return (
     <>
@@ -241,6 +248,6 @@ const TuitionQnA = () => {
       </Container>
     </>
   );
-}
+};
 
-export default TuitionQnA
+export default TuitionQnA;

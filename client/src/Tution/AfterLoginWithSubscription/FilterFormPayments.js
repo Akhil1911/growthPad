@@ -9,20 +9,16 @@ import { checkFilteredData, filterAppliedStudents } from "../../Store/thunk";
 import { clearFilterAppliedStudents } from "../../Store/student";
 
 const FilterFormPayments = ({ token }) => {
- 
   const [feesStatus, setFeesstatus] = useState("None");
   const [name, setName] = useState("");
   const dispatch = useDispatch();
 
   const handleFilters = async () => {
     try {
-      if (
-        feesStatus !== "None" ||
-        name !== ""
-      ) {
+      if (feesStatus !== "None" || name !== "") {
         // console.log(keywords);
         const response = await axios.post(
-          `${process.env.REACT_APP_URL_LINK}/api/v1/tuition/get-filtered-feesBased-students/${token}`,
+          `/api/v1/tuition/get-filtered-feesBased-students/${token}`,
           { feesStatus, name }
         );
         if (response.data.success) {

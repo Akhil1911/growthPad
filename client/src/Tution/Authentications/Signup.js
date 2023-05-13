@@ -11,11 +11,11 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HomeIcon from "@mui/icons-material/Home";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BeforeAppbar from "../BeforeLogin/BeforeAppbar";
 import { showToast } from "../../Tools/showToast";
 import axios from "axios";
-import '../../Home/HomeForAll.css'
+import "../../Home/HomeForAll.css";
 import CheckingTokens from "../../Tools/CheckingTokens";
 
 const Signup = () => {
@@ -131,18 +131,15 @@ const Signup = () => {
                 tuition_address,
               } = values;
               try {
-                const response = await axios.post(
-                  `${process.env.REACT_APP_URL_LINK}/api/v1/auth/register`,
-                  {
-                    name,
-                    email,
-                    password,
-                    address,
-                    phone_number,
-                    tuition_class_name,
-                    tuition_address,
-                  }
-                );
+                const response = await axios.post(`/api/v1/auth/register`, {
+                  name,
+                  email,
+                  password,
+                  address,
+                  phone_number,
+                  tuition_class_name,
+                  tuition_address,
+                });
                 if (response.data.success) {
                   resetForm();
                   showToast("SUCCESS", `${response.data.message}`);
