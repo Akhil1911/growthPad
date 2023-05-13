@@ -27,7 +27,7 @@ const HomeForAll = () => {
                 textDecoration: "none",
               }}
             >
-              Growthpad
+              <Link to="/" style={{textDecoration:"none",color:"white"}}>GrowthPad</Link>
             </Typography>
             <Button color="inherit" onClick={() => navigate("/adminlogin")}>
               ADMIN
@@ -46,7 +46,7 @@ const HomeForAll = () => {
           autoPlay
           muted
           loop
-          style={{ opacity: "60%", height: "100%", width: "100%" }}
+          style={{ opacity: "40%", height: "100%", width: "100%" }}
         >
           <source src="../images/joinus.mp4" type="video/mp4" />
         </video>
@@ -54,6 +54,7 @@ const HomeForAll = () => {
           <Typography
             fontFamily={"Montserrat, sans-serif"}
             sx={{
+              color:"#254061",
               fontSize: {
                 lg: "4rem",
                 md: "3rem",

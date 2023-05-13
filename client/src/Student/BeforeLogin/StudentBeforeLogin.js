@@ -10,9 +10,9 @@ const StudentBeforeLogin = () => {
   },[])
     const featureAry = [
       {
-        src: "../images/notice.png",
-        title: "View Notice",
-        description: "Students can view notice provided by their tuitions",
+        src: "../images/QnA.png",
+        title: "QnA Facility",
+        description: "Students can ask question to their respective tuition classes and can get answer",
         leftImage: true,
       },
       {

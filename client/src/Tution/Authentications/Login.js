@@ -80,12 +80,7 @@ const Login = () => {
               sm: "50%",
               xs: "100%",
             },
-            // justifyContent: {
-            //   lg: "space-around",
-            //   md: "space-around",
-            //   sm: "center",
-            //   xs: "center",
-            // },
+            
           }}
         >
           <img
