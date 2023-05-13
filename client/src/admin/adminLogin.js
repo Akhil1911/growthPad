@@ -75,7 +75,7 @@ const AdminLogin = () => {
           }}
         >
           <img
-            src="../images/AdminLogin.png"
+            src="../images/adminLogin.png"
             alt=""
             style={{
               width: "100%",
