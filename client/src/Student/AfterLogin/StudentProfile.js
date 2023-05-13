@@ -28,9 +28,7 @@ const StudentProfile = () => {
   const studProfile = useSelector((state) => state.student.student);
   const getDetails = async () => {
     const response = await axios.get(
-      `${
-        process.env.REACT_APP_URL_LINK
-      }/api/v1/student/student-details/${cookies.get("stutoken")}`
+      `/api/v1/student/student-details/${cookies.get("stutoken")}`
     );
     dispatch(storeStudent(response.data));
   };

@@ -48,9 +48,7 @@ const ViewPayments = () => {
   const getStudents = async () => {
     try {
       const response = await axios.get(
-        `${
-          process.env.REACT_APP_URL_LINK
-        }/api/v1/tuition/students-list/${cookies.get("subtoken")}`
+        `/api/v1/tuition/students-list/${cookies.get("subtoken")}`
       );
       // console.log(response);
       dispatch(filteredStudents(response.data));

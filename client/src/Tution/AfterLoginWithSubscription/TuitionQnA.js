@@ -49,9 +49,7 @@ const TuitionQnA = () => {
   const handleClose = () => setOpen(false);
   const getQnaList = async () => {
     const response = await axios.get(
-      `${
-        process.env.REACT_APP_URL_LINK
-      }/api/v1/student/student-view-question/${cookies.get("subtoken")}`
+      `/api/v1/student/student-view-question/${cookies.get("subtoken")}`
     );
     //  console.log(response.data);
     setqueList(response.data.questions);

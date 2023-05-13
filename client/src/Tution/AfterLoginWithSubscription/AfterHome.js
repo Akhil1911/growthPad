@@ -54,9 +54,7 @@ const AfterHome = () => {
 
   const getTuitoinDetails = async () => {
     const response = await axios.get(
-      `${
-        process.env.REACT_APP_URL_LINK
-      }/api/v1/tuition/get-tuition-detail/${cookies.get("subtoken")}`
+      `/api/v1/tuition/get-tuition-detail/${cookies.get("subtoken")}`
     );
     // console.log(response.data);
     if (response.data.success) {
@@ -68,9 +66,7 @@ const AfterHome = () => {
 
   const getSubscriptionDetails = async () => {
     const response = await axios.get(
-      `${
-        process.env.REACT_APP_URL_LINK
-      }/api/v1/tuition/get-subscription-detail/${cookies.get("subtoken")}`
+      `/api/v1/tuition/get-subscription-detail/${cookies.get("subtoken")}`
     );
     if (response.data.success) {
       setSubscriptionDetails(response.data.tuition);

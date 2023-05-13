@@ -22,9 +22,7 @@ const QnA = () => {
   const [que, setque] = useState("");
   const getDetails = async () => {
     const response = await axios.get(
-      `${
-        process.env.REACT_APP_URL_LINK
-      }/api/v1/student/student-details/${cookies.get("stutoken")}`
+      `/api/v1/student/student-details/${cookies.get("stutoken")}`
     );
     setstudProfile(response.data.student);
     const id = response.data.student.tuition_db_id;
