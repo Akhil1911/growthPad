@@ -12,8 +12,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 const app = express();
 //confid dotenv
+
 dotenv.config();
 const port = process.env.PORT || 1911;
+
 //connect DB
 connectionDB();
 const __filename = fileURLToPath(import.meta.url)

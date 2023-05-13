@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ErrorMessage, Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Stack, Typography } from "@mui/material";
+import { TextField, Button, Box, Stack, Typography, AppBar, Toolbar } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
@@ -41,6 +41,41 @@ const AdminLogin = () => {
 
   return (
     <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: "#254061" }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                flexGrow: 1,
+                fontFamily: "Montserrat",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                sx={{
+                  textDecoration: "none",
+                  color: "white",
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                }}
+                onClick={() => navigate("/")}
+              >
+                Growthpad
+              </Button>
+            </Typography>
+            <Button color="inherit" onClick={() => navigate("/adminlogin")}>
+              ADMIN
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <BeforeLoginAppBar />
       <Stack
         direction={{
