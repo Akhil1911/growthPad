@@ -246,6 +246,40 @@ const TuitionQnA = () => {
             })
           : null}
       </Container>
+      {queList.length === 0 ? (
+        <div className="div">
+          <Stack
+            direction={{
+              lg: "row",
+              md: "row",
+              sm: "row",
+              xs: "column",
+            }}
+            alignItems={"center"}
+            justifyContent={"space-evenly"}
+            mt={5}
+            mb={5}
+          >
+            <Box>
+              <img
+                src="../../images/NoData.png"
+                alt="welcome home"
+                height={"300px"}
+                width={"300px"}
+              ></img>
+            </Box>
+            <Typography
+              textAlign={"center"}
+              variant="h3"
+              fontWeight={"bold"}
+              fontFamily={"Comfortaa, cursive"}
+              color={"#254061"}
+            >
+              No Data Found
+            </Typography>
+          </Stack>
+        </div>
+      ) : null}
     </>
   );
 };

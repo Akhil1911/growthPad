@@ -12,6 +12,7 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import "../Home/HomeForAll.css";
 import Cookies from "universal-cookie";
 import AdminAppbar from "./AdminAppbar";
+import BeforeLoginAppBar from "./BeforeLoginAppBar";
 const AdminLogin = () => {
   useEffect(() => {
     document.title = "Admin - Login";
@@ -75,6 +76,7 @@ const AdminLogin = () => {
           </Toolbar>
         </AppBar>
       </Box>
+      <BeforeLoginAppBar />
       <Stack
         direction={{
           lg: "row",
@@ -108,7 +110,7 @@ const AdminLogin = () => {
           }}
         >
           <img
-            src="../images/AdminLogin.png"
+            src="../images/adminLogin.png"
             alt=""
             style={{
               width: "100%",

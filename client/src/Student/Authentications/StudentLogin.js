@@ -79,7 +79,7 @@ const StudentLogin = () => {
           }}
         >
           <img
-            src="../images/signup.png"
+            src="../images/login.png"
             alt=""
             style={{
               width: "100%",

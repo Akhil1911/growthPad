@@ -101,7 +101,7 @@ const AdminAppbar = () => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  navigate("/admin/view-tuitions");
+                  navigate("/adminhome");
                 }}
               >
                 <Typography textAlign="center">View Tuitions</Typography>
@@ -143,7 +143,7 @@ const AdminAppbar = () => {
             </Button>
             <Button
               onClick={() => {
-                navigate("/admin/view-tuitions");
+                navigate("/adminhome");
               }}
               sx={{ my: 2, color: "white", display: "block" }}
             >

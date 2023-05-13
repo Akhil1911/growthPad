@@ -19,7 +19,7 @@ const StudentBeforeAppbar = ({position="static"}) => {
               sx={{ flexGrow: 1, fontStyle: "bold" }}
             >
               <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
-                ASK
+                GrowthPad
               </Link>
               <Link
                 to={"/student/home"}
