@@ -76,7 +76,7 @@ const AdminLogin = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <BeforeLoginAppBar />
+      {/* <BeforeLoginAppBar /> */}
       <Stack
         direction={{
           lg: "row",
